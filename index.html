@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schooleo — Zarządzanie szkołą bez chaosu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand:       #E84B20;
+      --brand-dark:  #C13A15;
+      --brand-light: #FDEEE9;
+      --green:       #164037;
+      --bg:          #ffffff;
+      --bg-warm:     #F7F4EE;
+      --bg-subtle:   #F0EDE7;
+      --border:      #E8E4DA;
+      --text:        #1A1714;
+      --muted:       #6B6560;
+      --subtle:      #B0AAA0;
+      --radius:      16px;
+      --radius-sm:   8px;
+      --max:         1120px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--green);
+      letter-spacing: -0.06em;
+      text-decoration: none;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .nav-link:hover { color: var(--text); }
+
+    .btn-primary {
+      background: var(--brand);
+      color: #fff;
+      padding: 0.6rem 1.35rem;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.1s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: 1.5px solid var(--border);
+      padding: 0.6rem 1.35rem;
+      border-radius: var(--radius-sm);
+      transition: border-color 0.15s, background 0.15s;
+      display: inline-block;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--subtle);
+      background: var(--bg-warm);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 96px 2rem 80px;
+    }
+
+    .hero-inner {
+      max-width: 720px;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--brand);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.75rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.06em;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--brand);
+    }
+
+    .hero-desc {
+      font-size: 1.2rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+      max-width: 520px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-actions .btn-primary {
+      padding: 0.85rem 1.75rem;
+      font-size: 1rem;
+    }
+
+    .hero-actions .btn-outline {
+      padding: 0.85rem 1.75rem;
+      font-size: 1rem;
+    }
+
+    .hero-note {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      color: var(--subtle);
+    }
+
+    .hero-visual {
+      margin-top: 4rem;
+      background: var(--bg-warm);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtle);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* ── STATEMENT ── */
+    .statement {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 96px 2rem;
+    }
+
+    .statement-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .statement-headline {
+      font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      line-height: 1.05;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .statement-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .statement-col p {
+      font-size: 1.125rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    .statement-col p:last-child { margin-bottom: 0; }
+
+    .statement-col strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* ── DECORATIVE ── */
+    .highlight {
+      background: linear-gradient(transparent 58%, #fde68a 58%);
+      padding: 0;
+    }
+
+    .tag-label {
+      display: inline-block;
+      background: var(--brand-light);
+      color: var(--brand);
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 0.35rem 0.9rem;
+      border-radius: 4px;
+      transform: rotate(-2deg);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 100px 2rem;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 500px;
+    }
+
+    .features-header {
+      margin-bottom: 72px;
+    }
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .feature-row.reverse .feature-text { order: 2; }
+    .feature-row.reverse .feature-img  { order: 1; }
+
+    .feature-text h3 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-bottom: 1rem;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .feature-text p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .feature-list li {
+      font-size: 0.95rem;
+      color: var(--muted);
+      display: flex;
+      align-items: baseline;
+      gap: 0.65rem;
+    }
+
+    .feature-list li::before {
+      content: '→';
+      color: var(--brand);
+      font-weight: 600;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+    }
+
+    .feature-img {
+      background: var(--bg-warm);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtle);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* ── ONLINE SIGNUPS ── */
+    .online-section {
+      background: var(--bg-warm);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 100px 2rem;
+    }
+
+    .online-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .online-text h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      color: var(--text);
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .online-text p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.75rem;
+    }
+
+    .online-img {
+      background: var(--bg-subtle);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtle);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* ── PORTAL ── */
+    .portal {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 100px 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .portal-img {
+      background: var(--bg-warm);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtle);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .portal-text h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .portal-text p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── FAQ ── */
+    .faq {
+      border-top: 1px solid var(--border);
+      padding: 100px 2rem;
+    }
+
+    .faq-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .faq h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-bottom: 56px;
+      color: var(--text);
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem 5rem;
+    }
+
+    .faq-item h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .faq-item p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── SIGN-OFF ── */
+    .signoff {
+      background: var(--bg-warm);
+      border-top: 1px solid var(--border);
+      padding: 100px 2rem;
+    }
+
+    .signoff-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .signoff h2 {
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.08;
+      margin-bottom: 56px;
+      color: var(--text);
+      max-width: 720px;
+    }
+
+    .signoff-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 3rem;
+    }
+
+    .signoff-body p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    .signoff-body p:last-child { margin-bottom: 0; }
+
+    .signoff-body strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .signoff-actions {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .signoff-actions .btn-primary,
+    .signoff-actions .btn-outline {
+      padding: 0.9rem 1.75rem;
+      font-size: 1rem;
+    }
+
+    .signoff-note {
+      margin-top: 1.25rem;
+      font-size: 0.82rem;
+      color: var(--subtle);
+    }
+
+    /* ── DEMO ── */
+    .demo {
+      border-top: 1px solid var(--border);
+      padding: 100px 2rem;
+    }
+
+    .demo-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .demo-inner h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-bottom: 0.75rem;
+    }
+
+    .demo-inner p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .demo-video {
+      background: var(--bg-warm);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--subtle);
+      font-size: 0.9rem;
+      font-weight: 500;
+      gap: 0.75rem;
+    }
+
+    .demo-play {
+      width: 48px;
+      height: 48px;
+      background: var(--brand);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .demo-play::after {
+      content: '';
+      border: 8px solid transparent;
+      border-left: 14px solid white;
+      margin-left: 4px;
+    }
+
+    /* ── TRUSTED BY ── */
+    .trusted {
+      background: var(--bg-warm);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 72px 2rem;
+    }
+
+    .trusted-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .trusted-inner h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--subtle);
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .trusted-logos {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .trusted-logo {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      height: 64px;
+      width: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--subtle);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.75rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.875rem;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-copy {
+      color: var(--subtle);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="#">Schooleo</a>
+      <div class="nav-right">
+        <a href="#funkcje" class="nav-link">Funkcje</a>
+        <a href="#portal" class="nav-link">Portal ucznia</a>
+        <a href="mailto:kontakt@schooleo.io" class="nav-link">Kontakt</a>
+        <a href="#wyprobuj" class="btn-primary">Wypróbuj za darmo</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <!-- eyebrow: small caps 400, letter-spacing 0.14em, brand color — wyłączone, do rozważenia
+      <span class="hero-eyebrow">Dla szkół prywatnych i freelancerów</span>
+      -->
+      <h1>Twoi uczniowie są najważniejsi.<br><span class="highlight" style="white-space: nowrap;">Schooleo zajmie się resztą.</span></h1>
+      <p class="hero-desc">Schooleo łączy planowanie zajęć, płatności, zarządzanie kadrą i komunikację z uczniami — w jednym prostym miejscu.</p>
+      <div class="hero-actions">
+        <a href="#wyprobuj" class="btn-primary">Wypróbuj za darmo</a>
+        <a href="mailto:kontakt@schooleo.io" class="btn-outline">Umów prezentację</a>
+      </div>
+      <p class="hero-note">Miesiąc za darmo. Bez karty kredytowej. Bez zobowiązań.</p>
+    </div>
+    <div class="hero-visual">Screenshot aplikacji — widok kalendarza</div>
+  </section>
+
+  <!-- STATEMENT -->
+  <section class="statement">
+    <div class="statement-inner">
+      <h2 class="statement-headline">Zarządzasz szkołą<br><span style="white-space: nowrap;">w Excelu? <span class="highlight">Nie musisz.</span></span></h2>
+      <div class="statement-body">
+        <div class="statement-col">
+          <p>Większość systemów do zarządzania szkołą jest albo zbyt skomplikowana, albo zbyt uboga. Albo kosztuje fortunę, albo brakuje w niej połowy funkcji których potrzebujesz.</p>
+          <p><strong>Schooleo jest inaczej.</strong> Zaprojektowane dla małych i średnich szkół prywatnych — bez zbędnych modułów, bez szkoleń trwających tydzień, bez konsultantów wdrożeniowych.</p>
+        </div>
+        <div class="statement-col">
+          <p><strong>Harmonogram, płatności, umowy z uczniami i portal samoobsługowy</strong> — wszystko w jednym miejscu, gotowe do pracy od pierwszego dnia.</p>
+          <p>Zapraszamy Cię do wypróbowania. Bez karty kredytowej, bez zobowiązań. Jeśli masz pytania — napisz do nas. <a href="mailto:kontakt@schooleo.io" style="color: var(--brand); font-weight: 600;">Chętnie pokażemy jak to działa.</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="funkcje">
+    <div class="features-header">
+      <h2 class="section-title">Jeden system zamiast wielu narzędzi</h2>
+      <p class="section-sub">Zastępuje arkusze kalkulacyjne, papierowe listy i WhatsApp grupy.</p>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-text">
+        <h3>Harmonogram bez konfliktów</h3>
+        <p>Dodawaj lekcje jednorazowe i cykliczne w kilka sekund. Widok dostępności sal eliminuje konflikty terminów zanim powstaną.</p>
+        <ul class="feature-list">
+          <li>Zajęcia indywidualne i grupowe</li>
+          <li>Lekcje stacjonarne i zdalne (Zoom, Meet)</li>
+          <li>Cykliczne zajęcia do końca roku jednym kliknięciem</li>
+          <li>System odwoływania i odrabiania zajęć</li>
+        </ul>
+      </div>
+      <div class="feature-img">Screenshot — kalendarz</div>
+    </div>
+
+    <div class="feature-row reverse">
+      <div class="feature-img">Screenshot — płatności</div>
+      <div class="feature-text">
+        <h3>Płatności bez wysiłku</h3>
+        <p>Kwota należności wyliczana automatycznie na podstawie zajęć w danym miesiącu. Koniec z liczeniem w głowie.</p>
+        <ul class="feature-list">
+          <li>Płatności online — BLIK i przelew (Cashbill)</li>
+          <li>Wirtualny portfel — nadpłaty się nie gubią</li>
+          <li>Vouchery na pakiety wejść</li>
+          <li>Emaile windykacyjne jednym kliknięciem</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-text">
+        <h3>Uczniowie i umowy</h3>
+        <p>Pełna baza uczniów z historią zajęć i umowami. Klienci podpisują kontrakty zdalnie — bez spotkania w biurze.</p>
+        <ul class="feature-list">
+          <li>Automatyczny rabat przy drugim kursie</li>
+          <li>Zdalne podpisywanie umów przez portal</li>
+          <li>System opiekunów dla niepełnoletnich</li>
+          <li>Notatki widoczne tylko dla biura</li>
+        </ul>
+      </div>
+      <div class="feature-img">Screenshot — profil ucznia</div>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section class="demo" id="demo">
+    <div class="demo-inner">
+      <h2>Zobacz Schooleo w akcji</h2>
+      <p>Krótkie demo pokazuje jak wygląda codzienna praca z aplikacją — od harmonogramu po płatności.</p>
+      <div class="demo-video">
+        <div class="demo-play"></div>
+        Demo wideo — placeholder
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUSTED BY -->
+  <section class="trusted">
+    <div class="trusted-inner">
+      <h2>Zaufali nam</h2>
+      <div class="trusted-logos">
+        <div class="trusted-logo">Szkoła A</div>
+        <div class="trusted-logo">Szkoła B</div>
+        <div class="trusted-logo">Szkoła C</div>
+        <div class="trusted-logo">Szkoła D</div>
+        <div class="trusted-logo">Szkoła E</div>
+        <div class="trusted-logo">i wiele innych</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONLINE SIGNUPS -->
+  <section class="online-section">
+    <div class="online-inner">
+      <div class="online-text">
+        <h2>Klienci zapisują się sami — bez Twojego udziału</h2>
+        <p>Osadź widget zapisów na swojej stronie internetowej. Klient wybiera zajęcia, wypełnia dane i trafia prosto do systemu. Ty akceptujesz jednym kliknięciem.</p>
+        <a href="#wyprobuj" class="btn-primary">Wypróbuj za darmo</a>
+      </div>
+      <div class="online-img">Screenshot — widget zapisów</div>
+    </div>
+  </section>
+
+  <!-- PORTAL -->
+  <section class="portal" id="portal">
+    <div class="portal-img">Screenshot — portal ucznia</div>
+    <div class="portal-text">
+      <h2>Uczniowie sami znajdą odpowiedź</h2>
+      <p>Każdy uczeń ma dostęp do swojego harmonogramu, umów i historii płatności. Mniej telefonów do biura, więcej czasu na to co ważne.</p>
+      <ul class="feature-list">
+        <li>Zajęcia i płatności w jednym miejscu</li>
+        <li>Zgłaszanie nieobecności przez portal</li>
+        <li>Zdalne podpisywanie umów</li>
+        <li>Zaproszenie ucznia jednym mailem</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="faq-inner">
+      <h2><span class="highlight">Kilka pytań,</span> które pewnie masz</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3>Czy mogę wypróbować zanim zdecyduję?</h3>
+          <p>Tak. Dostajesz <strong>miesiąc dostępu całkowicie za darmo</strong> — pełne funkcje, bez karty kredytowej.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Jak długo trwa wdrożenie?</h3>
+          <p>Kilka godzin, nie tygodni. Dodajesz sale, nauczycieli i uczniów — i zaczynasz. Nie ma tu nic do "wdrożenia".</p>
+        </div>
+        <div class="faq-item">
+          <h3>Co jeśli mam pytania w trakcie?</h3>
+          <p>Piszesz na kontakt@schooleo.io albo dzwonisz. Odpowiadamy ludzie, nie boty.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Czy działa dla małych szkół — 1-2 nauczycieli?</h3>
+          <p>Tak. Schooleo skaluje się od freelancera z kilkoma uczniami po szkołę z dziesiątkami nauczycieli.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Czy obsługuje zajęcia zdalne?</h3>
+          <p>Tak. Możesz dodać "salę" o nazwie Zoom lub Google Meet — i harmonogramować lekcje zdalne tak samo jak stacjonarne.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Czy uczniowie muszą instalować aplikację?</h3>
+          <p>Nie. Portal ucznia działa w przeglądarce — wystarczy link i zaproszenie mailem.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGN-OFF -->
+  <section class="signoff" id="wyprobuj">
+    <div class="signoff-inner">
+      <h2>Zapraszamy Cię do wypróbowania.<br><span class="highlight" style="white-space: nowrap;">Bez stresu.</span></h2>
+      <div class="signoff-body">
+        <div>
+          <p>Wiemy, że zmiana systemu to decyzja. Dlatego nie prosimy o kartę kredytową, nie wysyłamy agresywnych follow-upów i nie zamykamy Cię w rocznym kontrakcie na start.</p>
+          <p><strong>Wypróbuj Schooleo.</strong> Jeśli po jakimś czasie poczujesz, że to nie dla Ciebie — po prostu przestań używać. Zero zobowiązań.</p>
+        </div>
+        <div>
+          <p>Jeśli chcesz zobaczyć jak Schooleo działa w praktyce przed rejestracją — napisz do nas. <strong>Chętnie pokażemy aplikację i odpowiemy na każde pytanie.</strong></p>
+          <p>Jesteśmy małym, polskim zespołem — i zależy nam żebyś był zadowolony.</p>
+        </div>
+      </div>
+      <div class="signoff-actions">
+        <a href="mailto:kontakt@schooleo.io" class="btn-primary">Wypróbuj za darmo</a>
+        <a href="mailto:kontakt@schooleo.io" class="btn-outline">Umów prezentację</a>
+      </div>
+      <p class="signoff-note">kontakt@schooleo.io · +48 668 202 048</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <a class="logo" href="#">Schooleo</a>
+      <ul class="footer-links">
+        <li><a href="#">Polityka prywatności</a></li>
+        <li><a href="#">Regulamin</a></li>
+        <li><a href="mailto:kontakt@schooleo.io">kontakt@schooleo.io</a></li>
+        <li><a href="tel:+48668202048">+48 668 202 048</a></li>
+      </ul>
+      <p class="footer-copy">© 2026 Schooleo</p>
+    </div>
+  </footer>
+
+</body>
+</html>
