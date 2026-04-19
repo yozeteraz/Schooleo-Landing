@@ -42,7 +42,8 @@
       z-index: 100;
       background: rgba(255,255,255,0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.25s;
     }
 
     .nav-inner {
@@ -61,6 +62,30 @@
       color: var(--green);
       letter-spacing: -0.06em;
       text-decoration: none;
+    }
+
+    /* Nav logo — invisible at top, animates in on scroll */
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--green);
+      letter-spacing: -0.06em;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(-6px);
+      will-change: opacity, transform;
+    }
+
+    /* Hero standalone logo */
+    .hero-logo {
+      display: inline-block;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--green);
+      letter-spacing: -0.06em;
+      text-decoration: none;
+      margin-bottom: 1.25rem;
+      will-change: opacity, transform;
     }
 
     .nav-right {
@@ -117,11 +142,11 @@
     .hero {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 96px 2rem 80px;
+      padding: 22px 2rem 80px;
     }
 
     .hero-inner {
-      max-width: 720px;
+      max-width: 100%;
     }
 
     .hero-eyebrow {
@@ -679,11 +704,11 @@
   <!-- NAV -->
   <nav>
     <div class="nav-inner">
-      <a class="logo" href="#">Schooleo</a>
+      <a class="nav-logo" href="#" aria-hidden="true" tabindex="-1">Schooleo</a>
       <div class="nav-right">
-        <a href="#funkcje" class="nav-link">Funkcje</a>
-        <a href="#portal" class="nav-link">Portal ucznia</a>
+        <a href="#demo" class="nav-link">Demo</a>
         <a href="mailto:kontakt@schooleo.io" class="nav-link">Kontakt</a>
+        <span class="nav-link" style="color: var(--subtle);">PL</span>
         <a href="#wyprobuj" class="btn-primary">Wypróbuj za darmo</a>
       </div>
     </div>
@@ -692,11 +717,9 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
-      <!-- eyebrow: small caps 400, letter-spacing 0.14em, brand color — wyłączone, do rozważenia
-      <span class="hero-eyebrow">Dla szkół prywatnych i freelancerów</span>
-      -->
-      <h1>Twoi uczniowie są najważniejsi.<br><span class="highlight" style="white-space: nowrap;">Schooleo zajmie się resztą.</span></h1>
-      <p class="hero-desc">Schooleo łączy planowanie zajęć, płatności, zarządzanie kadrą i komunikację z uczniami — w jednym prostym miejscu.</p>
+      <a class="hero-logo" href="#">Schooleo</a>
+      <h1><span class="highlight" style="white-space: nowrap;">Uczniowie na pierwszym miejscu.</span><br>Resztą się nie martw.</h1>
+      <p class="hero-desc">Schooleo automatyzuje zarządzanie zajęciami, płatnościami i uczniami — żebyś mógł skupić się na nauczaniu.</p>
       <div class="hero-actions">
         <a href="#wyprobuj" class="btn-primary">Wypróbuj za darmo</a>
         <a href="mailto:kontakt@schooleo.io" class="btn-outline">Umów prezentację</a>
@@ -896,5 +919,27 @@
     </div>
   </footer>
 
+  <script>
+    const nav      = document.querySelector('nav');
+    const navLogo  = document.querySelector('.nav-logo');
+    const heroLogo = document.querySelector('.hero-logo');
+
+    function tick() {
+      const y = window.scrollY;
+      const p = Math.min(y / 110, 1);
+
+      // Logo crossfade
+      navLogo.style.opacity   = p;
+      navLogo.style.transform = `translateY(${(1 - p) * -8}px)`;
+      heroLogo.style.opacity   = 1 - p;
+      heroLogo.style.transform = `translateY(${p * -14}px)`;
+
+      // Nav border — only when scrolled
+      nav.style.borderBottomColor = y > 4 ? 'var(--border)' : 'transparent';
+    }
+
+    window.addEventListener('scroll', tick, { passive: true });
+    tick();
+  </script>
 </body>
 </html>
