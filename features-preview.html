@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Features — podgląd układów</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --brand: #E84B20;
+      --brand-light: #FDEEE9;
+      --text: #1A1714;
+      --body: #3D3935;
+      --muted: #6B6560;
+      --subtle: #B0AAA0;
+      --bg-warm: #F7F4EE;
+      --border: #E8E4DA;
+    }
+    body { font-family: 'Inter', sans-serif; background: #fff; color: var(--text); font-size: 1.25rem; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+
+    .label {
+      background: #1A1714;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    /* ─── OPCJA A: 3 karty ─── */
+    .option-a {
+      padding: 80px 2rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .option-a h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.5rem;
+    }
+
+    .option-a .sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-warm);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 1.75rem;
+    }
+
+    .card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .card p {
+      font-size: 1rem;
+      color: var(--body);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    .card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .card ul li {
+      font-size: 0.9rem;
+      color: var(--muted);
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .card ul li::before {
+      content: '→';
+      color: var(--brand);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ─── OPCJA B: Editorial ─── */
+    .divider {
+      border: none;
+      border-top: 6px solid var(--bg-warm);
+    }
+
+    .option-b {
+      padding: 80px 2rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .option-b h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.5rem;
+    }
+
+    .option-b .sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+
+    .editorial-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      padding: 2.5rem 0;
+      border-top: 1.5px solid var(--border);
+      align-items: start;
+    }
+
+    .editorial-left {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .editorial-left .num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--brand);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .editorial-left h3 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1.1;
+      color: var(--text);
+    }
+
+    .editorial-right p {
+      font-size: 1.15rem;
+      color: var(--body);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .editorial-right ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .editorial-right ul li {
+      font-size: 1rem;
+      color: var(--muted);
+      display: flex;
+      gap: 0.65rem;
+    }
+
+    .editorial-right ul li::before {
+      content: '→';
+      color: var(--brand);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="label">Opcja A — karty (3 w rzędzie)</div>
+
+  <section class="option-a">
+    <h2>Jeden system zamiast wielu narzędzi</h2>
+    <p class="sub">Zastępuje arkusze kalkulacyjne, papierowe listy i WhatsApp grupy.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">📅</div>
+        <h3>Harmonogram bez konfliktów</h3>
+        <p>Dodawaj lekcje jednorazowe i cykliczne w kilka sekund. Konflikty terminów eliminowane zanim powstaną.</p>
+        <ul>
+          <li>Zajęcia indywidualne i grupowe</li>
+          <li>Lekcje stacjonarne i zdalne</li>
+          <li>Cykliczne zajęcia jednym kliknięciem</li>
+          <li>System odwoływania i odrabiania</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">💳</div>
+        <h3>Płatności bez wysiłku</h3>
+        <p>Kwota należności wyliczana automatycznie na podstawie zajęć. Koniec z liczeniem w głowie.</p>
+        <ul>
+          <li>Płatności online — BLIK i przelew</li>
+          <li>Wirtualny portfel — nadpłaty się nie gubią</li>
+          <li>Vouchery na pakiety wejść</li>
+          <li>Emaile windykacyjne jednym kliknięciem</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">👤</div>
+        <h3>Uczniowie i umowy</h3>
+        <p>Pełna baza uczniów z historią zajęć i umowami. Kontrakty podpisywane zdalnie — bez spotkania.</p>
+        <ul>
+          <li>Automatyczny rabat przy drugim kursie</li>
+          <li>Zdalne podpisywanie umów</li>
+          <li>System opiekunów dla niepełnoletnich</li>
+          <li>Notatki widoczne tylko dla biura</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+  <div class="label">Opcja B — editorial (nagłówek lewo, treść prawo)</div>
+
+  <section class="option-b">
+    <h2>Jeden system zamiast wielu narzędzi</h2>
+    <p class="sub">Zastępuje arkusze kalkulacyjne, papierowe listy i WhatsApp grupy.</p>
+
+    <div class="editorial-row">
+      <div class="editorial-left">
+        <div class="num">01</div>
+        <h3>Harmonogram bez konfliktów</h3>
+      </div>
+      <div class="editorial-right">
+        <p>Dodawaj lekcje jednorazowe i cykliczne w kilka sekund. Widok dostępności sal eliminuje konflikty terminów zanim powstaną.</p>
+        <ul>
+          <li>Zajęcia indywidualne i grupowe</li>
+          <li>Lekcje stacjonarne i zdalne (Zoom, Meet)</li>
+          <li>Cykliczne zajęcia do końca roku jednym kliknięciem</li>
+          <li>System odwoływania i odrabiania zajęć</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="editorial-row">
+      <div class="editorial-left">
+        <div class="num">02</div>
+        <h3>Płatności bez wysiłku</h3>
+      </div>
+      <div class="editorial-right">
+        <p>Kwota należności wyliczana automatycznie na podstawie zajęć w danym miesiącu. Koniec z liczeniem w głowie.</p>
+        <ul>
+          <li>Płatności online — BLIK i przelew (Cashbill)</li>
+          <li>Wirtualny portfel — nadpłaty się nie gubią</li>
+          <li>Vouchery na pakiety wejść</li>
+          <li>Emaile windykacyjne jednym kliknięciem</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="editorial-row">
+      <div class="editorial-left">
+        <div class="num">03</div>
+        <h3>Uczniowie i umowy</h3>
+      </div>
+      <div class="editorial-right">
+        <p>Pełna baza uczniów z historią zajęć i umowami. Klienci podpisują kontrakty zdalnie — bez spotkania w biurze.</p>
+        <ul>
+          <li>Automatyczny rabat przy drugim kursie</li>
+          <li>Zdalne podpisywanie umów przez portal</li>
+          <li>System opiekunów dla niepełnoletnich</li>
+          <li>Notatki widoczne tylko dla biura</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+</html>

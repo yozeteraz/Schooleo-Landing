@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nowy kurs indywidualny · Schooleo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    /* ========================================================================
+       THEME HARNESS — kolory + wymiary + typografia per theme
+       ======================================================================== */
+
+    body.theme-schooleo {
+      /* kolory — 1:1 z tokens.css / design-system.md */
+      --bg-warm: #F7F4EE; --bg-surface: #FFFFFF; --bg-subtle: #F0EDE7;
+      --border: #E8E4DA; --border-strong: #B0AAA0;
+      --text: #1A1714; --text-muted: #6B6560; --text-subtle: #B0AAA0;
+      --brand: #E84B20; --brand-hover: #C13A15; --brand-subtle: #FDEEE9;
+      --ring-focus: 0 0 0 3px rgba(232, 75, 32, 0.18);
+      --radius-sm: 10px; --radius-md: 14px; --radius-lg: 18px;
+      /* wymiary — szczodre, touch-first (iOS-scale, Schooleo paleta) */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --control-h: 44px;
+      --control-px: 14px;
+      --btn-h: 44px;
+      --btn-px: 20px;
+      --btn-font: 600 15px/1 var(--font-family);
+      --body-font: 400 15px/1.5 var(--font-family);
+      --label-font: 600 13px/1.4 var(--font-family);
+      --label-tracking: 0.01em;
+      --label-transform: none;
+      --eyebrow-font: 600 11px/1.4 var(--font-family);
+      --eyebrow-tracking: 0.14em;
+      --eyebrow-transform: uppercase;
+      --eyebrow-color: var(--text-muted);
+      --radio-size: 20px;
+      --toggle-w: 36px;
+      --toggle-h: 20px;
+      --section-py: 28px;
+      /* kalendarz — paleta eventów (ciepłe, ziemiste) */
+      --ev-1: #E84B20; --ev-2: #2E7D63; --ev-3: #C68B2E;
+      --ev-4: #5A6BAA; --ev-5: #8B3A62; --ev-6: #6B8E23;
+    }
+
+    body.theme-linear {
+      --bg-warm: #F7F4EE; --bg-surface: #FFFFFF; --bg-subtle: #F0EDE7;
+      --border: #E8E4DA; --border-strong: #B0AAA0;
+      --text: #1A1714; --text-muted: #6B6560; --text-subtle: #B0AAA0;
+      --brand: #1A1714; --brand-hover: #2E2A26; --brand-subtle: #F0EDE7;
+      --ring-focus: 0 0 0 2px rgba(26, 23, 20, 0.12);
+      --radius-sm: 6px; --radius-md: 8px; --radius-lg: 12px;
+      /* wymiary — gęste, power-user */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --control-h: 28px;
+      --control-px: 10px;
+      --btn-h: 26px;
+      --btn-px: 10px;
+      --btn-font: 500 12px/1 var(--font-family);
+      --body-font: 400 13px/1.4 var(--font-family);
+      --label-font: 500 11px/1.4 var(--font-family);
+      --label-tracking: 0.03em;
+      --label-transform: none;
+      --eyebrow-font: 600 10px/1.4 var(--font-family);
+      --eyebrow-tracking: 0.14em;
+      --eyebrow-transform: uppercase;
+      --eyebrow-color: var(--text-subtle);
+      --radio-size: 12px;
+      --toggle-w: 24px;
+      --toggle-h: 12px;
+      --section-py: 18px;
+      /* kalendarz — paleta eventów (stonowane, cool) */
+      --ev-1: #5E6AD2; --ev-2: #26B5CE; --ev-3: #4CB782;
+      --ev-4: #F2994A; --ev-5: #EB5757; --ev-6: #6B6560;
+    }
+
+    body.theme-jira {
+      /* kolory — Atlassian Design System 2024+ (color tokens v2) */
+      --bg-warm: #F7F8F9;     /* color.background.neutral.subtle */
+      --bg-surface: #FFFFFF;  /* elevation.surface */
+      --bg-subtle: #F1F2F4;   /* color.background.neutral */
+      --border: #DCDFE4;      /* color.border */
+      --border-strong: #8590A2; /* color.border.bold */
+      --text: #172B4D;        /* color.text (N1000) */
+      --text-muted: #44546F;  /* color.text.subtle (N800) */
+      --text-subtle: #8590A2; /* color.text.subtlest (N500) */
+      --brand: #0C66E4;       /* color.background.brand.bold */
+      --brand-hover: #0055CC; /* brand.bold.hovered */
+      --brand-subtle: #E9F2FF;/* color.background.selected */
+      --ring-focus: 0 0 0 2px rgba(38, 132, 255, 0.45);
+      --radius-sm: 3px; --radius-md: 6px; --radius-lg: 8px;
+      /* wymiary — ADS standard (40px input, 32px button) */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      --control-h: 40px;
+      --control-px: 12px;
+      --btn-h: 32px;
+      --btn-px: 12px;
+      --btn-font: 500 14px/1 var(--font-family);
+      --body-font: 400 14px/1.43 var(--font-family);
+      --label-font: 600 12px/1.33 var(--font-family);
+      --label-tracking: 0;
+      --label-transform: none;
+      --eyebrow-font: 700 11px/1.33 var(--font-family);
+      --eyebrow-tracking: 0.04em;
+      --eyebrow-transform: uppercase;
+      --eyebrow-color: var(--text-muted);
+      --radio-size: 16px;
+      --toggle-w: 28px;
+      --toggle-h: 16px;
+      --section-py: 24px;
+      /* kalendarz — ADS event palette (bold tokens) */
+      --ev-1: #0C66E4; /* blue.bold */
+      --ev-2: #22A06B; /* green.bold */
+      --ev-3: #E56910; /* orange.bold */
+      --ev-4: #8270DB; /* purple.bold */
+      --ev-5: #CA3521; /* red.bold */
+      --ev-6: #1D7F8C; /* teal.bold */
+    }
+
+    body.theme-notion {
+      --bg-warm: #FFFFFF; --bg-surface: #FFFFFF; --bg-subtle: #F1F1EF;
+      --border: #E3E2E0; --border-strong: #B6B4B1;
+      --text: #191919; --text-muted: #787774; --text-subtle: #A3A09D;
+      --brand: #191919; --brand-hover: #000000; --brand-subtle: #F1F1EF;
+      --ring-focus: 0 0 0 2px rgba(25, 25, 25, 0.15);
+      --radius-sm: 4px; --radius-md: 6px; --radius-lg: 8px;
+      /* wymiary — reading-first, większy body */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --control-h: 32px;
+      --control-px: 10px;
+      --btn-h: 30px;
+      --btn-px: 12px;
+      --btn-font: 500 13px/1 var(--font-family);
+      --body-font: 400 15px/1.55 var(--font-family);
+      --label-font: 500 14px/1.45 var(--font-family);
+      --label-tracking: 0;
+      --label-transform: none;
+      --eyebrow-font: 600 13px/1.4 var(--font-family);
+      --eyebrow-tracking: 0;
+      --eyebrow-transform: none;
+      --eyebrow-color: var(--text);
+      --radio-size: 14px;
+      --toggle-w: 26px;
+      --toggle-h: 14px;
+      --section-py: 24px;
+      /* kalendarz — paleta eventów (paleta Notion, przygaszone) */
+      --ev-1: #D9730D; --ev-2: #448361; --ev-3: #337EA9;
+      --ev-4: #9065B0; --ev-5: #C14C8A; --ev-6: #686868;
+    }
+
+    body.theme-ios {
+      --bg-warm: #F2F2F7; --bg-surface: #FFFFFF; --bg-subtle: #E5E5EA;
+      --border: #D1D1D6; --border-strong: #8E8E93;
+      --text: #000000; --text-muted: #3C3C43; --text-subtle: #8E8E93;
+      --brand: #0A84FF; --brand-hover: #0969DA; --brand-subtle: #D6EAFF;
+      --ring-focus: 0 0 0 3px rgba(10, 132, 255, 0.22);
+      --radius-sm: 10px; --radius-md: 14px; --radius-lg: 18px;
+      /* wymiary — touch-first, duże i okrągłe */
+      --font-family: -apple-system, 'SF Pro Text', BlinkMacSystemFont, 'Inter', sans-serif;
+      --control-h: 44px;
+      --control-px: 14px;
+      --btn-h: 44px;
+      --btn-px: 20px;
+      --btn-font: 600 15px/1 var(--font-family);
+      --body-font: 400 15px/1.4 var(--font-family);
+      --label-font: 600 13px/1.33 var(--font-family);
+      --label-tracking: 0;
+      --label-transform: none;
+      --eyebrow-font: 600 13px/1.33 var(--font-family);
+      --eyebrow-tracking: 0;
+      --eyebrow-transform: none;
+      --eyebrow-color: var(--text-muted);
+      --radio-size: 20px;
+      --toggle-w: 36px;
+      --toggle-h: 20px;
+      --section-py: 22px;
+      /* kalendarz — paleta eventów (system colors iOS) */
+      --ev-1: #0A84FF; --ev-2: #30D158; --ev-3: #FF9F0A;
+      --ev-4: #BF5AF2; --ev-5: #64D2FF; --ev-6: #FF375F;
+    }
+
+    /* ========================================================================
+       THEME SWITCHER UI (niezależny od tematów — zawsze biała karta)
+       ======================================================================== */
+    .theme-switcher {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 100;
+      background: #FFFFFF;
+      border: 1px solid #DFE1E6;
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font: 500 11px/1 'Inter', sans-serif;
+      color: #5E6C84;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .theme-switcher__row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .theme-switcher__label {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 10px;
+      color: #97A0AF;
+      flex: 0 0 40px;
+    }
+    .theme-switcher__options {
+      display: flex;
+      gap: 1px;
+      background: #F4F5F7;
+      border-radius: 6px;
+      padding: 2px;
+    }
+    .theme-switcher__options button {
+      padding: 5px 10px;
+      border-radius: 4px;
+      font: 500 11px/1 'Inter', sans-serif;
+      color: #5E6C84;
+      cursor: pointer;
+      transition: all 120ms ease;
+      background: transparent;
+      border: 0;
+    }
+    .theme-switcher__options button:hover { color: #172B4D; }
+    .theme-switcher__options button[aria-checked="true"] {
+      background: #FFFFFF;
+      color: #172B4D;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+    .theme-switcher__swatch {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 999px;
+      margin-right: 5px;
+      vertical-align: -1px;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    @media (max-width: 640px) {
+      .theme-switcher { top: 8px; right: 8px; padding: 6px 8px; gap: 4px; }
+      .theme-switcher__label { display: none; }
+      .theme-switcher__options button { padding: 4px 6px; font-size: 10px; }
+      .theme-switcher__row { gap: 4px; }
+    }
+
+    /* ========================================================================
+       Reset + base
+       ======================================================================== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body, h1, h2, h3, h4, p, figure { margin: 0; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+    input, textarea { font: inherit; color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    ul { margin: 0; padding: 0; list-style: none; }
+
+    body {
+      font: var(--body-font);
+      color: var(--text);
+      background: var(--bg-warm);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      transition: background-color 200ms ease;
+    }
+
+    /* ========================================================================
+       App shell
+       ======================================================================== */
+    .app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--space-8) var(--space-4);
+    }
+
+    .form-shell {
+      width: 100%;
+      max-width: 760px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: visible;
+    }
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-header__title {
+      font: 600 15px/1.4 var(--font-sans);
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    .form-header__meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .form-body {
+      padding: var(--space-2) var(--space-5) var(--space-5);
+    }
+
+    /* ========================================================================
+       Sections
+       ======================================================================== */
+    .form-section {
+      padding: var(--section-py) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-section:last-child { border-bottom: 0; }
+
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: var(--space-4);
+    }
+
+    .section-heading__label {
+      font: var(--eyebrow-font);
+      letter-spacing: var(--eyebrow-tracking);
+      text-transform: var(--eyebrow-transform);
+      color: var(--eyebrow-color);
+    }
+
+    /* ========================================================================
+       Row grid
+       ======================================================================== */
+    .row {
+      display: grid;
+      gap: var(--space-3) var(--space-4);
+      grid-template-columns: 1fr;
+    }
+    .row--2 { grid-template-columns: 1fr 1fr; }
+    .row--3 { grid-template-columns: 1fr 1fr 1fr; }
+    .row--5-3 { grid-template-columns: 5fr 3fr; }
+    .row + .row { margin-top: var(--space-3); }
+
+    /* ========================================================================
+       Field
+       ======================================================================== */
+    .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; position: relative; }
+
+    .field__label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font: var(--label-font);
+      letter-spacing: var(--label-tracking);
+      text-transform: var(--label-transform);
+      color: var(--text);
+    }
+
+    .field__label-hint {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .field__helper {
+      font: var(--font-caption);
+      color: var(--text-muted);
+    }
+    .field__helper--error { color: var(--color-error); }
+
+    .field__icon-info {
+      color: var(--text-subtle);
+      cursor: help;
+      display: inline-flex;
+    }
+    .field__icon-info:hover { color: var(--text-muted); }
+
+    /* ========================================================================
+       Inputs
+       ======================================================================== */
+    .input,
+    .control {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      width: 100%;
+      height: var(--control-h);
+      padding: 0 var(--control-px);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font: var(--body-font);
+      color: var(--text);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), height 120ms ease;
+    }
+    .input::placeholder { color: var(--text-muted); }
+
+    .input:hover:not(:disabled):not(:focus),
+    .control:hover:not(:disabled) {
+      border-color: var(--border-strong);
+    }
+
+    .input:focus,
+    .control:focus-visible,
+    .control[data-open="true"] {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: var(--ring-focus);
+    }
+
+    .input:disabled,
+    .control:disabled {
+      background: var(--bg-subtle);
+      color: var(--text-subtle);
+      cursor: not-allowed;
+    }
+
+    .has-error .input,
+    .has-error .control,
+    .has-error .input-group {
+      border-color: var(--color-error);
+    }
+    .has-error .input:focus,
+    .has-error .control:focus-visible,
+    .has-error .input-group:focus-within {
+      box-shadow: var(--ring-error);
+    }
+
+    /* number input with suffix */
+    .input-group {
+      display: flex;
+      align-items: stretch;
+      height: var(--control-h);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), height 120ms ease;
+    }
+    .input-group:hover { border-color: var(--border-strong); }
+    .input-group:focus-within {
+      border-color: var(--brand);
+      box-shadow: var(--ring-focus);
+    }
+    .input-group .input {
+      border: 0;
+      box-shadow: none;
+      background: transparent;
+      height: auto;
+    }
+    .input-group .input:focus { box-shadow: none; }
+    .input-group__suffix {
+      display: flex;
+      align-items: center;
+      padding: 0 var(--control-px);
+      border-left: 1px solid var(--border);
+      color: var(--text-muted);
+      font: var(--body-font);
+      white-space: nowrap;
+    }
+    .input-group__prefix {
+      display: flex;
+      align-items: center;
+      padding: 0 var(--control-px);
+      border-right: 1px solid var(--border);
+      color: var(--text-muted);
+      font: var(--body-font);
+      white-space: nowrap;
+    }
+
+    /* ========================================================================
+       Select trigger + menu
+       ======================================================================== */
+    .select {
+      justify-content: space-between;
+      cursor: pointer;
+      text-align: left;
+    }
+    .select__value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .select__value--placeholder { color: var(--text-muted); }
+    .select__chevron {
+      width: 12px; height: 12px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: transform var(--transition-fast);
+    }
+    .control[data-open="true"] .select__chevron { transform: rotate(180deg); }
+
+    /* popover base (positioned by JS) */
+    .popover {
+      position: absolute;
+      z-index: 20;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: 0 6px 24px rgba(26, 23, 20, 0.08), 0 1px 2px rgba(26, 23, 20, 0.04);
+      opacity: 0;
+      transform: translateY(-4px);
+      pointer-events: none;
+      transition: opacity 120ms ease, transform 120ms ease;
+    }
+    .popover[data-open="true"] {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .select-menu {
+      min-width: 180px;
+      max-height: 240px;
+      overflow: auto;
+      padding: 4px;
+    }
+    .select-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 4px;
+      font: var(--font-body-small);
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+    }
+    .select-option:hover,
+    .select-option[data-highlight="true"] { background: var(--bg-subtle); }
+    .select-option[aria-selected="true"] { font-weight: 500; }
+    .select-option__check {
+      width: 12px; height: 12px;
+      color: var(--text);
+      opacity: 0;
+    }
+    .select-option[aria-selected="true"] .select-option__check { opacity: 1; }
+    .select-option__meta {
+      font: var(--font-caption);
+      color: var(--text-muted);
+    }
+
+    /* ========================================================================
+       Date picker
+       ======================================================================== */
+    .datepicker {
+      width: 272px;
+      padding: var(--space-3);
+    }
+    .datepicker__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-2);
+    }
+    .datepicker__title {
+      font: 600 13px/1.4 var(--font-sans);
+      color: var(--text);
+      text-transform: capitalize;
+    }
+    .datepicker__nav { display: flex; gap: 2px; }
+
+    .datepicker__weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 4px;
+    }
+    .datepicker__weekday {
+      font: 500 10px/1 var(--font-sans);
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 6px 0;
+      text-transform: uppercase;
+    }
+    .datepicker__grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 1px;
+    }
+    .datepicker__cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      border-radius: 4px;
+      font: var(--font-body-small);
+      color: var(--text);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .datepicker__cell:hover { background: var(--bg-subtle); }
+    .datepicker__cell--outside { color: var(--text-subtle); }
+    .datepicker__cell--today {
+      font-weight: 600;
+      position: relative;
+    }
+    .datepicker__cell--today::after {
+      content: '';
+      position: absolute;
+      bottom: 4px; left: 50%;
+      width: 3px; height: 3px;
+      background: var(--text);
+      border-radius: 999px;
+      transform: translateX(-50%);
+    }
+    .datepicker__cell--selected {
+      background: var(--brand);
+      color: var(--color-white);
+      font-weight: 500;
+    }
+    .datepicker__cell--selected:hover { background: var(--brand-hover); }
+    .datepicker__cell--selected.datepicker__cell--today::after { background: var(--color-white); }
+
+    .datepicker__footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: var(--space-2);
+      margin-top: var(--space-2);
+      border-top: 1px solid var(--border);
+    }
+    .datepicker__today-btn {
+      font: var(--font-caption);
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .datepicker__today-btn:hover { color: var(--text); background: var(--bg-subtle); }
+
+    /* ========================================================================
+       Time picker
+       ======================================================================== */
+    .timepicker {
+      display: flex;
+      gap: 1px;
+      padding: 4px;
+    }
+    .timepicker__col {
+      width: 56px;
+      max-height: 208px;
+      overflow-y: auto;
+      padding: 2px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .timepicker__col::-webkit-scrollbar { width: 4px; }
+    .timepicker__col::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .timepicker__col + .timepicker__col { border-left: 1px solid var(--border); padding-left: 3px; margin-left: 2px; }
+    .timepicker__cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      border-radius: 4px;
+      font: var(--font-body-small);
+      color: var(--text);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+    .timepicker__cell:hover { background: var(--bg-subtle); }
+    .timepicker__cell[aria-selected="true"] {
+      background: var(--brand);
+      color: var(--color-white);
+      font-weight: 500;
+    }
+
+    /* ========================================================================
+       Radio group
+       ======================================================================== */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .radio-group--inline {
+      flex-direction: row;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+    .radio {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      cursor: pointer;
+      font: var(--font-body-small);
+      color: var(--text);
+      user-select: none;
+    }
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      width: 0; height: 0;
+    }
+    .radio__circle {
+      width: var(--radio-size); height: var(--radio-size);
+      border: 1.5px solid var(--border-strong);
+      border-radius: 999px;
+      flex-shrink: 0;
+      transition: all var(--transition-fast);
+      background: var(--bg-surface);
+    }
+    .radio:hover .radio__circle { border-color: var(--text-muted); }
+    .radio input:checked + .radio__circle {
+      border-color: var(--brand);
+      border-width: calc(var(--radio-size) * 0.32);
+    }
+    .radio input:focus-visible + .radio__circle {
+      box-shadow: var(--ring-focus);
+    }
+
+    /* ========================================================================
+       Checkbox
+       ======================================================================== */
+    .checkbox {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      cursor: pointer;
+      font: var(--font-body-small);
+      color: var(--text);
+      user-select: none;
+    }
+    .checkbox input { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+    .checkbox__box {
+      width: var(--radio-size); height: var(--radio-size);
+      border: 1.5px solid var(--border-strong);
+      border-radius: 3px;
+      flex-shrink: 0;
+      background: var(--bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: transparent;
+      transition: all var(--transition-fast);
+    }
+    .checkbox:hover .checkbox__box { border-color: var(--text-muted); }
+    .checkbox input:checked + .checkbox__box {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: var(--color-white);
+    }
+    .checkbox input:focus-visible + .checkbox__box { box-shadow: var(--ring-focus); }
+    .checkbox__box svg { width: 10px; height: 10px; }
+
+    /* ========================================================================
+       Slide toggle
+       ======================================================================== */
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      cursor: pointer;
+      font: var(--font-body-small);
+      color: var(--text);
+      user-select: none;
+    }
+    .toggle input { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+    .toggle__track {
+      width: var(--toggle-w); height: var(--toggle-h);
+      background: var(--border-strong);
+      border-radius: 999px;
+      position: relative;
+      transition: background var(--transition-fast), width 120ms ease, height 120ms ease;
+      flex-shrink: 0;
+    }
+    .toggle__track::after {
+      content: '';
+      position: absolute;
+      top: 2px; left: 2px;
+      width: calc(var(--toggle-h) - 4px);
+      height: calc(var(--toggle-h) - 4px);
+      background: #fff;
+      border-radius: 999px;
+      transition: left var(--transition-fast), width 120ms ease, height 120ms ease;
+    }
+    .toggle input:checked + .toggle__track { background: var(--brand); }
+    .toggle input:checked + .toggle__track::after { left: calc(var(--toggle-w) - var(--toggle-h) + 2px); }
+    .toggle input:focus-visible + .toggle__track { box-shadow: var(--ring-focus); }
+
+    /* ========================================================================
+       Color swatches
+       ======================================================================== */
+    .swatches {
+      display: flex;
+      gap: var(--space-2);
+      align-items: center;
+      height: 32px;
+    }
+    .swatch {
+      width: 20px; height: 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 120ms ease;
+      border: 0;
+      padding: 0;
+      position: relative;
+    }
+    .swatch:hover { transform: scale(1.12); }
+    .swatch[aria-checked="true"]::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border: 1.5px solid var(--text);
+      border-radius: 999px;
+    }
+    .swatch:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--bg-surface), 0 0 0 4px var(--brand-subtle);
+    }
+
+    /* ========================================================================
+       Buttons
+       ======================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: var(--btn-h);
+      padding: 0 var(--btn-px);
+      border-radius: var(--radius-sm);
+      font: var(--btn-font);
+      letter-spacing: 0.01em;
+      transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), height 120ms ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn--primary {
+      background: var(--brand);
+      color: var(--color-white);
+    }
+    .btn--primary:hover { background: var(--brand-hover); }
+    .btn--secondary {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn--secondary:hover { border-color: var(--border-strong); background: var(--bg-subtle); }
+    .btn--ghost {
+      background: transparent;
+      color: var(--text-muted);
+    }
+    .btn--ghost:hover { background: var(--bg-subtle); color: var(--text); }
+    .btn:focus-visible { outline: none; box-shadow: var(--ring-focus); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn svg { width: 12px; height: 12px; }
+
+    .btn--sm { height: 26px; padding: 0 var(--space-2); font-size: 11px; }
+
+    /* icon-only button */
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      cursor: pointer;
+      background: transparent;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .icon-btn:hover { background: var(--bg-subtle); color: var(--text); }
+    .icon-btn:focus-visible { outline: none; box-shadow: var(--ring-focus); }
+    .icon-btn svg { width: 14px; height: 14px; }
+    .icon-btn--sm { width: 22px; height: 22px; }
+    .icon-btn--sm svg { width: 12px; height: 12px; }
+    .icon-btn--danger:hover { color: var(--color-error); background: rgba(231,76,60,0.06); }
+
+    /* kbd hint */
+    .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 3px;
+      font: 500 10px/1 var(--font-sans);
+      color: inherit;
+    }
+    .btn--secondary .kbd,
+    .btn--ghost .kbd {
+      background: var(--bg-subtle);
+      border-color: var(--border);
+      color: var(--text-muted);
+    }
+
+    /* ========================================================================
+       Expandable panel
+       ======================================================================== */
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-surface);
+      overflow: hidden;
+    }
+    .panel__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      background: var(--bg-surface);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+      border-bottom: 1px solid transparent;
+    }
+    .panel[data-open="true"] .panel__head {
+      border-bottom-color: var(--border);
+      background: var(--bg-subtle);
+    }
+    .panel__head:hover { background: var(--bg-subtle); }
+    .panel__title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font: 600 13px/1.4 var(--font-sans);
+      color: var(--text);
+    }
+    .panel__subtitle {
+      font: var(--font-caption);
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .panel__chevron {
+      transition: transform var(--transition-fast);
+      color: var(--text-muted);
+    }
+    .panel[data-open="true"] .panel__chevron { transform: rotate(180deg); }
+    .panel__body {
+      padding: var(--space-4);
+      display: none;
+    }
+    .panel[data-open="true"] .panel__body { display: block; }
+
+    /* ========================================================================
+       Autocomplete
+       ======================================================================== */
+    .autocomplete-menu {
+      padding: 4px;
+      max-height: 280px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .autocomplete-option {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 6px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .autocomplete-option:hover,
+    .autocomplete-option[data-highlight="true"] { background: var(--bg-subtle); }
+    .autocomplete-option__avatar {
+      width: 20px; height: 20px;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: 600 10px/1 var(--font-sans);
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+    .autocomplete-option__text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+    .autocomplete-option__primary { font: var(--font-body-small); color: var(--text); }
+    .autocomplete-option__meta { font: var(--font-caption); color: var(--text-muted); }
+    .autocomplete-empty {
+      padding: var(--space-3);
+      color: var(--text-muted);
+      font: var(--font-body-small);
+      text-align: center;
+    }
+
+    /* ========================================================================
+       Action bar
+       ======================================================================== */
+    .action-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-5);
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+    .action-bar__group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    /* ========================================================================
+       Section action (add button)
+       ======================================================================== */
+    .section-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font: 500 12px/1 var(--font-sans);
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: color var(--transition-fast), background var(--transition-fast);
+    }
+    .section-action:hover { color: var(--text); background: var(--bg-subtle); }
+    .section-action svg { width: 12px; height: 12px; }
+
+    /* ========================================================================
+       Participant row
+       ======================================================================== */
+    .participant-row {
+      display: grid;
+      gap: var(--space-2);
+      grid-template-columns: 1fr 1fr auto;
+      align-items: end;
+    }
+    .participant-row + .participant-row { margin-top: var(--space-2); }
+
+    /* ========================================================================
+       Divider
+       ======================================================================== */
+    .hr {
+      border: 0;
+      height: 1px;
+      background: var(--border);
+      margin: var(--space-4) 0;
+    }
+
+    /* ========================================================================
+       Shortcut row in action bar
+       ======================================================================== */
+    .shortcut-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font: var(--font-caption);
+      color: var(--text-subtle);
+    }
+    .shortcut-row .kbd { background: var(--bg-subtle); border-color: var(--border); color: var(--text-muted); }
+
+    /* ========================================================================
+       Responsive
+       ======================================================================== */
+    @media (max-width: 640px) {
+      .row--2, .row--3, .row--5-3 { grid-template-columns: 1fr; }
+      .participant-row { grid-template-columns: 1fr; }
+      .form-body { padding: var(--space-2) var(--space-4) var(--space-4); }
+      .form-header { padding: var(--space-3) var(--space-4); }
+      .action-bar { padding: var(--space-3) var(--space-4); flex-wrap: wrap; }
+    }
+
+    /* ========================================================================
+       SCREEN TOGGLE — pokazuje/ukrywa ekran formularza vs kalendarza
+       ======================================================================== */
+    .screen { display: none; }
+    body[data-screen="form"]     #screen-form     { display: block; }
+    body[data-screen="calendar"] #screen-calendar { display: block; }
+
+    /* ========================================================================
+       CALENDAR — chrome + grid + eventy
+       ======================================================================== */
+    .cal-shell {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: var(--space-5) var(--space-6) var(--space-8);
+      color: var(--text);
+      font: var(--body-font);
+    }
+    .cal-toolbar {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: var(--space-5);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--border);
+    }
+    .cal-toolbar__date {
+      font: 600 clamp(16px, 2vw, 22px)/1.2 var(--font-family);
+      color: var(--text);
+      text-align: right;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .cal-toolbar__nav {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      justify-self: center;
+    }
+    .cal-toolbar__divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      margin: 0 var(--space-2);
+    }
+    .cal-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .cal-nav-btn:hover { background: var(--bg-subtle); color: var(--text); }
+    .cal-nav-btn svg { width: 16px; height: 16px; }
+    .cal-today {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font: 500 13px/1 var(--font-family);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .cal-today:hover { border-color: var(--border-strong); background: var(--bg-subtle); }
+    .cal-today svg { width: 14px; height: 14px; color: var(--text-muted); }
+
+    /* Segmented "Sale / Nauczyciele" */
+    .cal-seg {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+      gap: 2px;
+    }
+    .cal-seg button {
+      padding: 6px 14px;
+      border-radius: calc(var(--radius-sm) - 2px);
+      border: 0;
+      background: transparent;
+      color: var(--text-muted);
+      font: 500 13px/1 var(--font-family);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .cal-seg button[aria-selected="true"] {
+      background: var(--bg-surface);
+      color: var(--text);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+
+    /* Filters row */
+    .cal-filters {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) 0;
+      flex-wrap: wrap;
+    }
+    .cal-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      border: 1px dashed var(--border-strong);
+      color: var(--text-muted);
+      font: 500 12px/1 var(--font-family);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .cal-chip:hover { background: var(--bg-subtle); color: var(--text); border-style: solid; }
+    .cal-chip--solid { border-style: solid; background: var(--bg-subtle); color: var(--text); }
+    .cal-chip--solid .cal-chip__x { color: var(--text-subtle); margin-left: 2px; }
+
+    /* Grid wrapper scroll */
+    .cal-grid-wrap {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-surface);
+      overflow: auto;
+      max-height: calc(100vh - 220px);
+      min-height: 560px;
+    }
+
+    .cal-grid {
+      display: flex;
+      flex-direction: column;
+      min-width: max-content;
+    }
+
+    /* Header row (room labels) */
+    .cal-head {
+      display: flex;
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .cal-head__corner {
+      flex: 0 0 56px;
+      position: sticky;
+      left: 0;
+      z-index: 5;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border);
+    }
+    .cal-head__room {
+      flex: 1 1 180px;
+      min-width: 180px;
+      padding: 10px 12px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: center;
+      align-items: center;
+    }
+    .cal-head__room:last-child { border-right: 0; }
+    .cal-head__room-num {
+      font: 600 14px/1.2 var(--font-family);
+      color: var(--text);
+    }
+    .cal-head__room-name {
+      font: 400 11px/1.2 var(--font-family);
+      color: var(--text-muted);
+    }
+
+    /* Body (time col + room cols) */
+    .cal-body {
+      display: flex;
+      position: relative;
+    }
+    .cal-times {
+      flex: 0 0 56px;
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border);
+    }
+    .cal-hour {
+      height: 60px;
+      padding: 4px 8px 0 0;
+      border-bottom: 1px solid var(--border);
+      font: 600 12px/1.2 var(--font-family);
+      color: var(--text-muted);
+      text-align: right;
+    }
+    .cal-hour:last-child { border-bottom: 0; }
+
+    .cal-cols {
+      display: flex;
+      flex: 1 1 auto;
+      position: relative;
+    }
+    .cal-col {
+      flex: 1 1 180px;
+      min-width: 180px;
+      position: relative;
+      border-right: 1px solid var(--border);
+      background:
+        repeating-linear-gradient(to bottom,
+          transparent 0,
+          transparent 59px,
+          var(--border) 59px,
+          var(--border) 60px);
+    }
+    .cal-col:last-child { border-right: 0; }
+
+    /* Events */
+    .cal-event {
+      position: absolute;
+      left: 3px;
+      right: 3px;
+      padding: 4px 6px 4px 9px;
+      border-radius: var(--radius-sm);
+      background: color-mix(in srgb, var(--ev-color) 16%, var(--bg-surface));
+      border-left: 3px solid var(--ev-color);
+      color: var(--text);
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .cal-event:hover {
+      background: color-mix(in srgb, var(--ev-color) 24%, var(--bg-surface));
+      z-index: 2;
+    }
+    .cal-event[data-c="1"] { --ev-color: var(--ev-1); }
+    .cal-event[data-c="2"] { --ev-color: var(--ev-2); }
+    .cal-event[data-c="3"] { --ev-color: var(--ev-3); }
+    .cal-event[data-c="4"] { --ev-color: var(--ev-4); }
+    .cal-event[data-c="5"] { --ev-color: var(--ev-5); }
+    .cal-event[data-c="6"] { --ev-color: var(--ev-6); }
+    .cal-event__time {
+      font: 600 11px/1.2 var(--font-family);
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cal-event__time em {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+    .cal-event__title {
+      font: 600 12px/1.25 var(--font-family);
+      color: var(--text);
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .cal-event__meta {
+      font: 400 11px/1.25 var(--font-family);
+      color: var(--text-muted);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* Current-time line (optional red indicator) */
+    .cal-now {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--brand);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cal-now::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: -3px;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--brand);
+    }
+
+    /* ===== Responsive kalendarz ===== */
+    @media (max-width: 960px) {
+      .cal-shell { padding: var(--space-4) var(--space-4) var(--space-6); }
+      .cal-toolbar {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-3);
+      }
+      .cal-toolbar__date { grid-column: 1 / -1; text-align: left; order: -1; }
+      .cal-toolbar__nav { justify-self: start; }
+    }
+    @media (max-width: 640px) {
+      .cal-shell { padding: var(--space-3); }
+      .cal-toolbar { grid-template-columns: 1fr; }
+      .cal-toolbar__nav { flex-wrap: wrap; }
+      .cal-head__room { flex-basis: 140px; min-width: 140px; padding: 6px 8px; }
+      .cal-col { flex-basis: 140px; min-width: 140px; }
+      .cal-times, .cal-head__corner { flex-basis: 42px; }
+      .cal-grid-wrap { max-height: calc(100vh - 180px); }
+    }
+  </style>
+</head>
+<body class="theme-jira">
+  <aside class="theme-switcher" aria-label="Harness podglądu">
+    <div class="theme-switcher__row">
+      <span class="theme-switcher__label">Temat</span>
+      <div class="theme-switcher__options" role="radiogroup" data-group="theme">
+        <button type="button" data-theme="schooleo" role="radio">
+          <span class="theme-switcher__swatch" style="background:#E84B20"></span>Schooleo
+        </button>
+        <button type="button" data-theme="linear" role="radio">
+          <span class="theme-switcher__swatch" style="background:#1A1714"></span>Linear
+        </button>
+        <button type="button" data-theme="jira" role="radio" aria-checked="true">
+          <span class="theme-switcher__swatch" style="background:#0C66E4"></span>Jira
+        </button>
+        <button type="button" data-theme="notion" role="radio">
+          <span class="theme-switcher__swatch" style="background:#191919"></span>Notion
+        </button>
+        <button type="button" data-theme="ios" role="radio">
+          <span class="theme-switcher__swatch" style="background:#0A84FF"></span>iOS
+        </button>
+      </div>
+    </div>
+    <div class="theme-switcher__row">
+      <span class="theme-switcher__label">Ekran</span>
+      <div class="theme-switcher__options" role="radiogroup" data-group="screen">
+        <button type="button" data-screen="form" role="radio" aria-checked="true">Formularz</button>
+        <button type="button" data-screen="calendar" role="radio">Kalendarz</button>
+      </div>
+    </div>
+  </aside>
+
+  <section id="screen-form" class="screen">
+  <div class="app">
+    <div class="form-shell" role="dialog" aria-labelledby="form-title">
+
+      <!-- HEADER -->
+      <header class="form-header">
+        <h1 class="form-header__title" id="form-title">Nowy kurs indywidualny</h1>
+        <div class="form-header__meta">
+          <span class="shortcut-row" aria-hidden="true">
+            <span>Esc <span class="kbd">⎋</span></span>
+          </span>
+          <button class="icon-btn" aria-label="Zamknij">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="form-body">
+
+        <!-- PODSTAWOWE -->
+        <section class="form-section">
+          <header class="section-heading">
+            <span class="section-heading__label">Podstawowe</span>
+          </header>
+          <div class="row row--5-3">
+            <div class="field">
+              <label class="field__label" for="course-name">Nazwa kursu</label>
+              <input class="input" id="course-name" type="text" value="Angielski indywidualny — Anna Kowalska" placeholder="np. Matematyka 8 klasa">
+            </div>
+            <div class="field">
+              <label class="field__label">Kolor kursu</label>
+              <div class="swatches" role="radiogroup" aria-label="Kolor kursu" data-swatches>
+                <button type="button" class="swatch" style="background: #E84B20" aria-checked="true" role="radio" aria-label="Czerwony"></button>
+                <button type="button" class="swatch" style="background: #F5A623" role="radio" aria-label="Pomarańczowy"></button>
+                <button type="button" class="swatch" style="background: #2ECC71" role="radio" aria-label="Zielony"></button>
+                <button type="button" class="swatch" style="background: #3498DB" role="radio" aria-label="Niebieski"></button>
+                <button type="button" class="swatch" style="background: #9B59B6" role="radio" aria-label="Fioletowy"></button>
+                <button type="button" class="swatch" style="background: #164037" role="radio" aria-label="Zielony ciemny"></button>
+                <button type="button" class="swatch" style="background: #6B6560" role="radio" aria-label="Szary"></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- OPŁATY -->
+        <section class="form-section">
+          <header class="section-heading">
+            <span class="section-heading__label">Opłaty</span>
+          </header>
+          <div class="row">
+            <div class="radio-group radio-group--inline" role="radiogroup" aria-label="Sposób płatności">
+              <label class="radio">
+                <input type="radio" name="payment-method" checked>
+                <span class="radio__circle"></span>
+                <span>Zgodnie z harmonogramem</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="payment-method">
+                <span class="radio__circle"></span>
+                <span>Jednorazowo z góry</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="payment-method">
+                <span class="radio__circle"></span>
+                <span>Ratami</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row row--2" style="margin-top: var(--space-4)">
+            <div class="field" data-popover-wrapper>
+              <label class="field__label">
+                Termin pierwszej płatności
+                <span class="field__icon-info" title="Pierwsza płatność zostanie naliczona zgodnie z wybranym terminem">
+                  <svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="6" cy="6" r="5"/><path d="M6 5.5v3M6 3.5v.01"/></svg>
+                </span>
+              </label>
+              <button type="button" class="control select" data-datepicker-trigger>
+                <span class="select__value" data-datepicker-value>28 kwietnia 2026</span>
+                <svg class="select__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4l3 3 3-3"/></svg>
+              </button>
+            </div>
+            <div class="field">
+              <label class="field__label">Wpisowe</label>
+              <div class="input-group">
+                <input class="input" type="number" value="0" inputmode="numeric" aria-label="Wpisowe, kwota">
+                <span class="input-group__suffix">zł</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TERMINY -->
+        <section class="form-section">
+          <header class="section-heading">
+            <span class="section-heading__label">Terminy</span>
+            <button type="button" class="section-action">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 2v8M2 6h8"/></svg>
+              Dodaj termin
+            </button>
+          </header>
+
+          <div class="panel" data-panel data-open="true">
+            <div class="panel__head" data-panel-toggle>
+              <div class="panel__title">
+                <span>Termin 1</span>
+                <span class="panel__subtitle">wtorek · 11 zajęć · 14:30–15:15</span>
+              </div>
+              <div style="display:flex; align-items:center; gap: var(--space-2);">
+                <button type="button" class="section-action" onclick="event.stopPropagation()">Pokaż daty</button>
+                <svg class="panel__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" width="12" height="12"><path d="M3 4l3 3 3-3"/></svg>
+              </div>
+            </div>
+
+            <div class="panel__body">
+              <div class="row row--3">
+                <div class="field" data-popover-wrapper>
+                  <label class="field__label">Początek</label>
+                  <button type="button" class="control select" data-timepicker-trigger data-time="14:30">
+                    <span class="select__value" data-timepicker-value>14:30</span>
+                    <svg class="select__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6" cy="6" r="4.5"/><path d="M6 3.5V6l2 1"/></svg>
+                  </button>
+                </div>
+                <div class="field">
+                  <label class="field__label">Czas trwania</label>
+                  <button type="button" class="control select" data-select-trigger data-select-id="duration">
+                    <span class="select__value">45 min</span>
+                    <svg class="select__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4l3 3 3-3"/></svg>
+                  </button>
+                </div>
+                <div class="field" data-popover-wrapper>
+                  <label class="field__label">Koniec</label>
+                  <button type="button" class="control select" data-timepicker-trigger data-time="15:15">
+                    <span class="select__value" data-timepicker-value>15:15</span>
+                    <svg class="select__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="6" cy="6" r="4.5"/><path d="M6 3.5V6l2 1"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <hr class="hr">
+
+              <div class="row row--3">
+                <div class="field">
+                  <label class="field__label">Powtarzaj co</label>
+                  <div class="input-group">
+                    <input class="input" type="number" value="1" inputmode="numeric" min="1">
+                    <span class="input-group__suffix">tydzień</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="field__label">Częstotliwość</label>
+                  <button type="button" class="control select" data-select-trigger data-select-id="frequency">
+                    <span class="select__value">Co tydzień</span>
+                    <svg class="select__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4l3 3 3-3"/></svg>
+                  </button>
+                </div>
+                <div class="field" data-popover-wrapper>
+                  <label class="field__label">Do dnia</label>
+                  <button type="button" class="control select" data-datepicker-trigger>
+                    <span class="select__value" data-datepicker-value>16 czerwca 2026</span>
+                    <svg class="select__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4l3 3 3-3"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <hr class="hr">
+
+              <div class="row row--2">
+                <div class="field">
+                  <label class="field__label">Sala</label>
+                  <button type="button" class="control select" data-select-trigger data-select-id="room">
+                    <span class="select__value">Sala nr 1</span>
+                    <svg class="select__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4l3 3 3-3"/></svg>
+                  </button>
+                </div>
+                <div class="field">
+                  <label class="field__label">Przedmiot</label>
+                  <button type="button" class="control select" data-select-trigger data-select-id="subject">
+                    <span class="select__value">Język angielski</span>
+                    <svg class="select__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4l3 3 3-3"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: var(--space-3)">
+                <label class="toggle">
+                  <input type="checkbox">
+                  <span class="toggle__track"></span>
+                  <span>Zajęcia zdalne (Zoom / Google Meet)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- NAUCZYCIEL -->
+        <section class="form-section">
+          <header class="section-heading">
+            <span class="section-heading__label">Nauczyciel</span>
+          </header>
+          <div class="row row--5-3">
+            <div class="field" data-popover-wrapper>
+              <label class="field__label">Nauczyciel</label>
+              <button type="button" class="control select" data-autocomplete-trigger data-autocomplete-id="teacher">
+                <span class="autocomplete-option" style="padding: 0; background: transparent">
+                  <span class="autocomplete-option__avatar">AK</span>
+                  <span class="autocomplete-option__text">
+                    <span class="autocomplete-option__primary">Anna Kowalska</span>
+                  </span>
+                </span>
+                <svg class="select__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4l3 3 3-3"/></svg>
+              </button>
+            </div>
+            <div class="field">
+              <label class="field__label">
+                Pensja
+                <span class="field__label-hint">za zajęcia</span>
+              </label>
+              <div class="input-group">
+                <input class="input" type="number" value="80" inputmode="numeric">
+                <span class="input-group__suffix">zł</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- UCZNIOWIE -->
+        <section class="form-section">
+          <header class="section-heading">
+            <span class="section-heading__label">Uczestnicy</span>
+            <button type="button" class="section-action">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 2v8M2 6h8"/></svg>
+              Dodaj ucznia
+            </button>
+          </header>
+
+          <div class="participant-row">
+            <div class="field" data-popover-wrapper>
+              <label class="field__label">Uczeń</label>
+              <button type="button" class="control select" data-autocomplete-trigger data-autocomplete-id="student-1">
+                <span class="autocomplete-option" style="padding: 0; background: transparent">
+                  <span class="autocomplete-option__avatar">TN</span>
+                  <span class="autocomplete-option__text">
+                    <span class="autocomplete-option__primary">Tomasz Nowak</span>
+                    <span class="autocomplete-option__meta">Opiekun: Jan Nowak</span>
+                  </span>
+                </span>
+                <svg class="select__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4l3 3 3-3"/></svg>
+              </button>
+            </div>
+            <div class="field">
+              <label class="field__label">Cena za zajęcia</label>
+              <div class="input-group">
+                <input class="input" type="number" value="120" inputmode="numeric">
+                <span class="input-group__suffix">zł</span>
+              </div>
+            </div>
+            <button type="button" class="icon-btn icon-btn--danger" aria-label="Usuń ucznia" style="margin-bottom: 2px;">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 4h8M5.5 4V2.5h3V4M4.5 4l.5 7.5h4l.5-7.5M6 6v4M8 6v4"/></svg>
+            </button>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ACTION BAR -->
+      <footer class="action-bar">
+        <div class="action-bar__group">
+          <button type="button" class="btn btn--primary">
+            Zapisz
+            <span class="kbd">⌘</span>
+            <span class="kbd">↵</span>
+          </button>
+          <button type="button" class="btn btn--secondary">Zapisz i dodaj kolejny</button>
+        </div>
+        <div class="action-bar__group">
+          <button type="button" class="btn btn--ghost">Anuluj</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+  </section>
+
+  <section id="screen-calendar" class="screen" aria-label="Kalendarz dzienny">
+    <div class="cal-shell">
+      <header class="cal-toolbar">
+        <div class="cal-toolbar__seg">
+          <div class="cal-seg" role="tablist" aria-label="Widok">
+            <button role="tab" aria-selected="true">Sale</button>
+            <button role="tab" aria-selected="false">Nauczyciele</button>
+          </div>
+        </div>
+        <div class="cal-toolbar__nav" role="group" aria-label="Nawigacja po datach">
+          <button class="cal-nav-btn" aria-label="Poprzedni tydzień">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3L4 8l5 5M14 3L9 8l5 5"/></svg>
+          </button>
+          <button class="cal-nav-btn" aria-label="Poprzedni dzień">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>
+          </button>
+          <button class="cal-today">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3"/></svg>
+            Dziś
+          </button>
+          <button class="cal-nav-btn" aria-label="Następny dzień">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg>
+          </button>
+          <button class="cal-nav-btn" aria-label="Następny tydzień">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3l5 5-5 5M2 3l5 5-5 5"/></svg>
+          </button>
+          <span class="cal-toolbar__divider" aria-hidden="true"></span>
+          <button class="cal-nav-btn" aria-label="Wybierz datę">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3"/></svg>
+          </button>
+          <button class="cal-nav-btn" aria-label="Informacje">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 7v4M8 5.2v.1"/></svg>
+          </button>
+        </div>
+        <div class="cal-toolbar__date" id="cal-date-label">środa, 22 kwietnia 2026</div>
+      </header>
+
+      <div class="cal-filters">
+        <button class="cal-chip" type="button">
+          <svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 3h8M3 6h6M4.5 9h3"/></svg>
+          Filtry
+        </button>
+        <button class="cal-chip cal-chip--solid" type="button">Nauczyciel · wszyscy <span class="cal-chip__x">×</span></button>
+        <button class="cal-chip cal-chip--solid" type="button">Przedmiot · wszystkie <span class="cal-chip__x">×</span></button>
+      </div>
+
+      <div class="cal-grid-wrap" id="cal-grid-wrap" role="grid" aria-label="Harmonogram dnia">
+        <div class="cal-grid" id="cal-grid">
+          <!-- wypełniane przez JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= JS =================  -->
+  <script>
+    (() => {
+      // ===== utilities =====
+      const DAY_NAMES = ['Pon','Wt','Śr','Czw','Pt','Sob','Nd'];
+      const MONTH_NAMES = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+      const MONTH_SHORT = ['sty','lut','mar','kwi','maj','cze','lip','sie','wrz','paź','lis','gru'];
+
+      const closeAllPopovers = (except) => {
+        document.querySelectorAll('.popover[data-open="true"]').forEach(p => {
+          if (p !== except) {
+            p.dataset.open = 'false';
+            p.remove();
+          }
+        });
+        document.querySelectorAll('.control[data-open="true"]').forEach(c => {
+          if (!except || c !== except._trigger) c.dataset.open = 'false';
+        });
+      };
+
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.popover') || e.target.closest('[data-datepicker-trigger]') || e.target.closest('[data-timepicker-trigger]') || e.target.closest('[data-select-trigger]') || e.target.closest('[data-autocomplete-trigger]')) return;
+        closeAllPopovers();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeAllPopovers();
+      });
+
+      // ===== position popover under trigger =====
+      const positionPopover = (popover, trigger) => {
+        const rect = trigger.getBoundingClientRect();
+        popover.style.position = 'absolute';
+        popover.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+        popover.style.left = (rect.left + window.scrollX) + 'px';
+        popover.style.minWidth = rect.width + 'px';
+      };
+
+      // ===== DATE PICKER =====
+      let datepickerState = {};
+      const buildDatepicker = (initialDate, onSelect) => {
+        const pop = document.createElement('div');
+        pop.className = 'popover datepicker';
+        pop.innerHTML = '';
+        document.body.appendChild(pop);
+
+        let viewDate = new Date(initialDate.getFullYear(), initialDate.getMonth(), 1);
+        const selected = new Date(initialDate);
+        const today = new Date();
+
+        const render = () => {
+          const y = viewDate.getFullYear();
+          const m = viewDate.getMonth();
+          const firstDay = new Date(y, m, 1);
+          const lastDay = new Date(y, m + 1, 0);
+          // day index: 0=monday
+          const startOffset = (firstDay.getDay() + 6) % 7;
+          const daysInMonth = lastDay.getDate();
+          const prevMonthLast = new Date(y, m, 0).getDate();
+
+          let html = `
+            <div class="datepicker__head">
+              <div class="datepicker__title">${MONTH_NAMES[m]} ${y}</div>
+              <div class="datepicker__nav">
+                <button class="icon-btn icon-btn--sm" data-prev aria-label="Poprzedni miesiąc">
+                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 3l-3 3 3 3"/></svg>
+                </button>
+                <button class="icon-btn icon-btn--sm" data-next aria-label="Następny miesiąc">
+                  <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4.5 3l3 3-3 3"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="datepicker__weekdays">
+              ${DAY_NAMES.map(d => `<div class="datepicker__weekday">${d}</div>`).join('')}
+            </div>
+            <div class="datepicker__grid">
+          `;
+          // prev month tail
+          for (let i = startOffset - 1; i >= 0; i--) {
+            html += `<div class="datepicker__cell datepicker__cell--outside" data-d="${prevMonthLast - i}" data-m="${m - 1}">${prevMonthLast - i}</div>`;
+          }
+          // this month
+          for (let d = 1; d <= daysInMonth; d++) {
+            const classes = ['datepicker__cell'];
+            const cur = new Date(y, m, d);
+            if (cur.toDateString() === today.toDateString()) classes.push('datepicker__cell--today');
+            if (cur.toDateString() === selected.toDateString()) classes.push('datepicker__cell--selected');
+            html += `<div class="${classes.join(' ')}" data-d="${d}" data-m="${m}">${d}</div>`;
+          }
+          // next month head (fill up to 42 cells)
+          const cellsSoFar = startOffset + daysInMonth;
+          const trailing = (42 - cellsSoFar) > 14 ? (35 - cellsSoFar) : (42 - cellsSoFar);
+          for (let d = 1; d <= trailing; d++) {
+            html += `<div class="datepicker__cell datepicker__cell--outside" data-d="${d}" data-m="${m + 1}">${d}</div>`;
+          }
+          html += `</div>
+            <div class="datepicker__footer">
+              <button type="button" class="datepicker__today-btn" data-today>Dzisiaj</button>
+            </div>
+          `;
+          pop.innerHTML = html;
+
+          pop.querySelector('[data-prev]').addEventListener('click', (e) => { e.stopPropagation(); viewDate = new Date(y, m - 1, 1); render(); });
+          pop.querySelector('[data-next]').addEventListener('click', (e) => { e.stopPropagation(); viewDate = new Date(y, m + 1, 1); render(); });
+          pop.querySelector('[data-today]').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const now = new Date();
+            onSelect(now);
+            closeAllPopovers();
+          });
+          pop.querySelectorAll('.datepicker__cell').forEach(cell => {
+            cell.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const d = parseInt(cell.dataset.d);
+              const mo = parseInt(cell.dataset.m);
+              const picked = new Date(viewDate.getFullYear(), mo, d);
+              onSelect(picked);
+              closeAllPopovers();
+            });
+          });
+        };
+        render();
+        return pop;
+      };
+
+      const formatDate = (d) => `${d.getDate()} ${MONTH_NAMES[d.getMonth()].toLowerCase()} ${d.getFullYear()}`;
+
+      const parseDate = (s) => {
+        // accept "28 kwietnia 2026" or "28 kwi 2026"
+        const parts = s.toLowerCase().split(/\s+/);
+        if (parts.length !== 3) return new Date();
+        const d = parseInt(parts[0]);
+        let mi = MONTH_NAMES.findIndex(m => m.toLowerCase() === parts[1]);
+        if (mi < 0) mi = MONTH_SHORT.findIndex(m => m === parts[1]);
+        const y = parseInt(parts[2]);
+        if (isNaN(d) || mi < 0 || isNaN(y)) return new Date();
+        return new Date(y, mi, d);
+      };
+
+      document.querySelectorAll('[data-datepicker-trigger]').forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (trigger.dataset.open === 'true') { closeAllPopovers(); return; }
+          closeAllPopovers();
+          const valueEl = trigger.querySelector('[data-datepicker-value]');
+          const current = parseDate(valueEl.textContent);
+          const pop = buildDatepicker(current, (picked) => {
+            valueEl.textContent = formatDate(picked);
+          });
+          pop._trigger = trigger;
+          positionPopover(pop, trigger);
+          requestAnimationFrame(() => {
+            pop.dataset.open = 'true';
+            trigger.dataset.open = 'true';
+          });
+        });
+      });
+
+      // ===== TIME PICKER =====
+      const buildTimepicker = (current, onSelect) => {
+        const pop = document.createElement('div');
+        pop.className = 'popover timepicker';
+        document.body.appendChild(pop);
+        const [curH, curM] = current.split(':').map(Number);
+
+        const hoursCol = document.createElement('div');
+        hoursCol.className = 'timepicker__col';
+        for (let h = 6; h <= 22; h++) {
+          const cell = document.createElement('div');
+          cell.className = 'timepicker__cell';
+          if (h === curH) cell.setAttribute('aria-selected', 'true');
+          cell.textContent = String(h).padStart(2, '0');
+          cell.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hoursCol.querySelectorAll('.timepicker__cell').forEach(c => c.removeAttribute('aria-selected'));
+            cell.setAttribute('aria-selected', 'true');
+            const selM = minsCol.querySelector('[aria-selected="true"]');
+            const minVal = selM ? selM.textContent : '00';
+            onSelect(`${String(h).padStart(2, '0')}:${minVal}`);
+          });
+          hoursCol.appendChild(cell);
+        }
+
+        const minsCol = document.createElement('div');
+        minsCol.className = 'timepicker__col';
+        [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].forEach(mm => {
+          const cell = document.createElement('div');
+          cell.className = 'timepicker__cell';
+          if (mm === curM) cell.setAttribute('aria-selected', 'true');
+          cell.textContent = String(mm).padStart(2, '0');
+          cell.addEventListener('click', (e) => {
+            e.stopPropagation();
+            minsCol.querySelectorAll('.timepicker__cell').forEach(c => c.removeAttribute('aria-selected'));
+            cell.setAttribute('aria-selected', 'true');
+            const selH = hoursCol.querySelector('[aria-selected="true"]');
+            const hVal = selH ? selH.textContent : '00';
+            onSelect(`${hVal}:${String(mm).padStart(2, '0')}`);
+          });
+          minsCol.appendChild(cell);
+        });
+
+        pop.appendChild(hoursCol);
+        pop.appendChild(minsCol);
+
+        // auto-scroll to selected
+        setTimeout(() => {
+          const selH = hoursCol.querySelector('[aria-selected="true"]');
+          const selM = minsCol.querySelector('[aria-selected="true"]');
+          if (selH) hoursCol.scrollTop = selH.offsetTop - hoursCol.clientHeight / 2 + selH.offsetHeight / 2;
+          if (selM) minsCol.scrollTop = selM.offsetTop - minsCol.clientHeight / 2 + selM.offsetHeight / 2;
+        }, 30);
+
+        return pop;
+      };
+
+      document.querySelectorAll('[data-timepicker-trigger]').forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (trigger.dataset.open === 'true') { closeAllPopovers(); return; }
+          closeAllPopovers();
+          const valueEl = trigger.querySelector('[data-timepicker-value]');
+          const pop = buildTimepicker(valueEl.textContent, (picked) => {
+            valueEl.textContent = picked;
+            trigger.dataset.time = picked;
+          });
+          pop._trigger = trigger;
+          positionPopover(pop, trigger);
+          requestAnimationFrame(() => {
+            pop.dataset.open = 'true';
+            trigger.dataset.open = 'true';
+          });
+        });
+      });
+
+      // ===== SELECT =====
+      const SELECT_OPTIONS = {
+        duration: [
+          { value: '30', label: '30 min' },
+          { value: '45', label: '45 min' },
+          { value: '60', label: '60 min' },
+          { value: '90', label: '90 min' }
+        ],
+        frequency: [
+          { value: 'weekly', label: 'Co tydzień' },
+          { value: 'biweekly', label: 'Co 2 tygodnie' },
+          { value: 'monthly', label: 'Co miesiąc' },
+          { value: 'custom', label: 'Własna reguła', meta: 'Ustaw dni tygodnia' }
+        ],
+        room: [
+          { value: '1', label: 'Sala nr 1', meta: 'parter' },
+          { value: '2', label: 'Sala nr 2', meta: 'parter' },
+          { value: '3', label: 'Sala nr 3', meta: '1. piętro' },
+          { value: 'online', label: 'Zdalnie (Zoom)' }
+        ],
+        subject: [
+          { value: 'en', label: 'Język angielski' },
+          { value: 'de', label: 'Język niemiecki' },
+          { value: 'math', label: 'Matematyka' },
+          { value: 'pl', label: 'Język polski' }
+        ]
+      };
+
+      const buildSelect = (options, currentLabel, onSelect) => {
+        const pop = document.createElement('div');
+        pop.className = 'popover select-menu';
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'select-option';
+          if (opt.label === currentLabel) btn.setAttribute('aria-selected', 'true');
+          btn.innerHTML = `
+            <span style="display:flex; flex-direction:column; gap: 1px; text-align: left;">
+              <span>${opt.label}</span>
+              ${opt.meta ? `<span class="select-option__meta">${opt.meta}</span>` : ''}
+            </span>
+            <svg class="select-option__check" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6l2 2 4-4"/></svg>
+          `;
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            onSelect(opt);
+            closeAllPopovers();
+          });
+          pop.appendChild(btn);
+        });
+        document.body.appendChild(pop);
+        return pop;
+      };
+
+      document.querySelectorAll('[data-select-trigger]').forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (trigger.dataset.open === 'true') { closeAllPopovers(); return; }
+          closeAllPopovers();
+          const id = trigger.dataset.selectId;
+          const opts = SELECT_OPTIONS[id] || [];
+          const valueEl = trigger.querySelector('.select__value');
+          const pop = buildSelect(opts, valueEl.textContent.trim(), (opt) => {
+            valueEl.textContent = opt.label;
+          });
+          pop._trigger = trigger;
+          positionPopover(pop, trigger);
+          requestAnimationFrame(() => {
+            pop.dataset.open = 'true';
+            trigger.dataset.open = 'true';
+          });
+        });
+      });
+
+      // ===== AUTOCOMPLETE (simplified) =====
+      const AUTOCOMPLETE_DATA = {
+        teacher: [
+          { initials: 'AK', primary: 'Anna Kowalska', meta: 'Angielski, Niemiecki · 8 kursów' },
+          { initials: 'MP', primary: 'Marek Piotrowski', meta: 'Matematyka · 5 kursów' },
+          { initials: 'JW', primary: 'Joanna Wiśniewska', meta: 'Polski · 12 kursów' },
+          { initials: 'TZ', primary: 'Tomasz Zieliński', meta: 'Angielski · 3 kursy' }
+        ],
+        'student-1': [
+          { initials: 'TN', primary: 'Tomasz Nowak', meta: 'Opiekun: Jan Nowak' },
+          { initials: 'KM', primary: 'Karolina Mazur', meta: 'Opiekun: Ewa Mazur' },
+          { initials: 'MW', primary: 'Maciej Wójcik', meta: 'Samodzielny' },
+          { initials: 'AJ', primary: 'Aleksandra Jankowska', meta: 'Opiekun: Piotr Jankowski' }
+        ]
+      };
+
+      const buildAutocomplete = (id, currentLabel, onSelect) => {
+        const pop = document.createElement('div');
+        pop.className = 'popover autocomplete-menu';
+        const data = AUTOCOMPLETE_DATA[id] || [];
+
+        const searchWrap = document.createElement('div');
+        searchWrap.style.cssText = 'padding: 6px; border-bottom: 1px solid var(--border);';
+        const searchInput = document.createElement('input');
+        searchInput.className = 'input';
+        searchInput.placeholder = 'Szukaj...';
+        searchInput.style.height = '28px';
+        searchWrap.appendChild(searchInput);
+        pop.appendChild(searchWrap);
+
+        const list = document.createElement('div');
+        list.style.cssText = 'padding: 4px; max-height: 220px; overflow: auto;';
+        pop.appendChild(list);
+
+        const renderList = (filter = '') => {
+          list.innerHTML = '';
+          const f = filter.trim().toLowerCase();
+          const filtered = data.filter(d => d.primary.toLowerCase().includes(f) || d.meta.toLowerCase().includes(f));
+          if (filtered.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'autocomplete-empty';
+            empty.textContent = 'Brak wyników';
+            list.appendChild(empty);
+            return;
+          }
+          filtered.forEach(d => {
+            const opt = document.createElement('button');
+            opt.type = 'button';
+            opt.className = 'autocomplete-option';
+            opt.innerHTML = `
+              <span class="autocomplete-option__avatar">${d.initials}</span>
+              <span class="autocomplete-option__text">
+                <span class="autocomplete-option__primary">${d.primary}</span>
+                <span class="autocomplete-option__meta">${d.meta}</span>
+              </span>
+            `;
+            opt.addEventListener('click', (e) => {
+              e.stopPropagation();
+              onSelect(d);
+              closeAllPopovers();
+            });
+            list.appendChild(opt);
+          });
+        };
+
+        renderList();
+        searchInput.addEventListener('input', (e) => {
+          e.stopPropagation();
+          renderList(searchInput.value);
+        });
+
+        document.body.appendChild(pop);
+        setTimeout(() => searchInput.focus(), 30);
+        return pop;
+      };
+
+      document.querySelectorAll('[data-autocomplete-trigger]').forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (trigger.dataset.open === 'true') { closeAllPopovers(); return; }
+          closeAllPopovers();
+          const id = trigger.dataset.autocompleteId;
+          const primaryEl = trigger.querySelector('.autocomplete-option__primary');
+          const pop = buildAutocomplete(id, primaryEl ? primaryEl.textContent : '', (d) => {
+            const textEl = trigger.querySelector('.autocomplete-option__text');
+            const avatarEl = trigger.querySelector('.autocomplete-option__avatar');
+            if (avatarEl) avatarEl.textContent = d.initials;
+            if (textEl) {
+              textEl.innerHTML = `<span class="autocomplete-option__primary">${d.primary}</span><span class="autocomplete-option__meta">${d.meta}</span>`;
+            }
+          });
+          pop._trigger = trigger;
+          const rect = trigger.getBoundingClientRect();
+          pop.style.position = 'absolute';
+          pop.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+          pop.style.left = (rect.left + window.scrollX) + 'px';
+          pop.style.width = rect.width + 'px';
+          requestAnimationFrame(() => {
+            pop.dataset.open = 'true';
+            trigger.dataset.open = 'true';
+          });
+        });
+      });
+
+      // ===== COLOR SWATCHES =====
+      document.querySelectorAll('[data-swatches]').forEach(group => {
+        group.querySelectorAll('.swatch').forEach(sw => {
+          sw.addEventListener('click', () => {
+            group.querySelectorAll('.swatch').forEach(s => s.setAttribute('aria-checked', 'false'));
+            sw.setAttribute('aria-checked', 'true');
+          });
+        });
+      });
+
+      // ===== PANEL toggle =====
+      document.querySelectorAll('[data-panel-toggle]').forEach(head => {
+        head.addEventListener('click', () => {
+          const panel = head.closest('[data-panel]');
+          panel.dataset.open = panel.dataset.open === 'true' ? 'false' : 'true';
+        });
+      });
+
+      // ===== THEME SWITCHER =====
+      const THEME_KEY = 'schooleo-form-theme';
+      const SCREEN_KEY = 'schooleo-form-screen';
+      const THEMES = ['schooleo','linear','jira','notion','ios'];
+      const SCREENS = ['form','calendar'];
+
+      const themeButtons = document.querySelectorAll('.theme-switcher__options[data-group="theme"] button');
+      const screenButtons = document.querySelectorAll('.theme-switcher__options[data-group="screen"] button');
+
+      const applyTheme = (theme) => {
+        THEMES.forEach(t => document.body.classList.remove(`theme-${t}`));
+        document.body.classList.add(`theme-${theme}`);
+        themeButtons.forEach(b => b.setAttribute('aria-checked', b.dataset.theme === theme ? 'true' : 'false'));
+        try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+      };
+      const applyScreen = (screen) => {
+        document.body.dataset.screen = screen;
+        screenButtons.forEach(b => b.setAttribute('aria-checked', b.dataset.screen === screen ? 'true' : 'false'));
+        try { localStorage.setItem(SCREEN_KEY, screen); } catch (e) {}
+      };
+      themeButtons.forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.theme)));
+      screenButtons.forEach(b => b.addEventListener('click', () => applyScreen(b.dataset.screen)));
+      try {
+        const savedTheme = localStorage.getItem(THEME_KEY);
+        if (savedTheme && THEMES.includes(savedTheme)) applyTheme(savedTheme);
+        const savedScreen = localStorage.getItem(SCREEN_KEY);
+        applyScreen(savedScreen && SCREENS.includes(savedScreen) ? savedScreen : 'form');
+      } catch (e) { applyScreen('form'); }
+
+      // ===== CALENDAR =====
+      const CAL_START = 8;   // 08:00
+      const CAL_END   = 20;  // 20:00
+      const CAL_PX    = 60;  // 1 px per minute
+      const CAL_HOURS = CAL_END - CAL_START;
+
+      const rooms = [
+        { n: 1, name: 'sala nr 1' },
+        { n: 2, name: 'sala nr 2' },
+        { n: 3, name: 'sala nr 3 · koncertowa' },
+        { n: 4, name: 'sala nr 4' },
+        { n: 5, name: 'sala nr 5' },
+        { n: 6, name: 'sala nr 6' },
+        { n: 7, name: 'sala nr 7' },
+        { n: 8, name: 'sala nr 8' },
+      ];
+      // r: room, s: start, e: end, k: przedmiot, t: tytuł (Nauczyciel: Uczeń), c: color
+      const events = [
+        { r: 1, s: '13:00', e: '13:50', k: 'wokal', t: 'Andrzejkiewicz Joachim: Markocki Jan', c: 1 },
+        { r: 1, s: '14:00', e: '14:50', k: 'wokal', t: 'Andrzejkiewicz Joachim: Wiatrowska Laura', c: 1 },
+        { r: 1, s: '15:00', e: '15:50', k: 'wokal', t: 'Andrzejkiewicz Joachim: Kaźmierczak Piotr', c: 1 },
+        { r: 1, s: '16:10', e: '17:00', k: 'wokal', t: 'Andrzejkiewicz Joachim: Brodniewicz Bruno', c: 1 },
+        { r: 1, s: '17:00', e: '17:50', k: 'wokal', t: 'Andrzejkiewicz Joachim: Brodniewicz Anna', c: 1 },
+
+        { r: 2, s: '15:10', e: '16:00', k: 'wokal', t: 'Sielicki Jan: Rasch Stanisław', c: 2 },
+        { r: 2, s: '16:00', e: '16:50', k: 'wokal', t: 'Sielicki Jan: Hempowicz Michał', c: 2 },
+        { r: 2, s: '17:00', e: '17:50', k: 'wokal', t: 'Sielicki Jan: Iwanecki Łukasz', c: 2 },
+
+        { r: 3, s: '15:00', e: '15:45', k: 'piano', t: 'Garniewicz Agnieszka: Dusikowska Urszula', c: 3 },
+        { r: 3, s: '15:45', e: '16:30', k: 'piano', t: 'Garniewicz Agnieszka: Suska Patrycja', c: 3 },
+        { r: 3, s: '16:30', e: '17:00', k: 'piano', t: 'Garniewicz Agnieszka: Kowalska Zuzia', c: 3 },
+        { r: 3, s: '17:15', e: '18:00', k: 'pianino', t: 'Garniewicz Agnieszka: Borowczyk Maja', c: 3 },
+
+        { r: 4, s: '16:00', e: '16:45', k: 'gitara elektryczna', t: 'Markowski Tomasz: Naskręt Piotr', c: 4 },
+        { r: 4, s: '16:45', e: '17:15', k: 'gitara klasyczna', t: 'Markowski Tomasz: Jabłoński Marek', c: 4 },
+        { r: 4, s: '17:15', e: '18:00', k: 'gitara elektryczna', t: 'Markowski Tomasz: Banasiewicz Bruno', c: 4 },
+
+        { r: 5, s: '16:45', e: '17:15', k: 'pianino', t: 'Jarocka Agata: Bielecka Anna', c: 5 },
+        { r: 5, s: '17:15', e: '18:00', k: 'pianino', t: 'Jarocka Agata: Rogala Lilia', c: 5 },
+
+        { r: 6, s: '15:15', e: '16:00', k: 'skrzypce', t: 'John-Skorobohata Iwona: Adamska Lena', c: 6 },
+        { r: 6, s: '16:00', e: '16:45', k: 'skrzypce', t: 'John-Skorobohata Iwona: Szmuc Emma', c: 6 },
+        { r: 6, s: '16:45', e: '17:30', k: 'skrzypce', t: 'John-Skorobohata Iwona: Mossakowska Ola', c: 6 },
+
+        { r: 7, s: '14:30', e: '15:20', k: 'wokal', t: 'Komisar Katerina: Galińska Małgorzata', c: 2 },
+        { r: 7, s: '15:20', e: '16:10', k: 'wokal', t: 'Komisar Katerina: Pierzynowska Anna', c: 2 },
+        { r: 7, s: '16:10', e: '17:00', k: 'wokal', t: 'Komisar Katerina: Mączyńska Malina', c: 2 },
+        { r: 7, s: '17:10', e: '18:00', k: 'wokal', t: 'Komisar Katerina: Musielak Marianna', c: 2 },
+
+        { r: 8, s: '13:15', e: '14:00', k: 'skrzypce', t: 'Ossowska Karolina: Kondys Jakub', c: 6 },
+        { r: 8, s: '14:00', e: '14:45', k: 'piano', t: 'Ossowska Karolina: Śmiglak Martyna', c: 3 },
+        { r: 8, s: '14:45', e: '15:30', k: 'skrzypce', t: 'Ossowska Karolina: Pawełczak Inga', c: 6 },
+        { r: 8, s: '15:30', e: '16:00', k: 'piano', t: 'Ossowska Karolina: Jakubek Aleks', c: 3 },
+        { r: 8, s: '16:00', e: '16:45', k: 'ukulele', t: 'Ossowska Karolina: Czerska Zofia', c: 4 },
+        { r: 8, s: '16:45', e: '17:30', k: 'piano', t: 'Ossowska Karolina: Szar Tomek', c: 3 },
+      ];
+
+      const toMin = (hhmm) => {
+        const [h, m] = hhmm.split(':').map(Number);
+        return (h - CAL_START) * 60 + m;
+      };
+      const pxPerMin = () => CAL_PX / 60;
+
+      function assignColumns(evs) {
+        evs.sort((a, b) => toMin(a.s) - toMin(b.s));
+        evs.forEach(ev => {
+          const aS = toMin(ev.s), aE = toMin(ev.e);
+          for (let col = 0; ; col++) {
+            const conflict = evs.some(o =>
+              o !== ev && o._col === col &&
+              toMin(o.s) < aE && toMin(o.e) > aS
+            );
+            if (!conflict) { ev._col = col; break; }
+          }
+        });
+        return evs.reduce((mx, e) => Math.max(mx, e._col), 0) + 1;
+      }
+
+      function renderCalendar() {
+        const grid = document.getElementById('cal-grid');
+        if (!grid) return;
+        // header
+        const head = document.createElement('div');
+        head.className = 'cal-head';
+        head.innerHTML = `<div class="cal-head__corner"></div>` +
+          rooms.map(r => `
+            <div class="cal-head__room">
+              <span class="cal-head__room-num">${r.n}</span>
+              <span class="cal-head__room-name">${r.name}</span>
+            </div>`).join('');
+        grid.appendChild(head);
+
+        // body
+        const body = document.createElement('div');
+        body.className = 'cal-body';
+        const times = document.createElement('div');
+        times.className = 'cal-times';
+        for (let h = CAL_START; h < CAL_END; h++) {
+          const hr = document.createElement('div');
+          hr.className = 'cal-hour';
+          hr.textContent = h;
+          times.appendChild(hr);
+        }
+        body.appendChild(times);
+
+        const cols = document.createElement('div');
+        cols.className = 'cal-cols';
+        cols.style.height = (CAL_HOURS * CAL_PX) + 'px';
+
+        rooms.forEach(r => {
+          const col = document.createElement('div');
+          col.className = 'cal-col';
+          col.dataset.room = r.n;
+
+          const roomEvents = events.filter(e => e.r === r.n).map(e => ({ ...e }));
+          const nCols = assignColumns(roomEvents);
+
+          roomEvents.forEach(ev => {
+            const top = toMin(ev.s) * pxPerMin();
+            const h = (toMin(ev.e) - toMin(ev.s)) * pxPerMin();
+            const widthPct = 100 / nCols;
+            const leftPct = widthPct * ev._col;
+
+            const el = document.createElement('div');
+            el.className = 'cal-event';
+            el.dataset.c = ev.c;
+            el.style.cssText = `
+              top: ${top}px;
+              height: ${h - 2}px;
+              left: calc(${leftPct}% + 3px);
+              width: calc(${widthPct}% - 6px);
+            `;
+            el.innerHTML = `
+              <div class="cal-event__time">${ev.s}–${ev.e} <em>· ${ev.k}</em></div>
+              <div class="cal-event__title">${ev.t}</div>
+              <div class="cal-event__meta">${r.name}</div>
+            `;
+            col.appendChild(el);
+          });
+
+          cols.appendChild(col);
+        });
+        body.appendChild(cols);
+        grid.appendChild(body);
+      }
+      renderCalendar();
+
+    })();
+  </script>
+</body>
+</html>
