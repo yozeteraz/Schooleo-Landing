@@ -49,29 +49,37 @@
   --brand-subtle:  var(--color-primary-100);
 
   /* ---------- Typografia ---------- */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Wartości zsynchronizowane z Figma Text Styles (file: T3MkG8vqRgLc5BzM3DA1aS) */
+  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-accent:  'Caveat', 'Inter', sans-serif;
 
-  /* Rozmiary + line-height + letter-spacing (z Figma text styles) */
-  --font-display-statement: 700 72px/1.05 var(--font-sans);
-  --font-display-hero:      700 64px/1.08 var(--font-sans);
-  --font-display-xl:        700 52px/1.08 var(--font-sans);
-  --font-display-l:         700 40px/1.1  var(--font-sans);
-  --font-h1:                700 36px/1.2  var(--font-sans);
-  --font-h2:                600 24px/1.33 var(--font-sans);
-  --font-h3:                600 20px/1.4  var(--font-sans);
-  --font-body-large:        400 18px/1.75 var(--font-sans);
-  --font-body:              400 16px/1.5  var(--font-sans);
-  --font-body-small:        400 14px/1.43 var(--font-sans);
+  /* Rozmiary + line-height (font shorthand: weight size/line-height family) */
+  --font-display-statement: 800 78px/1.02 var(--font-sans);
+  --font-display-hero:      800 64px/1.05 var(--font-sans);
+  --font-display-xl:        800 52px/1.10 var(--font-sans);
+  --font-display-l:         800 46px/1.10 var(--font-sans);
+  --font-h1:                800 36px/1.20 var(--font-sans);
+  --font-h2:                800 24px/1.20 var(--font-sans);
+  --font-h3:                700 20px/1.40 var(--font-sans);
+  --font-body-large:        400 19px/1.50 var(--font-sans);
+  --font-body:              400 17px/1.55 var(--font-sans);
+  --font-body-small:        400 14px/1.45 var(--font-sans);
   --font-label:             600 14px/1.43 var(--font-sans);
   --font-label-small:       600 12px/1.33 var(--font-sans);
   --font-eyebrow:           400 11px/1.45 var(--font-sans);
   --font-caption:           400 12px/1.33 var(--font-sans);
+  --font-accent-handwritten: 400 24px/1.30 var(--font-accent);
 
-  /* Letter-spacing (oddzielnie — do zastosowania na .class) */
-  --tracking-display: -0.06em;
-  --tracking-heading: -0.03em;
-  --tracking-label:   0.02em;
-  --tracking-eyebrow: 0.14em;
+  /* Letter-spacing — per token (Figma używa różnych wartości na display/heading) */
+  --tracking-display-statement: -0.035em;
+  --tracking-display-hero:      -0.035em;
+  --tracking-display-xl:        -0.03em;
+  --tracking-display-l:         -0.03em;
+  --tracking-h1:                -0.03em;
+  --tracking-h2:                -0.02em;
+  --tracking-h3:                -0.01em;
+  --tracking-label:              0.02em;
+  --tracking-eyebrow:            0.14em;
 
   /* ---------- Spacing (4px base) ---------- */
   --space-1:  4px;

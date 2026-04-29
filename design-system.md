@@ -83,26 +83,33 @@ W każdym HTML-u dołącz `tokens.css` przed własnymi stylami:
 
 ---
 
-## Typografia (z Figma text styles)
+## Typografia (zsynchronizowane z Figma Text Styles)
 
-| Token CSS | Rozmiar | Waga | LH | Tracking | Użycie |
-|-----------|---------|------|----|----------|--------|
-| `--font-display-statement` | 72px | 800 | 1.05 | -6% | Statement headline |
-| `--font-display-hero`      | 64px | 800 | 1.08 | -6% | Hero h1 |
-| `--font-display-xl`        | 52px | 800 | 1.08 | -5% | Sign-off, FAQ heading |
-| `--font-display-l`         | 40px | 800 | 1.10 | -5% | Feature/section headings |
-| `--font-h1`                | 36px | 800 | 1.20 | -3% | Section titles |
-| `--font-h2`                | 24px | 600 | 1.33 | -0.2px | — |
-| `--font-h3`                | 20px | 600 | 1.40 | 0 | — |
-| `--font-body-large`        | 18px | 400 | 1.75 | 0 | Główny body text |
-| `--font-body`              | 16px | 400 | 1.50 | 0 | Opisy, wartości inputów |
-| `--font-body-small`        | 14px | 400 | 1.43 | 0 | Feature list, dense input |
-| `--font-label`             | 14px | 600 | 1.43 | +0.1px | Label formularza |
-| `--font-label-small`       | 12px | 600 | 1.33 | +0.2px | Label mały (uppercase opcjonalnie) |
-| `--font-eyebrow`           | 11px | 400 | 1.45 | +14% | Eyebrow (uppercase) |
-| `--font-caption`           | 12px | 400 | 1.33 | +0.1px | Helper, error, notki |
+Źródło prawdy: style tekstowe w pliku Figma `T3MkG8vqRgLc5BzM3DA1aS`. Wszystkie role pochodzą z faktycznego użycia w landingu — landing łapie display/heading/body, formularz/kalendarz łapią body-small/label/caption. **Jeden zbiór, oba światy.**
 
-> Letter-spacing trackingów: `--tracking-display` (-6%), `--tracking-heading` (-3%), `--tracking-label` (+2%), `--tracking-eyebrow` (+14%).
+| Token CSS | Figma | Rozmiar | Waga | LH | Tracking | Użycie |
+|-----------|-------|---------|------|----|----------|--------|
+| `--font-display-statement`  | Display / Statement   | 78px | 800 (Extra Bold) | 1.02 | -3.5% | Statement headline |
+| `--font-display-hero`       | Display / Hero        | 64px | 800 (Extra Bold) | 1.05 | -3.5% | Hero h1 |
+| `--font-display-xl`         | Display / XL          | 52px | 800 (Extra Bold) | 1.10 | -3% | Sign-off, FAQ heading |
+| `--font-display-l`          | Display / L           | 46px | 800 (Extra Bold) | 1.10 | -3% | Feature/section headings |
+| `--font-h1`                 | Heading / H1          | 36px | 800 (Extra Bold) | 1.20 | -3% | Section titles |
+| `--font-h2`                 | Heading / H2          | 24px | 800 (Extra Bold) | 1.20 | -2% | Subsekcje, kafelki |
+| `--font-h3`                 | Heading / H3          | 20px | 700 (Bold) | 1.40 | -1% | Tytuły kart, akapitów |
+| `--font-body-large`         | Body / Large          | 19px | 400 (Regular) | 1.50 | 0 | Marketing body, lead |
+| `--font-body`               | Body / Default        | 17px | 400 (Regular) | 1.55 | 0 | Główny body landingu |
+| `--font-body-small`         | Body / Small          | 14px | 400 (Regular) | 1.45 | 0 | **Wartości inputów, dense UI (formularz/kalendarz)** |
+| `--font-label`              | Label / Default       | 14px | 600 (Semi Bold) | 1.43 | +2% | **Label formularza** |
+| `--font-label-small`        | Label / Small         | 12px | 600 (Semi Bold) | 1.33 | +2% | Label mały, mikroprzyciski |
+| `--font-eyebrow`            | Eyebrow               | 11px | 400 (Regular) | 1.45 | +14% | Eyebrow (uppercase) |
+| `--font-caption`            | Caption               | 12px | 400 (Regular) | 1.33 | 0 | **Helper, error, meta** |
+| `--font-accent-handwritten` | Accent / Handwritten  | 24px | 400 (Regular, Caveat) | 1.30 | 0 | Pojedyncze akcenty „odręczne" w landingu |
+
+> Letter-spacing per token: `--tracking-display-statement` / `-hero` (-3.5%), `--tracking-display-xl` / `-l` / `--tracking-h1` (-3%), `--tracking-h2` (-2%), `--tracking-h3` (-1%), `--tracking-label` (+2%), `--tracking-eyebrow` (+14%). Body i caption — bez trackingu.
+
+**Wyjątki spoza systemu Inter:**
+- Logo „Schooleo" — Lato Black (oddzielny komponent brandowy, nie token tekstowy)
+- Wielki cytat na landingu — Georgia Bold (jednorazowy akcent redakcyjny)
 
 ---
 
