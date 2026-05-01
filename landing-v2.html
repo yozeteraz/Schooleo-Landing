@@ -313,6 +313,24 @@
       stroke-width: 2;
     }
 
+    .hero__price-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: var(--space-5);
+      padding: 8px 14px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+    }
+    .hero__price-chip strong { color: var(--text); font-weight: 700; }
+    .hero__price-chip:hover { background: var(--color-paper); border-color: var(--border-strong); color: var(--text); }
+    .hero__price-chip__dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-neutral-400); display: inline-block; }
+
     /* ---------- Statement section (dark) ---------- */
     /* figma: 16:114 — bg forest-900, eyebrow Caveat, h2 52px Display/XL, paragrafy body-large */
     .statement {
@@ -773,66 +791,184 @@
     .faq__a-inner p { margin: 0 0 12px; }
     .faq__a-inner p:last-child { margin-bottom: 0; }
 
-    /* ---------- Final CTA — figma 16:688 / parytet z live (.final-cta) ---------- */
-    .final-cta {
-      background: var(--color-orange-500);
-      color: #fff;
+    /* ---------- Pricing — figma 16:688 / sekcja kalkulatora ---------- */
+    .pricing {
+      background: var(--bg-warm);
       padding: 96px 0;
+      border-top: 1px solid var(--border);
+    }
+    .pricing__inner {
+      max-width: 720px;
+      margin: 0 auto;
       text-align: center;
-      position: relative;
-      overflow: hidden;
     }
-    .final-cta::before, .final-cta::after {
-      content: '';
-      position: absolute;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 60%);
-    }
-    .final-cta::before { top: -80px; left: -80px; }
-    .final-cta::after  { bottom: -100px; right: -80px; }
-    .final-cta__inner { position: relative; z-index: 2; }
-    .final-cta__kicker {
+    .pricing__kicker {
       font-family: var(--font-accent);
       font-size: 30px;
-      color: var(--color-butter);
+      color: var(--color-orange-500);
       display: inline-block;
       transform: rotate(-2deg);
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
-    .final-cta h2 {
-      font-size: clamp(36px, 5vw, 64px);
+    .pricing__heading {
+      font-size: clamp(34px, 4.5vw, 52px);
       font-weight: 800;
-      letter-spacing: -0.035em;
-      line-height: 1.05;
-      margin: 0 0 24px;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      margin: 0 0 16px;
+      color: var(--text);
       text-wrap: balance;
     }
-    .final-cta p {
-      font-size: 19px;
-      opacity: 0.9;
-      max-width: 540px;
-      margin: 0 auto 36px;
-      line-height: 1.5;
+    .pricing__heading .hl {
+      background-image: linear-gradient(transparent 60%, var(--color-butter) 60%, var(--color-butter) 92%, transparent 92%);
+      background-repeat: no-repeat;
+      padding-inline: 0.06em;
     }
-    .final-cta__btn {
-      background: #fff;
-      color: var(--color-orange-500);
-      border: none;
-      font-family: inherit;
-      font-size: 17px;
-      font-weight: 700;
-      padding: 16px 26px;
-      border-radius: 10px;
+    .pricing__lead {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+
+    .pricing__widget {
+      background: var(--color-paper);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 32px;
+      margin-top: 48px;
+      text-align: center;
+    }
+
+    .pricing__toggle {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 32px;
+    }
+    .pricing__toggle-opt {
+      border: 0;
+      background: transparent;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font: var(--font-label);
+      letter-spacing: 0;
+      color: var(--text-muted);
       cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
-      transition: transform 80ms, box-shadow 80ms;
+      transition: background var(--transition-fast), color var(--transition-fast);
     }
-    .final-cta__btn:hover { transform: translateY(1px); box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2); }
-    .final-cta__btn:active { transform: translateY(4px); box-shadow: 0 0 0 rgba(0, 0, 0, 0.2); }
+    .pricing__toggle-opt.is-active {
+      background: var(--color-paper);
+      color: var(--text);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+    .pricing__discount {
+      color: var(--color-orange-500);
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    .pricing__field { margin-bottom: 28px; }
+    .pricing__label {
+      display: block;
+      font: var(--font-eyebrow);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .pricing__pills {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .pricing__pill {
+      border: 0;
+      background: transparent;
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .pricing__pill:hover { color: var(--text); }
+    .pricing__pill.is-active {
+      background: var(--color-orange-500);
+      color: var(--color-paper);
+    }
+
+    .pricing__price {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 6px;
+    }
+    .pricing__amount {
+      font-size: clamp(56px, 8vw, 78px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      line-height: 1;
+    }
+    .pricing__currency { font-size: 28px; font-weight: 700; color: var(--text); }
+    .pricing__period { font-size: 18px; color: var(--text-muted); }
+
+    .pricing__per-student {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 6px 0 0;
+    }
+    .pricing__yearly-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 4px 0 0;
+    }
+    .pricing__yearly-note[hidden] { display: none; }
+
+    .pricing__benefits {
+      list-style: none;
+      padding: 0;
+      margin: 28px auto 32px;
+      text-align: left;
+      max-width: 380px;
+    }
+    .pricing__benefits li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      padding: 6px 0;
+      color: var(--text);
+    }
+    .pricing__benefits svg {
+      width: 18px;
+      height: 18px;
+      color: var(--color-orange-500);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pricing__cta {
+      width: 100%;
+      max-width: 320px;
+    }
+    .pricing__small {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 16px 0 0;
+    }
+
+    @media (max-width: 640px) {
+      .pricing { padding: 64px 0; }
+      .pricing__widget { padding: 28px 20px; }
+    }
 
     /* ---------- Footer — figma 16:704 ---------- */
     .footer {
@@ -952,6 +1088,14 @@
             karta niepotrzebna
           </span>
         </div>
+
+        <a href="#cennik" class="hero__price-chip">
+          od&nbsp;<strong>149&nbsp;zł / mies.</strong>
+          <span class="hero__price-chip__dot" aria-hidden="true"></span>
+          bez karty
+          <span class="hero__price-chip__dot" aria-hidden="true"></span>
+          30 dni za&nbsp;darmo
+        </a>
       </div>
     </section>
 
@@ -1221,15 +1365,49 @@
       </div>
     </section>
 
-    <!-- ============ FINAL CTA ============ -->
-    <!-- figma: 16:688 — Sign-off "Zacznij od poniedziałku" -->
-    <section class="final-cta" id="cennik" data-figma="16:688">
+    <!-- ============ PRICING ============ -->
+    <!-- figma: 16:688 — kalkulator ceny: liczba uczniów × cykl rozliczeń -->
+    <section class="pricing" id="cennik" data-figma="16:688">
       <div class="container">
-        <div class="final-cta__inner">
-          <span class="final-cta__kicker">A może tyle już tej teorii?</span>
-          <h2>Zacznij od&nbsp;poniedziałku.</h2>
-          <p>30 dni za&nbsp;darmo. Bez karty. Bez rozmowy handlowej. Tylko Ty, Twoje dane i&nbsp;spokojny grafik.</p>
-          <a href="#" class="final-cta__btn">Załóż konto Schooleo</a>
+        <div class="pricing__inner">
+          <span class="pricing__kicker">Prosto i&nbsp;po&nbsp;ludzku</span>
+          <h2 class="pricing__heading">Płacisz tylko za&nbsp;<span class="hl">tylu uczniów,&nbsp;ilu&nbsp;masz</span>.</h2>
+          <p class="pricing__lead">Wszystkie funkcje od pierwszego dnia. Bez modułów do dokupienia, bez ukrytych dopłat. Wybierz pakiet, który pasuje do&nbsp;Twojej skali.</p>
+
+          <div class="pricing__widget" id="pricing-widget">
+            <div class="pricing__toggle" role="radiogroup" aria-label="Cykl rozliczeń">
+              <button type="button" class="pricing__toggle-opt is-active" data-cycle="monthly" aria-pressed="true">Miesięcznie</button>
+              <button type="button" class="pricing__toggle-opt" data-cycle="yearly" aria-pressed="false">Rocznie<span class="pricing__discount">-20%</span></button>
+            </div>
+
+            <div class="pricing__field">
+              <span class="pricing__label">Liczba uczniów</span>
+              <div class="pricing__pills" role="radiogroup" aria-label="Liczba uczniów">
+                <button type="button" class="pricing__pill is-active" data-students="100" aria-pressed="true">do 100</button>
+                <button type="button" class="pricing__pill" data-students="200" aria-pressed="false">do 200</button>
+                <button type="button" class="pricing__pill" data-students="300" aria-pressed="false">do 300</button>
+                <button type="button" class="pricing__pill" data-students="400" aria-pressed="false">do 400</button>
+              </div>
+            </div>
+
+            <div class="pricing__price" aria-live="polite">
+              <span class="pricing__amount" id="pricing-amount">149</span>
+              <span class="pricing__currency">zł</span>
+              <span class="pricing__period">/&nbsp;mies.</span>
+            </div>
+            <p class="pricing__per-student" id="pricing-per-student">to&nbsp;ok. 1,49&nbsp;zł za&nbsp;ucznia miesięcznie</p>
+            <p class="pricing__yearly-note" id="pricing-yearly-note" hidden>Płatne raz w&nbsp;roku — <span id="pricing-yearly-total">1430</span>&nbsp;zł</p>
+
+            <ul class="pricing__benefits">
+              <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Wszystkie funkcje — plan, kadra, faktury, raporty</li>
+              <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Nielimitowani lektorzy i&nbsp;administratorzy</li>
+              <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Powiadomienia SMS i&nbsp;e-mail w&nbsp;cenie</li>
+              <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>30 dni za&nbsp;darmo, bez karty, bez wdrożenia</li>
+            </ul>
+
+            <a href="#" class="btn btn--primary pricing__cta">Załóż konto Schooleo</a>
+            <p class="pricing__small">Możesz zmienić pakiet w&nbsp;każdej chwili. Bez umowy na&nbsp;czas określony.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -1300,6 +1478,60 @@
         const btn = item.querySelector('.faq__q');
         if (btn) btn.addEventListener('click', () => setFaqOpen(item, !item.classList.contains('is-open')));
       });
+
+      // Pricing calculator
+      const pricing = document.getElementById('pricing-widget');
+      if (pricing) {
+        const PRICES = {
+          monthly: { 100: 149, 200: 249, 300: 349, 400: 449 },
+          yearly:  { 100: 119, 200: 199, 300: 279, 400: 359 },
+        };
+        const YEARLY_TOTAL = { 100: 1430, 200: 2390, 300: 3350, 400: 4310 };
+        const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0');
+
+        const state = { cycle: 'monthly', students: 100 };
+
+        const $amount = document.getElementById('pricing-amount');
+        const $perStudent = document.getElementById('pricing-per-student');
+        const $yearlyNote = document.getElementById('pricing-yearly-note');
+        const $yearlyTotal = document.getElementById('pricing-yearly-total');
+        const $cycleBtns = pricing.querySelectorAll('.pricing__toggle-opt');
+        const $pillBtns = pricing.querySelectorAll('.pricing__pill');
+
+        const render = () => {
+          const price = PRICES[state.cycle][state.students];
+          $amount.textContent = fmt(price);
+          const perStudentZl = price / state.students;
+          const formatted = perStudentZl.toFixed(2).replace('.', ',');
+          $perStudent.textContent = `to\u00A0ok. ${formatted}\u00A0zł za\u00A0ucznia miesięcznie`;
+          if (state.cycle === 'yearly') {
+            $yearlyTotal.textContent = fmt(YEARLY_TOTAL[state.students]);
+            $yearlyNote.hidden = false;
+          } else {
+            $yearlyNote.hidden = true;
+          }
+          $cycleBtns.forEach((b) => {
+            const active = b.dataset.cycle === state.cycle;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          $pillBtns.forEach((b) => {
+            const active = Number(b.dataset.students) === state.students;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+        };
+
+        $cycleBtns.forEach((b) => b.addEventListener('click', () => {
+          state.cycle = b.dataset.cycle;
+          render();
+        }));
+        $pillBtns.forEach((b) => b.addEventListener('click', () => {
+          state.students = Number(b.dataset.students);
+          render();
+        }));
+        render();
+      }
     })();
   </script>
 </body>
