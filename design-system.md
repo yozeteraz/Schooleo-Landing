@@ -35,10 +35,52 @@ W każdym HTML-u dołącz `tokens.css` przed własnymi stylami:
 
 ## Logo
 
-- Tekst: "Schooleo", Inter Black, 24px, letter-spacing -1.44px (6%)
-- Na jasnym tle: tło białe, tekst `#164037` (ciemna zieleń)
-- Na ciemnym tle: tło `#164037`, tekst biały
-- Na brand tle: tło `#E84B20`, tekst biały
+Logo Schooleo = **ikona graduation cap z kropką (tassel)** + **wordmark „Schooleo"**. Inline SVG w kodzie — referencyjne źródło: `landing-v2.html` (topbar: linie 853–868, hero: 908–922).
+
+### Komponenty
+
+| Element | `viewBox` | Wypełnienie (jasne tło) |
+|---------|-----------|--------------------------|
+| Ikona — czapka | `0 0 72 72` | korpus `var(--color-orange-500)` (#E84B20), kropka/tassel `var(--color-forest-900)` (#164037) |
+| Wordmark „Schooleo" | `0 0 239 48` | `var(--color-ink-900)` (#1A1714) |
+
+Ikona i wordmark to **dwa osobne `<svg>`** w jednym kontenerze (`<a class="topbar__logo">` / `<div class="hero__brand">`). Skalują się niezależnie — proporcje wordmarku 239:48 nie ruszać.
+
+### Rozmiary użycia
+
+| Kontekst | Ikona | Wordmark (height) | Gap | Klasy CSS |
+|----------|-------|-------------------|-----|-----------|
+| **Topbar (po scrollu)** | 32×32 | 22px | `var(--space-2)` (8px) | `.topbar__logo .logo-icon` / `.logo-wordmark` |
+| **Hero (mobile)** | 56×56 | 38px | 14px | `.hero__brand-icon` / `.hero__brand-wordmark` |
+| **Hero (≥768px)** | 72×72 | 50px | 18px | jw. (media query) |
+
+### Warianty kolorystyczne
+
+| Wariant | Tło | Ikona — korpus | Ikona — kropka | Wordmark |
+|---------|-----|----------------|----------------|----------|
+| **Default (jasne tło)** ✓ | `#fff` lub `var(--bg-warm)` | `var(--color-orange-500)` | `var(--color-forest-900)` | `var(--color-ink-900)` |
+| **Na ciemnym tle** *(do zrobienia w Figmie)* | `var(--color-forest-900)` | `var(--color-orange-500)` | `var(--color-paper)` | `var(--color-paper)` |
+| **Na brand tle** *(do zrobienia w Figmie)* | `var(--color-orange-500)` | `var(--color-paper)` | `var(--color-forest-900)` | `var(--color-paper)` |
+
+> Wszystkie wypełnienia w SVG są podpięte do tokenów (`fill="var(--color-X)"`), więc wariant = jeden CSS override w kontekście (np. `.statement .logo-wordmark path { fill: var(--color-paper); }`).
+
+### Scroll-aware logo (landing)
+
+Topbar startuje **bez logo** (`opacity: 0; transform: translateY(-4px)`). Hero ma standalone brand block (`.hero__brand`) — duże logo widoczne tylko na pierwszym ekranie.
+
+Po przekroczeniu progu scrolla `<header class="topbar is-scrolled">`:
+1. Topbar ujawnia logo (`opacity: 1; transform: translateY(0)`, transition `220ms ease`).
+2. `.hero__brand` znika (selektor `.topbar.is-scrolled ~ main .hero__brand`).
+
+Efekt: brand pokazuje się raz „dużą czcionką", potem topbar przejmuje rolę identyfikacji marki.
+
+### Zasady
+
+- **Tylko inline SVG** — żadnych rasterów (PNG/JPG). Kolory muszą reagować na tokeny.
+- **Nie deformuj** proporcji (1:1 ikona, 239:48 wordmark).
+- **Bezpieczna przestrzeń** ≥ 8px (`--space-2`) wokół całego znaku.
+- **Minimalna wysokość wordmarku**: 18px — poniżej traci czytelność.
+- **Sam ikon (favicon, app icon)** — kwadrat z paddingiem ≥10% szerokości; nie używać samego wordmarku jako mark.
 
 ---
 

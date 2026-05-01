@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schooleo — prowadź szkołę, nie arkusze</title>
+  <meta name="description" content="Plan zajęć, lektorzy, faktury, SMS-y, raporty — bez modułów do dokupienia. Schooleo jest gotowe od pierwszego logowania.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Caveat:wght@400&display=swap">
+  <link rel="stylesheet" href="tokens.css">
+
+  <style>
+    /* ---------- Reset i baza ---------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font: var(--font-body);
+      color: var(--text);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+    ul { list-style: none; }
+
+    :focus-visible {
+      outline: 2px solid var(--color-orange-500);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ---------- Container — kolumna 1120px (1056px treści po 32px padding) ---------- */
+    .container {
+      max-width: 1120px;
+      margin-inline: auto;
+      padding-inline: var(--space-6);
+    }
+    @media (min-width: 768px) {
+      .container { padding-inline: var(--space-8); }
+    }
+
+    /* ---------- Topbar (glass, scroll-aware logo) ---------- */
+    /* figma: 16:3 Header — logo wyrównane do lewej krawędzi kolumny 1120px */
+    .topbar {
+      position: fixed;
+      top: 0; inset-inline: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(14px);
+      backdrop-filter: saturate(180%) blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition-base), background var(--transition-base);
+    }
+    .topbar.is-scrolled {
+      border-bottom-color: var(--border);
+      background: rgba(255, 255, 255, 0.85);
+    }
+    .topbar__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-6);
+      padding-block: var(--space-4);
+    }
+
+    .topbar__logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity var(--transition-base), transform var(--transition-base);
+      pointer-events: none;
+    }
+    .topbar.is-scrolled .topbar__logo {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .topbar__logo .logo-icon { width: 32px; height: 32px; }
+    .topbar__logo .logo-wordmark { height: 22px; width: auto; }
+
+    .topbar__nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+    .topbar__links {
+      display: none;
+      gap: var(--space-8);
+      font: var(--font-body-small);
+      font-weight: 500;
+    }
+    @media (min-width: 768px) {
+      .topbar__links { display: flex; }
+    }
+    .topbar__links a {
+      color: var(--text);
+      transition: color var(--transition-fast);
+    }
+    .topbar__links a:hover { color: var(--color-orange-500); }
+
+    .topbar__login {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 18px;
+      border: 1.5px solid var(--text);
+      border-radius: 999px;
+      font: var(--font-label);
+      letter-spacing: 0;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .topbar__login:hover {
+      background: var(--text);
+      color: var(--color-paper);
+    }
+
+    /* ---------- Burger (mobile, przed Zaloguj) ---------- */
+    .topbar__burger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px; height: 40px;
+      border-radius: 999px;
+      border: 1.5px solid var(--text);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+      flex: none;
+    }
+    .topbar__burger:hover { background: var(--text); color: var(--color-paper); }
+    .topbar__burger:hover .burger-icon line { stroke: var(--color-paper); }
+    @media (min-width: 768px) {
+      .topbar__burger { display: none; }
+    }
+    .burger-icon { width: 18px; height: 14px; }
+    .burger-icon line {
+      stroke: var(--text);
+      stroke-width: 2;
+      stroke-linecap: round;
+      transform-origin: 50% 50%;
+      transition: transform var(--transition-base), opacity var(--transition-fast);
+    }
+    .topbar.is-menu-open .burger-icon .l1 { transform: translateY(6px) rotate(45deg); }
+    .topbar.is-menu-open .burger-icon .l2 { opacity: 0; }
+    .topbar.is-menu-open .burger-icon .l3 { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ---------- Mobile drawer ---------- */
+    .mobile-drawer {
+      position: fixed;
+      inset: 0;
+      z-index: 99;
+      pointer-events: none;
+    }
+    .mobile-drawer__scrim {
+      position: absolute; inset: 0;
+      background: rgba(26, 23, 20, 0.4);
+      opacity: 0;
+      transition: opacity var(--transition-base);
+    }
+    .mobile-drawer__panel {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: min(360px, 100%);
+      background: #fff;
+      border-left: 1px solid var(--border);
+      transform: translateX(100%);
+      transition: transform var(--transition-base);
+      display: flex;
+      flex-direction: column;
+      padding: 88px var(--space-6) var(--space-6);
+    }
+    .mobile-drawer.is-open { pointer-events: auto; }
+    .mobile-drawer.is-open .mobile-drawer__scrim { opacity: 1; }
+    .mobile-drawer.is-open .mobile-drawer__panel { transform: translateX(0); }
+    @media (min-width: 768px) {
+      .mobile-drawer { display: none; }
+    }
+    .mobile-drawer__links {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .mobile-drawer__links a {
+      display: block;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      font: var(--font-h3);
+      letter-spacing: var(--tracking-h3);
+      color: var(--text);
+      transition: background var(--transition-fast);
+    }
+    .mobile-drawer__links a:hover { background: var(--bg-subtle); }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      padding-top: 90px;
+      padding-bottom: var(--space-16);
+      position: relative;
+    }
+    @media (min-width: 768px) {
+      .hero { padding-top: 130px; padding-bottom: 120px; }
+    }
+
+    /* hero brand — standalone logo na starcie (figma 28:148) */
+    .hero__brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: var(--space-8);
+      transition: opacity 200ms ease, transform 200ms ease;
+    }
+    .hero__brand-icon { width: 56px; height: 56px; flex-shrink: 0; }
+    .hero__brand-wordmark { height: 38px; width: auto; }
+    @media (min-width: 768px) {
+      .hero__brand { gap: 18px; margin-bottom: var(--space-10); }
+      .hero__brand-icon { width: 72px; height: 72px; }
+      .hero__brand-wordmark { height: 50px; }
+    }
+    /* gdy mini-logo w topbarze się pojawia, hero__brand się chowa */
+    .topbar.is-scrolled ~ main .hero__brand {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+
+    .hero__headline {
+      font: var(--font-display-hero);
+      letter-spacing: var(--tracking-display-hero);
+      max-width: 26ch;
+      margin-bottom: var(--space-8);
+    }
+    @media (min-width: 768px) {
+      .hero__headline {
+        font: var(--font-display-statement);
+        letter-spacing: var(--tracking-display-statement);
+      }
+    }
+
+    .hero__highlight {
+      background-image: linear-gradient(transparent 62%, var(--color-butter) 62%, var(--color-butter) 95%, transparent 95%);
+      background-repeat: no-repeat;
+      padding-inline: 0.04em;
+    }
+
+    .hero__body {
+      font: var(--font-body-large);
+      color: var(--text);
+      max-width: 52ch;
+      margin-bottom: var(--space-10);
+    }
+
+    .hero__cta-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font: var(--font-label);
+      letter-spacing: 0;
+      border-radius: 999px;
+      transition: background var(--transition-base), transform var(--transition-fast), box-shadow var(--transition-base);
+      cursor: pointer;
+    }
+    .btn--primary {
+      padding: 14px 24px;
+      background: var(--color-orange-500);
+      color: var(--color-paper);
+      font-size: 15px;
+      box-shadow: 0 1px 0 rgba(193, 58, 21, 0.6) inset, 0 6px 16px rgba(232, 75, 32, 0.18);
+    }
+    .btn--primary:hover {
+      background: var(--color-rust-700);
+      transform: translateY(-1px);
+      box-shadow: 0 1px 0 rgba(139, 37, 16, 0.5) inset, 0 8px 22px rgba(232, 75, 32, 0.26);
+    }
+    .btn--primary:active { transform: translateY(0); }
+
+    .hero__handwritten {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-accent);
+      font-size: 30px;
+      line-height: 1;
+      color: var(--color-forest-900);
+      font-weight: 700;
+    }
+    .hero__handwritten svg {
+      width: 50px;
+      height: 30px;
+      stroke-width: 2;
+    }
+
+    /* ---------- Statement section (dark) ---------- */
+    /* figma: 16:114 — bg forest-900, eyebrow Caveat, h2 52px Display/XL, paragrafy body-large */
+    .statement {
+      background: var(--color-forest-900);
+      color: var(--color-paper);
+      padding-block: 96px;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (min-width: 768px) {
+      .statement { padding-block: 120px; }
+    }
+
+    .statement__inner {
+      max-width: 780px;
+      margin-inline: auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .statement__illo {
+      position: absolute;
+      right: -40px;
+      bottom: -30px;
+      width: 400px;
+      height: 400px;
+      opacity: 0.95;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @media (max-width: 768px) {
+      .statement__illo { display: none; }
+    }
+
+    .statement__eyebrow {
+      display: inline-block;
+      font-family: var(--font-accent);
+      font-size: 24px;
+      line-height: 1.3;
+      color: var(--color-butter);
+      transform: rotate(-1.5deg);
+      margin-bottom: var(--space-3);
+    }
+    @media (min-width: 768px) {
+      .statement__eyebrow { font-size: 28px; }
+    }
+
+    .statement__headline {
+      font: var(--font-display-l);
+      letter-spacing: var(--tracking-display-l);
+      color: var(--color-paper);
+      margin-bottom: var(--space-10);
+    }
+    @media (min-width: 768px) {
+      .statement__headline {
+        font: var(--font-display-xl);
+        letter-spacing: var(--tracking-display-xl);
+      }
+    }
+
+    .statement__highlight {
+      background-image: linear-gradient(transparent 62%, rgba(253, 230, 138, 0.45) 62%, rgba(253, 230, 138, 0.45) 92%, transparent 92%);
+      background-repeat: no-repeat;
+      padding-inline: 0.06em;
+    }
+
+    .statement__body p {
+      font: var(--font-body-large);
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 640px;
+    }
+    .statement__body p + p { margin-top: var(--space-6); }
+    .statement__body strong { font-weight: 700; color: var(--color-paper); }
+    .statement__body .lead { color: var(--color-paper); font-weight: 700; }
+    .statement__body .lead-rest { color: rgba(255, 255, 255, 0.88); font-weight: 400; }
+
+    /* ---------- Features grid (6 things) ---------- */
+    /* figma: 16:167 — Sześć rzeczy, które robimy dobrze */
+    .features {
+      padding-block: 96px;
+      background: #fff;
+    }
+    @media (min-width: 768px) {
+      .features { padding-block: 120px; }
+    }
+
+    .features__heading {
+      font: var(--font-h1);
+      letter-spacing: var(--tracking-h1);
+      max-width: 18ch;
+      margin-bottom: var(--space-3);
+    }
+    @media (min-width: 768px) {
+      .features__heading {
+        font: var(--font-display-l);
+        letter-spacing: var(--tracking-display-l);
+      }
+    }
+    .features__heading .hl {
+      background-image: linear-gradient(transparent 60%, var(--color-butter) 60%, var(--color-butter) 92%, transparent 92%);
+      background-repeat: no-repeat;
+      padding-inline: 0.06em;
+    }
+
+    .features__sub {
+      font: var(--font-body-large);
+      color: var(--text-muted);
+      margin-bottom: var(--space-12);
+      max-width: 560px;
+    }
+    @media (min-width: 768px) {
+      .features__sub { margin-bottom: 64px; }
+    }
+
+    .features__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 56px var(--space-12);
+    }
+    @media (min-width: 768px) {
+      .features__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+      }
+    }
+
+    .feature__icon {
+      width: 220px;
+      height: 170px;
+      margin-bottom: var(--space-5);
+      border-radius: var(--radius-md);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      color: var(--color-orange-500);
+    }
+    .feature__icon svg { width: 56px; height: 56px; }
+
+    .feature__label {
+      display: inline-block;
+      font-family: var(--font-accent);
+      font-size: 22px;
+      line-height: 1.3;
+      color: var(--color-orange-500);
+      transform: rotate(-2deg);
+      margin-bottom: var(--space-3);
+    }
+
+    .feature__title {
+      font: var(--font-h2);
+      letter-spacing: var(--tracking-h2);
+      color: var(--text);
+      margin-bottom: var(--space-3);
+    }
+    .feature__title .hl {
+      background-image: linear-gradient(transparent 60%, var(--color-butter) 60%, var(--color-butter) 92%, transparent 92%);
+      background-repeat: no-repeat;
+      padding-inline: 0.06em;
+    }
+
+    .feature__body {
+      font: var(--font-body);
+      color: var(--text-muted);
+      max-width: 440px;
+    }
+
+    /* ---------- Trusted by — figma 16:494 / parytet z live (.clients) ---------- */
+    .trusted {
+      background: #fff;
+      padding: 80px 0 60px;
+      overflow: hidden;
+    }
+    .trusted__heading {
+      font-family: var(--font-accent);
+      font-size: 24px;
+      line-height: 1.3;
+      text-align: center;
+      color: #3A342D;
+      margin: 0 0 24px;
+    }
+    .trusted__strip {
+      position: relative;
+      overflow: hidden;
+      padding: 16px 0;
+      mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+    }
+    .trusted__track {
+      display: flex;
+      gap: 72px;
+      width: max-content;
+      animation: trusted-marquee 40s linear infinite;
+    }
+    @keyframes trusted-marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .trusted__logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      color: #3A342D;
+      opacity: 0.65;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: opacity 120ms ease;
+    }
+    .trusted__logo:hover { opacity: 1; }
+    .trusted__monogram {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* ---------- Quote — figma 16:620 / parytet z live (.testi-card) ---------- */
+    .quote-section {
+      padding: 100px 0;
+      background: #fff;
+    }
+    .quote {
+      background: #fff;
+      border: 1px solid rgba(26, 23, 20, 0.08);
+      border-radius: 16px;
+      padding: 48px;
+      max-width: 820px;
+      margin: 0 auto;
+      box-shadow: 0 1px 0 rgba(26, 23, 20, 0.03), 0 20px 50px rgba(26, 23, 20, 0.07);
+      position: relative;
+    }
+    .quote::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 32px;
+      font-family: Georgia, serif;
+      font-weight: 700;
+      font-size: 140px;
+      line-height: 1;
+      color: var(--color-orange-500);
+    }
+    .quote__body {
+      margin: 0 0 24px;
+      font-size: 24px;
+      line-height: 1.45;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+      color: var(--text);
+    }
+    .quote__body strong { font-weight: 700; }
+    .quote__author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .quote__avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--color-orange-500);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .quote__author-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .quote__name {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    .quote__meta {
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px) {
+      .quote { padding: 40px 24px; }
+      .quote::before { font-size: 100px; left: 16px; top: -8px; }
+      .quote__body { font-size: 19px; }
+      .quote-section { padding: 64px 0; }
+      .trusted { padding: 56px 0 40px; }
+    }
+
+    /* ---------- YES list (chip grid) — figma 16:410 / parytet z live (.yes) ---------- */
+    .yes {
+      background: #FBF7EF;
+      padding: 100px 0;
+      position: relative;
+    }
+    .yes__intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: end;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 760px) {
+      .yes__intro { grid-template-columns: 1fr; }
+    }
+    .yes__heading {
+      font-size: clamp(36px, 4.8vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1;
+      margin: 0;
+      text-wrap: balance;
+      color: var(--text);
+    }
+    .yes__big {
+      font-family: var(--font-accent);
+      font-size: 1.4em;
+      color: var(--color-orange-500);
+      display: inline-block;
+      transform: rotate(-4deg);
+      margin-right: 4px;
+    }
+    .yes__lead {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #3A342D;
+      margin: 0;
+    }
+    .yes__list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px 48px;
+    }
+    @media (max-width: 760px) {
+      .yes__list { grid-template-columns: 1fr; }
+    }
+    .yes__item {
+      display: flex;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px dashed rgba(26, 23, 20, 0.18);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+    .yes__check {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      margin-top: 1px;
+      color: var(--color-orange-500);
+    }
+
+    /* ---------- FAQ — figma 16:637 / parytet z live (.faq) ---------- */
+    .faq-section {
+      padding: 80px 0 100px;
+      border-top: 1px solid rgba(26, 23, 20, 0.08);
+      background: #fff;
+    }
+    .wrap-narrow { max-width: 780px; margin: 0 auto; padding: 0 32px; }
+    .faq-section h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0 0 12px;
+      line-height: 1.05;
+      color: var(--text);
+    }
+    .faq__sub {
+      font-size: 17px;
+      color: #3A342D;
+      margin: 0 0 48px;
+      max-width: 520px;
+      line-height: 1.55;
+    }
+    .faq__sub a { color: var(--color-orange-500); text-decoration: underline; }
+    .faq-item {
+      border-top: 1px solid rgba(26, 23, 20, 0.14);
+      padding: 0;
+    }
+    .faq-item:last-child { border-bottom: 1px solid rgba(26, 23, 20, 0.14); }
+    .faq__q {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 24px 0;
+      font-family: inherit;
+      font-size: 20px;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      letter-spacing: -0.01em;
+    }
+    .faq__q:hover { color: var(--color-orange-500); }
+    .faq__q .chev {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      color: var(--color-orange-500);
+      transition: transform 220ms cubic-bezier(.4, 0, .2, 1);
+    }
+    .faq-item.is-open .faq__q .chev { transform: rotate(45deg); }
+    .faq__a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 320ms cubic-bezier(.4, 0, .2, 1);
+    }
+    .faq__a-inner {
+      padding: 0 0 28px;
+      max-width: 720px;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #3A342D;
+    }
+    .faq__a-inner p { margin: 0 0 12px; }
+    .faq__a-inner p:last-child { margin-bottom: 0; }
+
+    /* ---------- Final CTA — figma 16:688 / parytet z live (.final-cta) ---------- */
+    .final-cta {
+      background: var(--color-orange-500);
+      color: #fff;
+      padding: 96px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta::before, .final-cta::after {
+      content: '';
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 60%);
+    }
+    .final-cta::before { top: -80px; left: -80px; }
+    .final-cta::after  { bottom: -100px; right: -80px; }
+    .final-cta__inner { position: relative; z-index: 2; }
+    .final-cta__kicker {
+      font-family: var(--font-accent);
+      font-size: 30px;
+      color: var(--color-butter);
+      display: inline-block;
+      transform: rotate(-2deg);
+      margin-bottom: 16px;
+    }
+    .final-cta h2 {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      margin: 0 0 24px;
+      text-wrap: balance;
+    }
+    .final-cta p {
+      font-size: 19px;
+      opacity: 0.9;
+      max-width: 540px;
+      margin: 0 auto 36px;
+      line-height: 1.5;
+    }
+    .final-cta__btn {
+      background: #fff;
+      color: var(--color-orange-500);
+      border: none;
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: 700;
+      padding: 16px 26px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+      transition: transform 80ms, box-shadow 80ms;
+    }
+    .final-cta__btn:hover { transform: translateY(1px); box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2); }
+    .final-cta__btn:active { transform: translateY(4px); box-shadow: 0 0 0 rgba(0, 0, 0, 0.2); }
+
+    /* ---------- Footer — figma 16:704 ---------- */
+    .footer {
+      padding: 56px 0 40px;
+      border-top: 1px solid rgba(26, 23, 20, 0.08);
+      font-size: 14px;
+      color: var(--text-muted);
+      background: #fff;
+    }
+    .footer__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer__links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer a { color: inherit; text-decoration: none; }
+    .footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <!-- ============ TOPBAR ============ -->
+  <!-- figma: 16:3 Header — kolumna 1120px, logo na lewej krawędzi -->
+  <header class="topbar" id="topbar" role="banner">
+   <div class="container topbar__inner">
+    <a class="topbar__logo" href="#" aria-label="Schooleo — strona główna">
+      <!-- ikona: graduation cap z kropką -->
+      <svg class="logo-icon" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M34.6484 7.77045C35.3052 7.50001 36.049 7.51883 36.6934 7.82806L68.1143 22.9111C68.9856 23.3294 69.5399 24.2101 69.54 25.1767C69.54 26.1433 68.9856 27.0249 68.1143 27.4433L65.7695 28.5683V50.3134C65.7695 51.7017 64.6441 52.827 63.2559 52.8271C61.8676 52.8271 60.7422 51.7017 60.7422 50.3134V30.9804L56.9717 32.791V46.5429C56.9717 50.7842 53.7199 53.957 49.9668 55.9189C46.0903 57.9452 40.9636 59.1112 35.6055 59.1113C30.2473 59.1113 25.1207 57.9452 21.2441 55.9189C17.491 53.957 14.2393 50.7843 14.2393 46.5429V32.791L3.09668 27.4433C2.22515 27.025 1.6709 26.1434 1.6709 25.1767C1.671 24.2102 2.22539 23.3294 3.09668 22.9111L34.5176 7.82806L34.6484 7.77045ZM36.6934 42.5253C36.0058 42.8553 35.2051 42.8553 34.5176 42.5253L19.2666 35.204V46.5429C19.2666 47.9573 20.4138 49.8123 23.5732 51.4638C26.6093 53.0508 30.9091 54.0839 35.6055 54.0839C40.3017 54.0839 44.6017 53.0507 47.6377 51.4638C50.7968 49.8123 51.9443 47.9572 51.9443 46.5429V35.204L36.6934 42.5253ZM9.99316 25.1767L35.6055 37.4706L61.0303 25.2656C61.0554 25.2178 61.0833 25.1718 61.1113 25.1259L35.6055 12.8828L9.99316 25.1767Z" fill="var(--color-orange-500)"/>
+        <path d="M63.354 57.3158C64.7929 57.3158 65.9593 56.1494 65.9593 54.7105C65.9593 53.2717 64.7929 52.1053 63.354 52.1053C61.9152 52.1053 60.7488 53.2717 60.7488 54.7105C60.7488 56.1494 61.9152 57.3158 63.354 57.3158Z" fill="var(--color-forest-900)"/>
+        <path d="M63.4461 54.7107C63.4461 54.6602 63.4047 54.619 63.3543 54.6189C63.3037 54.6189 63.2625 54.6601 63.2625 54.7107C63.2626 54.7612 63.3037 54.8025 63.3543 54.8025C63.4047 54.8024 63.4459 54.7611 63.4461 54.7107ZM68.4734 54.7107C68.4733 57.5377 66.1812 59.8298 63.3543 59.8299C60.5272 59.8299 58.2352 57.5377 58.2351 54.7107C58.2351 51.8836 60.5271 49.5916 63.3543 49.5916C66.1813 49.5917 68.4734 51.8837 68.4734 54.7107Z" fill="var(--color-forest-900)"/>
+      </svg>
+      <!-- wordmark "Schooleo" -->
+      <svg class="logo-wordmark" viewBox="0 0 239 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M28.6996 10.5044C28.3869 11.0046 28.0535 11.3798 27.6992 11.6299C27.3657 11.88 26.928 12.0051 26.3861 12.0051C25.9067 12.0051 25.3857 11.8592 24.8229 11.5674C24.2811 11.2547 23.6558 10.9108 22.9472 10.5357C22.2594 10.1605 21.4674 9.82705 20.5712 9.53526C19.6749 9.22263 18.6537 9.06632 17.5074 9.06632C15.5274 9.06632 14.0476 9.49358 13.068 10.3481C12.1093 11.1818 11.6299 12.3177 11.6299 13.7558C11.6299 14.6728 11.9217 15.4336 12.5053 16.038C13.0888 16.6424 13.8496 17.1635 14.7875 17.6012C15.7462 18.0388 16.83 18.4453 18.0388 18.8204C19.2685 19.1747 20.5191 19.5812 21.7904 20.0397C23.0618 20.4774 24.3019 20.9984 25.5107 21.6028C26.7404 22.2073 27.8242 22.9784 28.7621 23.9163C29.7208 24.8542 30.492 26.0005 31.0756 27.3553C31.6592 28.6892 31.9509 30.3044 31.9509 32.2011C31.9509 34.3061 31.5862 36.2757 30.8567 38.1098C30.1273 39.9439 29.0643 41.5487 27.6679 42.9243C26.2923 44.2791 24.5833 45.3524 22.5407 46.1444C20.5191 46.9156 18.216 47.3012 15.6316 47.3012C14.2143 47.3012 12.7658 47.1553 11.286 46.8635C9.82705 46.5717 8.40979 46.1653 7.03421 45.6442C5.65863 45.1023 4.36642 44.4666 3.15758 43.7372C1.94874 43.0077 0.896211 42.1948 0 41.2986L3.12632 36.3591C3.37642 36.0047 3.69947 35.7129 4.09547 35.4837C4.51232 35.2336 4.96042 35.1085 5.43979 35.1085C6.06505 35.1085 6.69032 35.3065 7.31558 35.7025C7.96168 36.0985 8.68074 36.5362 9.47274 37.0156C10.2856 37.4949 11.2131 37.9326 12.2552 38.3286C13.2973 38.7246 14.5269 38.9226 15.9442 38.9226C17.8617 38.9226 19.3519 38.5058 20.4148 37.6721C21.4778 36.8176 22.0093 35.4733 22.0093 33.6392C22.0093 32.5762 21.7175 31.7113 21.1339 31.0443C20.5503 30.3774 19.7792 29.8251 18.8204 29.3874C17.8825 28.9497 16.8092 28.5641 15.6003 28.2306C14.3915 27.8972 13.1514 27.5324 11.88 27.1364C10.6086 26.7196 9.36853 26.2194 8.15968 25.6358C6.95084 25.0314 5.86705 24.2498 4.90832 23.2911C3.97042 22.3115 3.20968 21.1026 2.62611 19.6645C2.04253 18.2056 1.75074 16.4132 1.75074 14.2873C1.75074 12.5782 2.09463 10.9108 2.78242 9.28516C3.47021 7.65947 4.48105 6.21095 5.81495 4.93958C7.14884 3.66821 8.78495 2.65737 10.7233 1.90705C12.6616 1.1359 14.8813 0.750317 17.3823 0.750317C18.7787 0.750317 20.1335 0.864949 21.4465 1.09421C22.7804 1.30263 24.0414 1.62569 25.2294 2.06337C26.4174 2.48021 27.522 2.99084 28.5433 3.59526C29.5854 4.17884 30.5128 4.84579 31.3257 5.59611L28.6996 10.5044Z" fill="var(--color-ink-900)"/>
+        <path d="M58.246 22.0718C57.9542 22.4261 57.6729 22.7075 57.4019 22.9159C57.131 23.1243 56.7454 23.2285 56.2452 23.2285C55.7658 23.2285 55.3281 23.1139 54.9321 22.8846C54.557 22.6554 54.1297 22.4053 53.6503 22.1343C53.171 21.8425 52.6082 21.582 51.9621 21.3527C51.316 21.1235 50.5136 21.0088 49.5549 21.0088C48.3669 21.0088 47.3352 21.2277 46.4598 21.6654C45.6053 22.1031 44.8967 22.7283 44.3339 23.5412C43.7712 24.354 43.3543 25.3544 43.0834 26.5424C42.8125 27.7096 42.677 29.0331 42.677 30.5128C42.677 33.6183 43.271 36.0047 44.459 37.6721C45.6678 39.3395 47.3248 40.1732 49.4298 40.1732C50.5553 40.1732 51.4411 40.0377 52.0872 39.7667C52.7541 39.4749 53.3169 39.1623 53.7754 38.8288C54.2339 38.4745 54.6508 38.1515 55.0259 37.8597C55.4219 37.5679 55.9117 37.422 56.4953 37.422C57.2664 37.422 57.85 37.7034 58.246 38.2661L61.0597 41.7363C60.0593 42.8826 59.0068 43.8205 57.9021 44.55C56.7975 45.2586 55.6616 45.8214 54.4944 46.2382C53.3481 46.6342 52.1914 46.9052 51.0242 47.0511C49.8571 47.2178 48.7212 47.3012 47.6166 47.3012C45.6366 47.3012 43.7399 46.926 41.9267 46.1757C40.1342 45.4254 38.5502 44.3416 37.1747 42.9243C35.8199 41.4862 34.7361 39.7251 33.9233 37.6408C33.1313 35.5566 32.7353 33.1806 32.7353 30.5128C32.7353 28.1785 33.0792 26.0005 33.767 23.9788C34.4756 21.9363 35.5073 20.1752 36.862 18.6954C38.2376 17.1947 39.9258 16.0172 41.9267 15.1626C43.9483 14.3081 46.2827 13.8808 48.9296 13.8808C51.4723 13.8808 53.7024 14.2873 55.6199 15.1001C57.5374 15.9129 59.2673 17.1009 60.8096 18.6641L58.246 22.0718Z" fill="var(--color-ink-900)"/>
+        <path d="M71.9181 17.226C73.0853 16.2256 74.3462 15.4232 75.701 14.8187C77.0765 14.1935 78.7126 13.8808 80.6093 13.8808C82.3809 13.8808 83.944 14.1935 85.2988 14.8187C86.6743 15.4232 87.8311 16.2777 88.769 17.3823C89.7069 18.4661 90.4155 19.7687 90.8949 21.2902C91.3742 22.7908 91.6139 24.4269 91.6139 26.1985V46.8009H81.9223V26.1985C81.9223 24.6145 81.5576 23.3848 80.8281 22.5095C80.0986 21.6133 79.0253 21.1652 77.608 21.1652C76.5451 21.1652 75.5446 21.3944 74.6068 21.8529C73.6897 22.2906 72.7935 22.8951 71.9181 23.6662V46.8009H62.2265V0H71.9181V17.226Z" fill="var(--color-ink-900)"/>
+        <path d="M110.225 13.8808C112.684 13.8808 114.925 14.2664 116.946 15.0376C118.968 15.8087 120.698 16.9134 122.136 18.3515C123.595 19.7896 124.72 21.5403 125.512 23.6037C126.325 25.6462 126.732 27.9493 126.732 30.5128C126.732 33.0973 126.325 35.4316 125.512 37.5158C124.72 39.5792 123.595 41.3403 122.136 42.7993C120.698 44.2374 118.968 45.3524 116.946 46.1444C114.925 46.9156 112.684 47.3012 110.225 47.3012C107.744 47.3012 105.483 46.9156 103.441 46.1444C101.419 45.3524 99.6681 44.2374 98.1883 42.7993C96.7293 41.3403 95.5935 39.5792 94.7806 37.5158C93.9886 35.4316 93.5926 33.0973 93.5926 30.5128C93.5926 27.9493 93.9886 25.6462 94.7806 23.6037C95.5935 21.5403 96.7293 19.7896 98.1883 18.3515C99.6681 16.9134 101.419 15.8087 103.441 15.0376C105.483 14.2664 107.744 13.8808 110.225 13.8808ZM110.225 40.1106C112.455 40.1106 114.091 39.3291 115.133 37.7659C116.196 36.1819 116.727 33.7851 116.727 30.5754C116.727 27.3657 116.196 24.9793 115.133 23.4161C114.091 21.8529 112.455 21.0714 110.225 21.0714C107.932 21.0714 106.254 21.8529 105.191 23.4161C104.128 24.9793 103.597 27.3657 103.597 30.5754C103.597 33.7851 104.128 36.1819 105.191 37.7659C106.254 39.3291 107.932 40.1106 110.225 40.1106Z" fill="var(--color-ink-900)"/>
+        <path d="M143.951 13.8808C146.41 13.8808 148.65 14.2664 150.672 15.0376C152.694 15.8087 154.424 16.9134 155.862 18.3515C157.321 19.7896 158.446 21.5403 159.238 23.6037C160.051 25.6462 160.458 27.9493 160.458 30.5128C160.458 33.0973 160.051 35.4316 159.238 37.5158C158.446 39.5792 157.321 41.3403 155.862 42.7993C154.424 44.2374 152.694 45.3524 150.672 46.1444C148.65 46.9156 146.41 47.3012 143.951 47.3012C141.47 47.3012 139.209 46.9156 137.166 46.1444C135.145 45.3524 133.394 44.2374 131.914 42.7993C130.455 41.3403 129.319 39.5792 128.507 37.5158C127.715 35.4316 127.319 33.0973 127.319 30.5128C127.319 27.9493 127.715 25.6462 128.507 23.6037C129.319 21.5403 130.455 19.7896 131.914 18.3515C133.394 16.9134 135.145 15.8087 137.166 15.0376C139.209 14.2664 141.47 13.8808 143.951 13.8808ZM143.951 40.1106C146.181 40.1106 147.817 39.3291 148.859 37.7659C149.922 36.1819 150.453 33.7851 150.453 30.5754C150.453 27.3657 149.922 24.9793 148.859 23.4161C147.817 21.8529 146.181 21.0714 143.951 21.0714C141.658 21.0714 139.98 21.8529 138.917 23.4161C137.854 24.9793 137.323 27.3657 137.323 30.5754C137.323 33.7851 137.854 36.1819 138.917 37.7659C139.98 39.3291 141.658 40.1106 143.951 40.1106Z" fill="var(--color-ink-900)"/>
+        <path d="M172.424 0V46.8009H162.733V0H172.424Z" fill="var(--color-ink-900)"/>
+        <path d="M196.534 26.6987C196.534 25.9276 196.43 25.1773 196.222 24.4478C196.034 23.7183 195.711 23.0722 195.253 22.5095C194.815 21.9259 194.231 21.4569 193.502 21.1026C192.772 20.7483 191.887 20.5712 190.844 20.5712C189.01 20.5712 187.572 21.1026 186.53 22.1656C185.488 23.2077 184.8 24.7187 184.467 26.6987H196.534ZM184.342 32.3261C184.654 35.0356 185.478 37.0052 186.812 38.2348C188.145 39.4437 189.865 40.0481 191.97 40.0481C193.095 40.0481 194.065 39.9126 194.877 39.6417C195.69 39.3707 196.409 39.0685 197.035 38.7351C197.681 38.4016 198.264 38.0994 198.785 37.8284C199.327 37.5575 199.89 37.422 200.474 37.422C201.245 37.422 201.828 37.7034 202.224 38.2661L205.038 41.7363C204.038 42.8826 202.954 43.8205 201.787 44.55C200.64 45.2586 199.452 45.8214 198.223 46.2382C197.014 46.6342 195.794 46.9052 194.565 47.0511C193.356 47.2178 192.199 47.3012 191.095 47.3012C188.823 47.3012 186.686 46.9364 184.686 46.2069C182.706 45.4566 180.965 44.352 179.465 42.8931C177.985 41.4341 176.807 39.6208 175.932 37.4533C175.077 35.2857 174.65 32.7638 174.65 29.8876C174.65 27.72 175.015 25.6671 175.744 23.7287C176.495 21.7904 177.558 20.0918 178.933 18.6328C180.33 17.1739 182.007 16.0172 183.967 15.1626C185.947 14.3081 188.177 13.8808 190.657 13.8808C192.804 13.8808 194.763 14.2143 196.534 14.8813C198.327 15.5482 199.859 16.5174 201.13 17.7887C202.422 19.0601 203.423 20.6233 204.131 22.4782C204.861 24.3123 205.226 26.3965 205.226 28.7308C205.226 29.4603 205.194 30.0543 205.132 30.5128C205.069 30.9714 204.955 31.3361 204.788 31.6071C204.621 31.878 204.392 32.0656 204.1 32.1698C203.829 32.274 203.475 32.3261 203.037 32.3261H184.342Z" fill="var(--color-ink-900)"/>
+        <path d="M222.414 13.8808C224.873 13.8808 227.114 14.2664 229.135 15.0376C231.157 15.8087 232.887 16.9134 234.325 18.3515C235.784 19.7896 236.909 21.5403 237.701 23.6037C238.514 25.6462 238.921 27.9493 238.921 30.5128C238.921 33.0973 238.514 35.4316 237.701 37.5158C236.909 39.5792 235.784 41.3403 234.325 42.7993C232.887 44.2374 231.157 45.3524 229.135 46.1444C227.114 46.9156 224.873 47.3012 222.414 47.3012C219.934 47.3012 217.672 46.9156 215.63 46.1444C213.608 45.3524 211.857 44.2374 210.377 42.7993C208.918 41.3403 207.783 39.5792 206.97 37.5158C206.178 35.4316 205.782 33.0973 205.782 30.5128C205.782 27.9493 206.178 25.6462 206.97 23.6037C207.783 21.5403 208.918 19.7896 210.377 18.3515C211.857 16.9134 213.608 15.8087 215.63 15.0376C217.672 14.2664 219.934 13.8808 222.414 13.8808ZM222.414 40.1106C224.644 40.1106 226.28 39.3291 227.322 37.7659C228.385 36.1819 228.916 33.7851 228.916 30.5754C228.916 27.3657 228.385 24.9793 227.322 23.4161C226.28 21.8529 224.644 21.0714 222.414 21.0714C220.121 21.0714 218.443 21.8529 217.38 23.4161C216.317 24.9793 215.786 27.3657 215.786 30.5754C215.786 33.7851 216.317 36.1819 217.38 37.7659C218.443 39.3291 220.121 40.1106 222.414 40.1106Z" fill="var(--color-ink-900)"/>
+      </svg>
+    </a>
+
+    <nav class="topbar__nav" aria-label="Główna nawigacja">
+      <ul class="topbar__links">
+        <li><a href="#funkcje">Funkcje</a></li>
+        <li><a href="#co-potrafi">Co potrafi</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#cennik">Cennik</a></li>
+      </ul>
+      <button type="button" class="topbar__burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <svg class="burger-icon" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <line class="l1" x1="1" y1="1" x2="17" y2="1"/>
+          <line class="l2" x1="1" y1="7" x2="17" y2="7"/>
+          <line class="l3" x1="1" y1="13" x2="17" y2="13"/>
+        </svg>
+      </button>
+      <a href="#" class="topbar__login">Zaloguj się</a>
+    </nav>
+   </div>
+  </header>
+
+  <!-- ============ MOBILE DRAWER ============ -->
+  <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+    <div class="mobile-drawer__scrim" data-drawer-close></div>
+    <aside class="mobile-drawer__panel" role="dialog" aria-label="Menu mobilne">
+      <ul class="mobile-drawer__links">
+        <li><a href="#funkcje" data-drawer-close>Funkcje</a></li>
+        <li><a href="#co-potrafi" data-drawer-close>Co potrafi</a></li>
+        <li><a href="#faq" data-drawer-close>FAQ</a></li>
+        <li><a href="#cennik" data-drawer-close>Cennik</a></li>
+      </ul>
+    </aside>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero__brand" aria-label="Schooleo">
+          <svg class="hero__brand-icon" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M34.6484 7.77045C35.3052 7.50001 36.049 7.51883 36.6934 7.82806L68.1143 22.9111C68.9856 23.3294 69.5399 24.2101 69.54 25.1767C69.54 26.1433 68.9856 27.0249 68.1143 27.4433L65.7695 28.5683V50.3134C65.7695 51.7017 64.6441 52.827 63.2559 52.8271C61.8676 52.8271 60.7422 51.7017 60.7422 50.3134V30.9804L56.9717 32.791V46.5429C56.9717 50.7842 53.7199 53.957 49.9668 55.9189C46.0903 57.9452 40.9636 59.1112 35.6055 59.1113C30.2473 59.1113 25.1207 57.9452 21.2441 55.9189C17.491 53.957 14.2393 50.7843 14.2393 46.5429V32.791L3.09668 27.4433C2.22515 27.025 1.6709 26.1434 1.6709 25.1767C1.671 24.2102 2.22539 23.3294 3.09668 22.9111L34.5176 7.82806L34.6484 7.77045ZM36.6934 42.5253C36.0058 42.8553 35.2051 42.8553 34.5176 42.5253L19.2666 35.204V46.5429C19.2666 47.9573 20.4138 49.8123 23.5732 51.4638C26.6093 53.0508 30.9091 54.0839 35.6055 54.0839C40.3017 54.0839 44.6017 53.0507 47.6377 51.4638C50.7968 49.8123 51.9443 47.9572 51.9443 46.5429V35.204L36.6934 42.5253ZM9.99316 25.1767L35.6055 37.4706L61.0303 25.2656C61.0554 25.2178 61.0833 25.1718 61.1113 25.1259L35.6055 12.8828L9.99316 25.1767Z" fill="var(--color-orange-500)"/>
+            <path d="M63.354 57.3158C64.7929 57.3158 65.9593 56.1494 65.9593 54.7105C65.9593 53.2717 64.7929 52.1053 63.354 52.1053C61.9152 52.1053 60.7488 53.2717 60.7488 54.7105C60.7488 56.1494 61.9152 57.3158 63.354 57.3158Z" fill="var(--color-forest-900)"/>
+            <path d="M63.4461 54.7107C63.4461 54.6602 63.4047 54.619 63.3543 54.6189C63.3037 54.6189 63.2625 54.6601 63.2625 54.7107C63.2626 54.7612 63.3037 54.8025 63.3543 54.8025C63.4047 54.8024 63.4459 54.7611 63.4461 54.7107ZM68.4734 54.7107C68.4733 57.5377 66.1812 59.8298 63.3543 59.8299C60.5272 59.8299 58.2352 57.5377 58.2351 54.7107C58.2351 51.8836 60.5271 49.5916 63.3543 49.5916C66.1813 49.5917 68.4734 51.8837 68.4734 54.7107Z" fill="var(--color-forest-900)"/>
+          </svg>
+          <svg class="hero__brand-wordmark" viewBox="0 0 239 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M28.6996 10.5044C28.3869 11.0046 28.0535 11.3798 27.6992 11.6299C27.3657 11.88 26.928 12.0051 26.3861 12.0051C25.9067 12.0051 25.3857 11.8592 24.8229 11.5674C24.2811 11.2547 23.6558 10.9108 22.9472 10.5357C22.2594 10.1605 21.4674 9.82705 20.5712 9.53526C19.6749 9.22263 18.6537 9.06632 17.5074 9.06632C15.5274 9.06632 14.0476 9.49358 13.068 10.3481C12.1093 11.1818 11.6299 12.3177 11.6299 13.7558C11.6299 14.6728 11.9217 15.4336 12.5053 16.038C13.0888 16.6424 13.8496 17.1635 14.7875 17.6012C15.7462 18.0388 16.83 18.4453 18.0388 18.8204C19.2685 19.1747 20.5191 19.5812 21.7904 20.0397C23.0618 20.4774 24.3019 20.9984 25.5107 21.6028C26.7404 22.2073 27.8242 22.9784 28.7621 23.9163C29.7208 24.8542 30.492 26.0005 31.0756 27.3553C31.6592 28.6892 31.9509 30.3044 31.9509 32.2011C31.9509 34.3061 31.5862 36.2757 30.8567 38.1098C30.1273 39.9439 29.0643 41.5487 27.6679 42.9243C26.2923 44.2791 24.5833 45.3524 22.5407 46.1444C20.5191 46.9156 18.216 47.3012 15.6316 47.3012C14.2143 47.3012 12.7658 47.1553 11.286 46.8635C9.82705 46.5717 8.40979 46.1653 7.03421 45.6442C5.65863 45.1023 4.36642 44.4666 3.15758 43.7372C1.94874 43.0077 0.896211 42.1948 0 41.2986L3.12632 36.3591C3.37642 36.0047 3.69947 35.7129 4.09547 35.4837C4.51232 35.2336 4.96042 35.1085 5.43979 35.1085C6.06505 35.1085 6.69032 35.3065 7.31558 35.7025C7.96168 36.0985 8.68074 36.5362 9.47274 37.0156C10.2856 37.4949 11.2131 37.9326 12.2552 38.3286C13.2973 38.7246 14.5269 38.9226 15.9442 38.9226C17.8617 38.9226 19.3519 38.5058 20.4148 37.6721C21.4778 36.8176 22.0093 35.4733 22.0093 33.6392C22.0093 32.5762 21.7175 31.7113 21.1339 31.0443C20.5503 30.3774 19.7792 29.8251 18.8204 29.3874C17.8825 28.9497 16.8092 28.5641 15.6003 28.2306C14.3915 27.8972 13.1514 27.5324 11.88 27.1364C10.6086 26.7196 9.36853 26.2194 8.15968 25.6358C6.95084 25.0314 5.86705 24.2498 4.90832 23.2911C3.97042 22.3115 3.20968 21.1026 2.62611 19.6645C2.04253 18.2056 1.75074 16.4132 1.75074 14.2873C1.75074 12.5782 2.09463 10.9108 2.78242 9.28516C3.47021 7.65947 4.48105 6.21095 5.81495 4.93958C7.14884 3.66821 8.78495 2.65737 10.7233 1.90705C12.6616 1.1359 14.8813 0.750317 17.3823 0.750317C18.7787 0.750317 20.1335 0.864949 21.4465 1.09421C22.7804 1.30263 24.0414 1.62569 25.2294 2.06337C26.4174 2.48021 27.522 2.99084 28.5433 3.59526C29.5854 4.17884 30.5128 4.84579 31.3257 5.59611L28.6996 10.5044Z" fill="var(--color-ink-900)"/>
+            <path d="M58.246 22.0718C57.9542 22.4261 57.6729 22.7075 57.4019 22.9159C57.131 23.1243 56.7454 23.2285 56.2452 23.2285C55.7658 23.2285 55.3281 23.1139 54.9321 22.8846C54.557 22.6554 54.1297 22.4053 53.6503 22.1343C53.171 21.8425 52.6082 21.582 51.9621 21.3527C51.316 21.1235 50.5136 21.0088 49.5549 21.0088C48.3669 21.0088 47.3352 21.2277 46.4598 21.6654C45.6053 22.1031 44.8967 22.7283 44.3339 23.5412C43.7712 24.354 43.3543 25.3544 43.0834 26.5424C42.8125 27.7096 42.677 29.0331 42.677 30.5128C42.677 33.6183 43.271 36.0047 44.459 37.6721C45.6678 39.3395 47.3248 40.1732 49.4298 40.1732C50.5553 40.1732 51.4411 40.0377 52.0872 39.7667C52.7541 39.4749 53.3169 39.1623 53.7754 38.8288C54.2339 38.4745 54.6508 38.1515 55.0259 37.8597C55.4219 37.5679 55.9117 37.422 56.4953 37.422C57.2664 37.422 57.85 37.7034 58.246 38.2661L61.0597 41.7363C60.0593 42.8826 59.0068 43.8205 57.9021 44.55C56.7975 45.2586 55.6616 45.8214 54.4944 46.2382C53.3481 46.6342 52.1914 46.9052 51.0242 47.0511C49.8571 47.2178 48.7212 47.3012 47.6166 47.3012C45.6366 47.3012 43.7399 46.926 41.9267 46.1757C40.1342 45.4254 38.5502 44.3416 37.1747 42.9243C35.8199 41.4862 34.7361 39.7251 33.9233 37.6408C33.1313 35.5566 32.7353 33.1806 32.7353 30.5128C32.7353 28.1785 33.0792 26.0005 33.767 23.9788C34.4756 21.9363 35.5073 20.1752 36.862 18.6954C38.2376 17.1947 39.9258 16.0172 41.9267 15.1626C43.9483 14.3081 46.2827 13.8808 48.9296 13.8808C51.4723 13.8808 53.7024 14.2873 55.6199 15.1001C57.5374 15.9129 59.2673 17.1009 60.8096 18.6641L58.246 22.0718Z" fill="var(--color-ink-900)"/>
+            <path d="M71.9181 17.226C73.0853 16.2256 74.3462 15.4232 75.701 14.8187C77.0765 14.1935 78.7126 13.8808 80.6093 13.8808C82.3809 13.8808 83.944 14.1935 85.2988 14.8187C86.6743 15.4232 87.8311 16.2777 88.769 17.3823C89.7069 18.4661 90.4155 19.7687 90.8949 21.2902C91.3742 22.7908 91.6139 24.4269 91.6139 26.1985V46.8009H81.9223V26.1985C81.9223 24.6145 81.5576 23.3848 80.8281 22.5095C80.0986 21.6133 79.0253 21.1652 77.608 21.1652C76.5451 21.1652 75.5446 21.3944 74.6068 21.8529C73.6897 22.2906 72.7935 22.8951 71.9181 23.6662V46.8009H62.2265V0H71.9181V17.226Z" fill="var(--color-ink-900)"/>
+            <path d="M110.225 13.8808C112.684 13.8808 114.925 14.2664 116.946 15.0376C118.968 15.8087 120.698 16.9134 122.136 18.3515C123.595 19.7896 124.72 21.5403 125.512 23.6037C126.325 25.6462 126.732 27.9493 126.732 30.5128C126.732 33.0973 126.325 35.4316 125.512 37.5158C124.72 39.5792 123.595 41.3403 122.136 42.7993C120.698 44.2374 118.968 45.3524 116.946 46.1444C114.925 46.9156 112.684 47.3012 110.225 47.3012C107.744 47.3012 105.483 46.9156 103.441 46.1444C101.419 45.3524 99.6681 44.2374 98.1883 42.7993C96.7293 41.3403 95.5935 39.5792 94.7806 37.5158C93.9886 35.4316 93.5926 33.0973 93.5926 30.5128C93.5926 27.9493 93.9886 25.6462 94.7806 23.6037C95.5935 21.5403 96.7293 19.7896 98.1883 18.3515C99.6681 16.9134 101.419 15.8087 103.441 15.0376C105.483 14.2664 107.744 13.8808 110.225 13.8808ZM110.225 40.1106C112.455 40.1106 114.091 39.3291 115.133 37.7659C116.196 36.1819 116.727 33.7851 116.727 30.5754C116.727 27.3657 116.196 24.9793 115.133 23.4161C114.091 21.8529 112.455 21.0714 110.225 21.0714C107.932 21.0714 106.254 21.8529 105.191 23.4161C104.128 24.9793 103.597 27.3657 103.597 30.5754C103.597 33.7851 104.128 36.1819 105.191 37.7659C106.254 39.3291 107.932 40.1106 110.225 40.1106Z" fill="var(--color-ink-900)"/>
+            <path d="M143.951 13.8808C146.41 13.8808 148.65 14.2664 150.672 15.0376C152.694 15.8087 154.424 16.9134 155.862 18.3515C157.321 19.7896 158.446 21.5403 159.238 23.6037C160.051 25.6462 160.458 27.9493 160.458 30.5128C160.458 33.0973 160.051 35.4316 159.238 37.5158C158.446 39.5792 157.321 41.3403 155.862 42.7993C154.424 44.2374 152.694 45.3524 150.672 46.1444C148.65 46.9156 146.41 47.3012 143.951 47.3012C141.47 47.3012 139.209 46.9156 137.166 46.1444C135.145 45.3524 133.394 44.2374 131.914 42.7993C130.455 41.3403 129.319 39.5792 128.507 37.5158C127.715 35.4316 127.319 33.0973 127.319 30.5128C127.319 27.9493 127.715 25.6462 128.507 23.6037C129.319 21.5403 130.455 19.7896 131.914 18.3515C133.394 16.9134 135.145 15.8087 137.166 15.0376C139.209 14.2664 141.47 13.8808 143.951 13.8808ZM143.951 40.1106C146.181 40.1106 147.817 39.3291 148.859 37.7659C149.922 36.1819 150.453 33.7851 150.453 30.5754C150.453 27.3657 149.922 24.9793 148.859 23.4161C147.817 21.8529 146.181 21.0714 143.951 21.0714C141.658 21.0714 139.98 21.8529 138.917 23.4161C137.854 24.9793 137.323 27.3657 137.323 30.5754C137.323 33.7851 137.854 36.1819 138.917 37.7659C139.98 39.3291 141.658 40.1106 143.951 40.1106Z" fill="var(--color-ink-900)"/>
+            <path d="M172.424 0V46.8009H162.733V0H172.424Z" fill="var(--color-ink-900)"/>
+            <path d="M196.534 26.6987C196.534 25.9276 196.43 25.1773 196.222 24.4478C196.034 23.7183 195.711 23.0722 195.253 22.5095C194.815 21.9259 194.231 21.4569 193.502 21.1026C192.772 20.7483 191.887 20.5712 190.844 20.5712C189.01 20.5712 187.572 21.1026 186.53 22.1656C185.488 23.2077 184.8 24.7187 184.467 26.6987H196.534ZM184.342 32.3261C184.654 35.0356 185.478 37.0052 186.812 38.2348C188.145 39.4437 189.865 40.0481 191.97 40.0481C193.095 40.0481 194.065 39.9126 194.877 39.6417C195.69 39.3707 196.409 39.0685 197.035 38.7351C197.681 38.4016 198.264 38.0994 198.785 37.8284C199.327 37.5575 199.89 37.422 200.474 37.422C201.245 37.422 201.828 37.7034 202.224 38.2661L205.038 41.7363C204.038 42.8826 202.954 43.8205 201.787 44.55C200.64 45.2586 199.452 45.8214 198.223 46.2382C197.014 46.6342 195.794 46.9052 194.565 47.0511C193.356 47.2178 192.199 47.3012 191.095 47.3012C188.823 47.3012 186.686 46.9364 184.686 46.2069C182.706 45.4566 180.965 44.352 179.465 42.8931C177.985 41.4341 176.807 39.6208 175.932 37.4533C175.077 35.2857 174.65 32.7638 174.65 29.8876C174.65 27.72 175.015 25.6671 175.744 23.7287C176.495 21.7904 177.558 20.0918 178.933 18.6328C180.33 17.1739 182.007 16.0172 183.967 15.1626C185.947 14.3081 188.177 13.8808 190.657 13.8808C192.804 13.8808 194.763 14.2143 196.534 14.8813C198.327 15.5482 199.859 16.5174 201.13 17.7887C202.422 19.0601 203.423 20.6233 204.131 22.4782C204.861 24.3123 205.226 26.3965 205.226 28.7308C205.226 29.4603 205.194 30.0543 205.132 30.5128C205.069 30.9714 204.955 31.3361 204.788 31.6071C204.621 31.878 204.392 32.0656 204.1 32.1698C203.829 32.274 203.475 32.3261 203.037 32.3261H184.342Z" fill="var(--color-ink-900)"/>
+            <path d="M222.414 13.8808C224.873 13.8808 227.114 14.2664 229.135 15.0376C231.157 15.8087 232.887 16.9134 234.325 18.3515C235.784 19.7896 236.909 21.5403 237.701 23.6037C238.514 25.6462 238.921 27.9493 238.921 30.5128C238.921 33.0973 238.514 35.4316 237.701 37.5158C236.909 39.5792 235.784 41.3403 234.325 42.7993C232.887 44.2374 231.157 45.3524 229.135 46.1444C227.114 46.9156 224.873 47.3012 222.414 47.3012C219.934 47.3012 217.672 46.9156 215.63 46.1444C213.608 45.3524 211.857 44.2374 210.377 42.7993C208.918 41.3403 207.783 39.5792 206.97 37.5158C206.178 35.4316 205.782 33.0973 205.782 30.5128C205.782 27.9493 206.178 25.6462 206.97 23.6037C207.783 21.5403 208.918 19.7896 210.377 18.3515C211.857 16.9134 213.608 15.8087 215.63 15.0376C217.672 14.2664 219.934 13.8808 222.414 13.8808ZM222.414 40.1106C224.644 40.1106 226.28 39.3291 227.322 37.7659C228.385 36.1819 228.916 33.7851 228.916 30.5754C228.916 27.3657 228.385 24.9793 227.322 23.4161C226.28 21.8529 224.644 21.0714 222.414 21.0714C220.121 21.0714 218.443 21.8529 217.38 23.4161C216.317 24.9793 215.786 27.3657 215.786 30.5754C215.786 33.7851 216.317 36.1819 217.38 37.7659C218.443 39.3291 220.121 40.1106 222.414 40.1106Z" fill="var(--color-ink-900)"/>
+          </svg>
+        </div>
+
+        <h1 class="hero__headline">
+          Jeden system<br>zamiast <span class="hero__highlight">pięciu aplikacji</span>.
+        </h1>
+
+        <p class="hero__body">
+          Plan zajęć, lektorzy, faktury, SMS-y, raporty — bez modułów do dokupienia. Schooleo jest gotowe od pierwszego logowania. Bez wdrożenia, bez konsultantów, bez setupu za 8000 zł.
+        </p>
+
+        <div class="hero__cta-row">
+          <a href="#" class="btn btn--primary">Wypróbuj za darmo — 30 dni</a>
+          <span class="hero__handwritten">
+            <svg viewBox="0 0 50 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M 46 24 Q 32 28, 22 20 T 10 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M 16 5 L 10 8 L 12 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+            karta niepotrzebna
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STATEMENT (dark) ============ -->
+    <!-- figma: 16:114 — Tak myślimy o Twojej pracy / Prowadzisz szkołę żeby uczyć -->
+    <section class="statement">
+      <div class="container">
+        <div class="statement__inner">
+          <span class="statement__eyebrow">Tak myślimy o&nbsp;Twojej pracy</span>
+
+          <h2 class="statement__headline">
+            Prowadzisz szkołę, żeby <span class="statement__highlight">uczyć</span>.<br>
+            Nie żeby kleić grafiki w&nbsp;Excelu o&nbsp;23:00.
+          </h2>
+
+          <div class="statement__body">
+            <p>
+              Znamy to: poniedziałek rano, lektor choruje, trzeba przenieść trzy grupy, rodzic pyta o&nbsp;fakturę, kadrowa prosi o&nbsp;listę godzin, a&nbsp;Ty — między jedną a&nbsp;drugą kawą — otwierasz <strong>czwarty arkusz tego dnia</strong>.
+            </p>
+            <p>
+              Schooleo powstało po to, żeby tego wszystkiego <strong>nie musiało być</strong>. To nie jest „platforma edukacyjna" — to jest narzędzie biurowe dla szkoły, która chce działać spokojnie. Bez 40&nbsp;zakładek, bez PDF-ów wysyłanych mailem, bez pamiętania kto komu co jest winien.
+            </p>
+            <p>
+              <span class="lead">Chcemy, żebyś o&nbsp;piątej wyszedł z&nbsp;pracy.</span> <span class="lead-rest">I&nbsp;żeby w&nbsp;sobotę nikt do&nbsp;Ciebie nie&nbsp;dzwonił.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manifest illustration: stosik arkuszy z krzyżykiem + zegar -->
+      <svg class="statement__illo" viewBox="0 0 400 400" fill="none" stroke="var(--color-butter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <!-- clock behind -->
+        <circle cx="300" cy="100" r="60" fill="rgba(255,255,255,0.06)" stroke="var(--color-butter)" stroke-width="2"></circle>
+        <circle cx="300" cy="100" r="3" fill="var(--color-butter)" stroke="none"></circle>
+        <line x1="300" y1="100" x2="300" y2="60" stroke="var(--color-butter)" stroke-width="2.5"></line>
+        <line x1="300" y1="100" x2="330" y2="100" stroke="var(--color-butter)" stroke-width="2.5"></line>
+        <g stroke="var(--color-butter)" stroke-width="2">
+          <line x1="300" y1="44" x2="300" y2="50"></line><line x1="356" y1="100" x2="350" y2="100"></line>
+          <line x1="300" y1="156" x2="300" y2="150"></line><line x1="244" y1="100" x2="250" y2="100"></line>
+        </g>
+        <!-- stack of excel sheets -->
+        <g stroke="rgba(255,255,255,0.55)" stroke-width="2" fill="rgba(255,255,255,0.04)">
+          <rect x="70" y="200" width="180" height="150" rx="4" transform="rotate(-8 160 275)"></rect>
+          <rect x="90" y="180" width="180" height="150" rx="4" transform="rotate(-2 180 255)"></rect>
+          <rect x="110" y="160" width="180" height="150" rx="4" transform="rotate(3 200 235)"></rect>
+        </g>
+        <!-- top sheet with cells -->
+        <g transform="translate(110, 160) rotate(3 90 75)">
+          <rect x="0" y="0" width="180" height="150" rx="4" fill="#F7F2E8" stroke="var(--color-ink-900)" stroke-width="1.5"></rect>
+          <line x1="0" y1="22" x2="180" y2="22" stroke="var(--color-ink-900)" stroke-width="1"></line>
+          <line x1="45" y1="0" x2="45" y2="150" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
+          <line x1="90" y1="0" x2="90" y2="150" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
+          <line x1="135" y1="0" x2="135" y2="150" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
+          <line x1="0" y1="50" x2="180" y2="50" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
+          <line x1="0" y1="78" x2="180" y2="78" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
+          <line x1="0" y1="106" x2="180" y2="106" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
+          <rect x="0" y="0" width="180" height="22" fill="#164037" stroke="none"></rect>
+          <line x1="8" y1="36" x2="38" y2="36" stroke="var(--color-ink-900)" stroke-width="1.2" opacity="0.6"></line>
+          <line x1="50" y1="36" x2="80" y2="36" stroke="var(--color-ink-900)" stroke-width="1.2" opacity="0.6"></line>
+          <line x1="95" y1="64" x2="125" y2="64" stroke="var(--color-ink-900)" stroke-width="1.2" opacity="0.6"></line>
+          <line x1="140" y1="92" x2="170" y2="92" stroke="var(--color-ink-900)" stroke-width="1.2" opacity="0.6"></line>
+          <line x1="8" y1="120" x2="38" y2="120" stroke="var(--color-ink-900)" stroke-width="1.2" opacity="0.6"></line>
+        </g>
+        <!-- big red X -->
+        <path d="M 60 150 L 330 360" stroke="var(--color-orange-500)" stroke-width="7" stroke-linecap="round"></path>
+        <path d="M 330 150 L 60 360" stroke="var(--color-orange-500)" stroke-width="7" stroke-linecap="round"></path>
+      </svg>
+    </section>
+
+    <!-- ============ FEATURES (6 rzeczy) ============ -->
+    <!-- figma: 16:167 — Sześć rzeczy, które robimy dobrze -->
+    <section class="features" id="funkcje">
+      <div class="container">
+        <h2 class="features__heading">
+          Sześć rzeczy, które robimy <span class="hl">dobrze</span>.
+        </h2>
+        <p class="features__sub">Nie trzydzieści. Sześć. Bo więcej i&nbsp;tak nie potrzebujesz.</p>
+
+        <div class="features__grid">
+          <!-- 1: Plan zajęć -->
+          <article class="feature" data-figma="16:180">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><rect x="6" y="12" width="3" height="2" fill="currentColor" stroke="none"/><rect x="11" y="15" width="3" height="2" fill="currentColor" stroke="none"/></svg>
+            </div>
+            <span class="feature__label">drag &amp; drop</span>
+            <h3 class="feature__title">Plan zajęć, który <span class="hl">sam się układa</span></h3>
+            <p class="feature__body">Przenosisz lekcję myszką, a&nbsp;system sam sprawdza konflikty sal, lektorów i&nbsp;uczniów. Wysyła powiadomienia. Nie musisz dzwonić do&nbsp;nikogo.</p>
+          </article>
+
+          <!-- 2: Kadra -->
+          <article class="feature" data-figma="16:224">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+            </div>
+            <span class="feature__label">lektorzy i&nbsp;admin</span>
+            <h3 class="feature__title">Kadra w&nbsp;<span class="hl">jednej karcie</span></h3>
+            <p class="feature__body">Umowa, certyfikaty, godziny, zastępstwa, urlopy. Każdy lektor ma swój profil, a&nbsp;Ty — jeden panel, żeby wiedzieć kto dziś uczy i&nbsp;ile mu zapłacić w&nbsp;piątek.</p>
+          </article>
+
+          <!-- 3: Płatności -->
+          <article class="feature" data-figma="16:259">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="14" height="18" rx="2"/><path d="M8 8h6M8 12h6M8 16h4"/><circle cx="18" cy="18" r="3" fill="currentColor" stroke="none"/></svg>
+            </div>
+            <span class="feature__label">faktury i&nbsp;JPK</span>
+            <h3 class="feature__title">Płatności, które <span class="hl">same się ściągają</span></h3>
+            <p class="feature__body">Schooleo generuje faktury, wysyła maile z&nbsp;przypomnieniami, księguje wpłaty z&nbsp;konta. Ty widzisz tylko zielone kropki. Eksport do&nbsp;księgowej jednym kliknięciem.</p>
+          </article>
+
+          <!-- 4: Komunikacja -->
+          <article class="feature" data-figma="16:294">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="M3 8l7 5 7-5"/><circle cx="19" cy="6" r="3" fill="currentColor" stroke="none"/></svg>
+            </div>
+            <span class="feature__label">email + SMS + push</span>
+            <h3 class="feature__title">Jedna skrzynka <span class="hl">na wszystko</span></h3>
+            <p class="feature__body">Nieobecności, zmiany sali, zaległe płatności — wysyłane automatycznie albo ręcznie, w&nbsp;tym samym miejscu. Rodzice odpowiadają, widzisz historię. Koniec z&nbsp;„nie dostałem maila".</p>
+          </article>
+
+          <!-- 5: Raporty -->
+          <article class="feature" data-figma="16:338">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><rect x="5" y="13" width="3" height="6" fill="currentColor" stroke="none"/><rect x="10" y="9" width="3" height="10" fill="currentColor" stroke="none"/><rect x="15" y="5" width="3" height="14" fill="currentColor" stroke="none"/></svg>
+            </div>
+            <span class="feature__label">bez Excela</span>
+            <h3 class="feature__title">Raporty, które <span class="hl">mają sens</span></h3>
+            <p class="feature__body">Ile lekcji się odbyło, kto był, ile zarobiliśmy, którzy lektorzy mają luki w&nbsp;planie. Bez eksportów do&nbsp;Excela. Bez tabel przestawnych. Wchodzisz, patrzysz, zamykasz.</p>
+          </article>
+
+          <!-- 6: Portal -->
+          <article class="feature" data-figma="16:375">
+            <div class="feature__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 19h4"/><path d="M9 6h6"/></svg>
+            </div>
+            <span class="feature__label">web + mobile</span>
+            <h3 class="feature__title">Portal dla <span class="hl">uczniów i&nbsp;rodziców</span></h3>
+            <p class="feature__body">Plan zajęć, oceny, obecności, faktury — wszystko w&nbsp;telefonie. Rodzic sam widzi, że Jaś był w&nbsp;środę. Ty nie odpowiadasz już na&nbsp;40 maili tygodniowo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TRUSTED BY ============ -->
+    <!-- figma: 16:494 — Ponad 320 szkół prowadzi codzienną pracę w Schooleo -->
+    <section class="trusted" data-figma="16:494" aria-label="Zaufały nam szkoły">
+      <p class="trusted__heading">Ponad 320 szkół prowadzi codzienną pracę w&nbsp;Schooleo</p>
+      <div class="trusted__strip">
+        <div class="trusted__track">
+          <!-- pętla 1 -->
+          <span class="trusted__logo"><span class="trusted__monogram" style="background:var(--color-orange-500)">L</span><span class="trusted__name">Lingua Nova</span></span>
+          <span class="trusted__logo"><span class="trusted__monogram" style="background:var(--color-forest-900)">PS</span><span class="trusted__name">Polyglot School</span></span>
+          <span class="trusted__logo"><span class="trusted__monogram" style="background:var(--color-ink-900)">A</span><span class="trusted__name">Akademia Słów</span></span>
+          <span class="trusted__logo"><span class="trusted__monogram" style="background:var(--color-rust-700)">M</span><span class="trusted__name">Mozart Music Academy</span></span>
+          <span class="trusted__logo"><span class="trusted__monogram" style="background:var(--color-orange-500)">ES</span><span class="trusted__name">English Studio Kraków</span></span>
+          <span class="trusted__logo"><span class="trusted__monogram" style="background:var(--color-forest-900)">SP</span><span class="trusted__name">Szkoła Polonijna Toronto</span></span>
+          <span class="trusted__logo"><span class="trusted__monogram" style="background:var(--color-amber-300); color: var(--color-ink-900)">T</span><span class="trusted__name">Trio Matematyczne</span></span>
+          <span class="trusted__logo"><span class="trusted__monogram" style="background:var(--color-ink-900)">K</span><span class="trusted__name">Klub Języków Poznań</span></span>
+          <span class="trusted__logo"><span class="trusted__monogram" style="background:var(--color-orange-500)">O</span><span class="trusted__name">Open Mind School</span></span>
+          <span class="trusted__logo"><span class="trusted__monogram" style="background:var(--color-forest-900)">W</span><span class="trusted__name">Willowa Edukacja</span></span>
+          <!-- pętla 2 (duplikat dla nieskończonego scrolla) -->
+          <span class="trusted__logo" aria-hidden="true"><span class="trusted__monogram" style="background:var(--color-orange-500)">L</span><span class="trusted__name">Lingua Nova</span></span>
+          <span class="trusted__logo" aria-hidden="true"><span class="trusted__monogram" style="background:var(--color-forest-900)">PS</span><span class="trusted__name">Polyglot School</span></span>
+          <span class="trusted__logo" aria-hidden="true"><span class="trusted__monogram" style="background:var(--color-ink-900)">A</span><span class="trusted__name">Akademia Słów</span></span>
+          <span class="trusted__logo" aria-hidden="true"><span class="trusted__monogram" style="background:var(--color-rust-700)">M</span><span class="trusted__name">Mozart Music Academy</span></span>
+          <span class="trusted__logo" aria-hidden="true"><span class="trusted__monogram" style="background:var(--color-orange-500)">ES</span><span class="trusted__name">English Studio Kraków</span></span>
+          <span class="trusted__logo" aria-hidden="true"><span class="trusted__monogram" style="background:var(--color-forest-900)">SP</span><span class="trusted__name">Szkoła Polonijna Toronto</span></span>
+          <span class="trusted__logo" aria-hidden="true"><span class="trusted__monogram" style="background:var(--color-amber-300); color: var(--color-ink-900)">T</span><span class="trusted__name">Trio Matematyczne</span></span>
+          <span class="trusted__logo" aria-hidden="true"><span class="trusted__monogram" style="background:var(--color-ink-900)">K</span><span class="trusted__name">Klub Języków Poznań</span></span>
+          <span class="trusted__logo" aria-hidden="true"><span class="trusted__monogram" style="background:var(--color-orange-500)">O</span><span class="trusted__name">Open Mind School</span></span>
+          <span class="trusted__logo" aria-hidden="true"><span class="trusted__monogram" style="background:var(--color-forest-900)">W</span><span class="trusted__name">Willowa Edukacja</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ YES LIST (chip grid) ============ -->
+    <!-- figma: 16:410 — Tak! Schooleo to potrafi -->
+    <section class="yes" id="co-potrafi" data-figma="16:410">
+      <div class="container">
+        <div class="yes__intro">
+          <h2 class="yes__heading"><span class="yes__big">Tak!</span><br>Schooleo to potrafi.</h2>
+          <p class="yes__lead">Pytania, które najczęściej słyszymy od szkół przed pierwszą rozmową. Krótka odpowiedź to zwykle to samo słowo.</p>
+        </div>
+        <div class="yes__list">
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy obsłużymy szkołę językową z&nbsp;15 lektorami?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy możemy mieć kilka lokalizacji?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy wystawimy faktury z&nbsp;VAT i&nbsp;bez?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy zaimportujemy dane z&nbsp;Excela?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy działa na&nbsp;iPadzie lektora w&nbsp;sali?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy rodzic dostanie PDF faktury mailem?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy eksportujemy do&nbsp;Symfonii i&nbsp;Optimy?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy zastępstwa się same dokleją do&nbsp;grafiku?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy lektor zobaczy tylko swoje lekcje?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy są automatyczne przypomnienia SMS?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy dane są w&nbsp;Polsce i&nbsp;zgodne z&nbsp;RODO?</span></div>
+          <div class="yes__item"><svg class="yes__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L20 7"/></svg><span>Czy da się rozliczać pakietami godzin?</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ QUOTE ============ -->
+    <!-- figma: 16:620 — Cytat / Anna Kwiatkowska, Lingua Nova -->
+    <section class="quote-section" data-figma="16:620">
+      <div class="container">
+        <figure class="quote">
+          <blockquote class="quote__body">
+            „Trzy lata męczyłam się z&nbsp;dwoma arkuszami, programem do faktur i&nbsp;zeszytem. Przeszłam na&nbsp;Schooleo w&nbsp;sierpniu i&nbsp;we wrześniu pierwszy raz od lat <strong>nie pracowałam w&nbsp;weekend</strong>. Samo to jest warte tych pieniędzy."
+          </blockquote>
+          <figcaption class="quote__author">
+            <span class="quote__avatar" aria-hidden="true">AK</span>
+            <span class="quote__author-text">
+              <span class="quote__name">Anna Kwiatkowska</span>
+              <span class="quote__meta">Właścicielka, Lingua Nova · 12&nbsp;lektorów, Warszawa</span>
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <!-- figma: 16:637 — Najczęstsze pytania -->
+    <section class="faq-section" id="faq" data-figma="16:637">
+      <div class="wrap-narrow">
+        <h2>Najczęstsze pytania.</h2>
+        <p class="faq__sub">Coś jeszcze? Napisz na <a href="mailto:czesc@schooleo.io">czesc@schooleo.io</a> — odpowiadamy w&nbsp;kilka godzin, nie&nbsp;dni.</p>
+
+        <div class="faq-item is-open">
+          <button class="faq__q" type="button" aria-expanded="true">Ile to wszystko kosztuje? <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq__a"><div class="faq__a-inner">
+            <p>Od&nbsp;<strong>149&nbsp;zł miesięcznie</strong> dla szkoły do&nbsp;5&nbsp;lektorów. Nie&nbsp;sprzedajemy modułów, nie&nbsp;pobieramy za&nbsp;setup, nie&nbsp;mamy ukrytych limitów SMS-ów. Jedna cena, wszystko w&nbsp;środku. Większe szkoły — wycena na&nbsp;podstawie liczby aktywnych uczniów, zawsze prościej niż u&nbsp;konkurencji.</p>
+            <p>Pierwsze 30 dni jest za&nbsp;darmo — bez karty, bez deklaracji. Jeśli po&nbsp;miesiącu nie&nbsp;chcesz zostać, po&nbsp;prostu przestajesz się logować.</p>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq__q" type="button" aria-expanded="false">Ile zajmuje wdrożenie? <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq__a"><div class="faq__a-inner">
+            <p>Średnio <strong>od&nbsp;2 do&nbsp;5 dni</strong>. Nie&nbsp;mówimy o&nbsp;„implementacji z&nbsp;konsultantem na&nbsp;pół roku" — importujemy Twój Excel z&nbsp;uczniami, ustawiamy grupy, lektorów i&nbsp;sale, wrzucamy pierwszy grafik. Zwykle robimy to razem na&nbsp;jednym call-u.</p>
+            <p>Jeśli masz dane w&nbsp;innym systemie (Moodle, LangLion, Perfect Class) — też je wyciągniemy. Bez dopłat.</p>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq__q" type="button" aria-expanded="false">Czy moje dane są bezpieczne? <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq__a"><div class="faq__a-inner">
+            <p>Tak. Serwery w&nbsp;Warszawie (OVH), kopie zapasowe co&nbsp;4&nbsp;godziny, szyfrowanie TLS w&nbsp;tranzycie i&nbsp;AES-256 w&nbsp;spoczynku. Pełna zgodność z&nbsp;RODO, DPA do&nbsp;podpisu w&nbsp;ciągu 48 godzin.</p>
+            <p>Dane możesz wyeksportować w&nbsp;dowolnej chwili — CSV dla wszystkiego, PDF dla faktur i&nbsp;umów. Nie&nbsp;blokujemy Cię u&nbsp;siebie.</p>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq__q" type="button" aria-expanded="false">Co, jeśli coś nie&nbsp;działa? <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq__a"><div class="faq__a-inner">
+            <p>Piszesz na&nbsp;czat albo mail. Odpowiada człowiek — zwykle ten sam, który Cię wdrażał. Średni czas pierwszej odpowiedzi to&nbsp;<strong>47&nbsp;minut</strong> w&nbsp;godzinach 8–18.</p>
+            <p>Nie&nbsp;mamy call-centrum. Nie&nbsp;mamy bota pierwszej linii. Jest nas ośmioro i&nbsp;wszyscy znamy system na&nbsp;pamięć.</p>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq__q" type="button" aria-expanded="false">Czy mogę spróbować bez zobowiązań? <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq__a"><div class="faq__a-inner">
+            <p>Oczywiście. Rejestracja zajmuje 2&nbsp;minuty, nie&nbsp;prosimy o&nbsp;kartę. Dajemy <strong>30 dni pełnej wersji</strong> — bez limitów uczniów, lektorów czy faktur. Potem decydujesz.</p>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq__q" type="button" aria-expanded="false">A co wyróżnia Was spośród innych? <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq__a"><div class="faq__a-inner">
+            <p>Szczerze? Mniejsza liczba funkcji. Naprawdę. Inni sprzedają „kompleksową platformę" z&nbsp;14 modułami, dashboardami, CRM-em i&nbsp;e-learningiem, a&nbsp;Ty i&nbsp;tak używasz trzech rzeczy. My robimy tylko te trzy rzeczy — ale tak, żeby działały od&nbsp;pierwszego dnia.</p>
+            <p>I&nbsp;jesteśmy mali. Cały zespół to&nbsp;8 osób w&nbsp;Poznaniu. Dzwonisz — odbieramy.</p>
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <!-- figma: 16:688 — Sign-off "Zacznij od poniedziałku" -->
+    <section class="final-cta" id="cennik" data-figma="16:688">
+      <div class="container">
+        <div class="final-cta__inner">
+          <span class="final-cta__kicker">A może tyle już tej teorii?</span>
+          <h2>Zacznij od&nbsp;poniedziałku.</h2>
+          <p>30 dni za&nbsp;darmo. Bez karty. Bez rozmowy handlowej. Tylko Ty, Twoje dane i&nbsp;spokojny grafik.</p>
+          <a href="#" class="final-cta__btn">Załóż konto Schooleo</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <!-- figma: 16:704 -->
+  <footer class="footer" data-figma="16:704">
+    <div class="container footer__inner">
+      <span>© 2026 Schooleo · zrobione w&nbsp;Poznaniu</span>
+      <div class="footer__links">
+        <a href="#">Regulamin</a>
+        <a href="#">Prywatność</a>
+        <a href="#">Status</a>
+        <a href="mailto:czesc@schooleo.io">czesc@schooleo.io</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const topbar = document.getElementById('topbar');
+      const threshold = 80;
+      let last = -1;
+      const update = () => {
+        const scrolled = window.scrollY > threshold;
+        if (scrolled !== last) {
+          topbar.classList.toggle('is-scrolled', scrolled);
+          last = scrolled;
+        }
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+
+      // Burger drawer
+      const burger = document.getElementById('burger');
+      const drawer = document.getElementById('mobile-drawer');
+      const setOpen = (open) => {
+        topbar.classList.toggle('is-menu-open', open);
+        drawer.classList.toggle('is-open', open);
+        drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        document.body.style.overflow = open ? 'hidden' : '';
+      };
+      burger.addEventListener('click', () => setOpen(!drawer.classList.contains('is-open')));
+      drawer.addEventListener('click', (e) => {
+        if (e.target.closest('[data-drawer-close]')) setOpen(false);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer.classList.contains('is-open')) setOpen(false);
+      });
+
+      // FAQ accordion
+      const setFaqOpen = (item, open) => {
+        item.classList.toggle('is-open', open);
+        const btn = item.querySelector('.faq__q');
+        const panel = item.querySelector('.faq__a');
+        const inner = item.querySelector('.faq__a-inner');
+        if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (panel && inner) panel.style.maxHeight = open ? inner.scrollHeight + 'px' : '0px';
+      };
+      document.querySelectorAll('.faq-item').forEach((item) => {
+        // start: jeśli już ma .is-open → ustaw maxHeight
+        if (item.classList.contains('is-open')) setFaqOpen(item, true);
+        const btn = item.querySelector('.faq__q');
+        if (btn) btn.addEventListener('click', () => setFaqOpen(item, !item.classList.contains('is-open')));
+      });
+    })();
+  </script>
+</body>
+</html>
