@@ -220,12 +220,12 @@
       margin-bottom: var(--space-8);
       transition: opacity 200ms ease, transform 200ms ease;
     }
-    .hero__brand-icon { width: 56px; height: 56px; flex-shrink: 0; }
-    .hero__brand-wordmark { height: 38px; width: auto; }
+    .hero__brand-icon { width: 44px; height: 44px; flex-shrink: 0; }
+    .hero__brand-wordmark { height: 30px; width: auto; }
     @media (min-width: 768px) {
-      .hero__brand { gap: 18px; margin-bottom: var(--space-10); }
-      .hero__brand-icon { width: 72px; height: 72px; }
-      .hero__brand-wordmark { height: 50px; }
+      .hero__brand { gap: 14px; margin-bottom: var(--space-10); }
+      .hero__brand-icon { width: 56px; height: 56px; }
+      .hero__brand-wordmark { height: 40px; }
     }
     /* gdy mini-logo w topbarze się pojawia, hero__brand się chowa */
     .topbar.is-scrolled ~ main .hero__brand {
@@ -273,23 +273,29 @@
       gap: var(--space-2);
       font: var(--font-label);
       letter-spacing: 0;
-      border-radius: 999px;
-      transition: background var(--transition-base), transform var(--transition-fast), box-shadow var(--transition-base);
+      border-radius: 10px;
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
       cursor: pointer;
     }
+    /* figma 16:47 — primary CTA: chunky drop shadow #8B2510, brick-900 */
     .btn--primary {
-      padding: 14px 24px;
+      padding: 16px 26px;
       background: var(--color-orange-500);
       color: var(--color-paper);
-      font-size: 15px;
-      box-shadow: 0 1px 0 rgba(193, 58, 21, 0.6) inset, 0 6px 16px rgba(232, 75, 32, 0.18);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      box-shadow: 0 4px 0 var(--color-brick-900);
     }
     .btn--primary:hover {
-      background: var(--color-rust-700);
       transform: translateY(-1px);
-      box-shadow: 0 1px 0 rgba(139, 37, 16, 0.5) inset, 0 8px 22px rgba(232, 75, 32, 0.26);
+      box-shadow: 0 5px 0 var(--color-brick-900);
     }
-    .btn--primary:active { transform: translateY(0); }
+    .btn--primary:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 var(--color-brick-900);
+    }
 
     .hero__handwritten {
       display: inline-flex;
@@ -1243,7 +1249,10 @@
         burger.setAttribute('aria-expanded', open ? 'true' : 'false');
         document.body.style.overflow = open ? 'hidden' : '';
       };
-      burger.addEventListener('click', () => setOpen(!drawer.classList.contains('is-open')));
+      burger.addEventListener('click', (e) => {
+        setOpen(!drawer.classList.contains('is-open'));
+        if (e.detail !== 0) burger.blur(); // pointer click — usuń focus ring; klawiatura zachowuje focus
+      });
       drawer.addEventListener('click', (e) => {
         if (e.target.closest('[data-drawer-close]')) setOpen(false);
       });
