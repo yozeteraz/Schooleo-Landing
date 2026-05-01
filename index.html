@@ -455,11 +455,14 @@
     .feature__icon img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
       display: block;
     }
-    .feature__icon--img { background: var(--color-paper); padding: 0; }
+    .feature__icon--img {
+      background: var(--bg-warm);
+      padding: 12px;
+    }
 
     .feature__label {
       display: inline-block;
