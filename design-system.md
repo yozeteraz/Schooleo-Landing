@@ -42,44 +42,50 @@ W każdym HTML-u dołącz `tokens.css` przed własnymi stylami:
 
 ---
 
-## Kolory — Primary (orange-red)
+## Kolory (zsynchronizowane z Figma Variables)
 
-| Token CSS | Hex | Użycie |
-|-----------|-----|--------|
-| `--color-primary-100` | `#FDEEE9` | tła selected, focus background, brand-subtle |
-| `--color-primary-300` | `#F5A623` | — |
-| `--color-primary-500` | `#E84B20` | **główny brand** — primary button, focus border |
-| `--color-primary-700` | `#C13A15` | hover/pressed primary button |
-| `--color-primary-900` | `#8B2510` | text na brand-subtle bg |
+**Źródło prawdy:** kolekcja `Schooleo / Colors` w pliku Figma `T3MkG8vqRgLc5BzM3DA1aS` (19 zmiennych) + `tokens.css` w kodzie. Brand Foundation (node `9:7`) i landing (node `16:2`) mają fills/strokes podpięte do tych zmiennych.
 
-## Kolory — Neutral
+**Konwencja nazw:** każdy kolor ma nazwę „ludzką" (peach, orange, cream, fog…) — w Figmie z numerem skali w sufiksie (`primary/orange-500`), w CSS dwa równoległe tokeny: skalowy (`--color-primary-500`) i ludzki (`--color-orange-500`). **Można używać zamiennie**, oba wskazują na ten sam kolor.
 
-| Token CSS | Hex | Alias | Użycie |
-|-----------|-----|-------|--------|
-| `--color-neutral-50`  | `#F7F4EE` | `--bg-warm`       | główne tło |
-| `--color-neutral-100` | `#F0EDE7` | `--bg-subtle`     | hover ghost, disabled bg |
-| `--color-neutral-200` | `#E8E4DA` | `--border`        | hairline borders |
-| `--color-neutral-400` | `#B0AAA0` | `--text-subtle`, `--border-strong` | disabled text, hover border |
-| `--color-neutral-600` | `#6B6560` | `--text-muted`    | placeholder, helper text |
-| `--color-neutral-800` | `#2E2A26` | —                 | — |
-| `--color-neutral-900` | `#1A1714` | `--text`          | główny tekst |
+### Primary (orange-red)
 
-## Kolory — Green (logo) i Accent
+| Figma Variable | Token CSS (skalowy) | Alias ludzki | Hex | Użycie |
+|----------------|---------------------|--------------|-----|--------|
+| `primary/peach-100`  | `--color-primary-100` | `--color-peach-100`  | `#FDEEE9` | tła selected, focus, brand-subtle |
+| `primary/amber-300`  | `--color-primary-300` | `--color-amber-300`  | `#F5A623` | akcent ostrzegawczy/żółty |
+| `primary/orange-500` | `--color-primary-500` | `--color-orange-500` | `#E84B20` | **główny brand** — primary button, focus border |
+| `primary/rust-700`   | `--color-primary-700` | `--color-rust-700`   | `#C13A15` | hover/pressed primary button |
+| `primary/brick-900`  | `--color-primary-900` | `--color-brick-900`  | `#8B2510` | text na brand-subtle bg |
 
-| Token CSS | Hex | Użycie |
-|-----------|-----|--------|
-| `--color-green-900` | `#164037` | logo |
-| `--color-accent-highlight` | `#FDE68A` | żółte podkreślenie nagłówków |
-| `--color-white` | `#FFFFFF` | tło inputów, karty na scenie |
+### Neutral
 
-## Kolory — Semantic
+| Figma Variable | Token CSS (skalowy) | Alias ludzki | Hex | Alias semantyczny | Użycie |
+|----------------|---------------------|--------------|-----|-------------------|--------|
+| `neutral/cream-50`     | `--color-neutral-50`  | `--color-cream-50`     | `#F7F4EE` | `--bg-warm`       | główne tło |
+| `neutral/sand-100`     | `--color-neutral-100` | `--color-sand-100`     | `#F0EDE7` | `--bg-subtle`     | hover ghost, disabled bg |
+| `neutral/stone-200`    | `--color-neutral-200` | `--color-stone-200`    | `#E8E4DA` | `--border`        | hairline borders |
+| `neutral/fog-400`      | `--color-neutral-400` | `--color-fog-400`      | `#B0AAA0` | `--text-subtle`, `--border-strong` | disabled text, hover border |
+| `neutral/smoke-600`    | `--color-neutral-600` | `--color-smoke-600`    | `#6B6560` | `--text-muted`    | placeholder, helper text |
+| `neutral/charcoal-800` | `--color-neutral-800` | `--color-charcoal-800` | `#2E2A26` | —                 | — |
+| `neutral/ink-900`      | `--color-neutral-900` | `--color-ink-900`      | `#1A1714` | `--text`          | główny tekst |
 
-| Token CSS | Hex | Użycie |
-|-----------|-----|--------|
-| `--color-success` | `#2ECC71` | powodzenie |
-| `--color-error`   | `#E74C3C` | błędy walidacji |
-| `--color-warning` | `#F39C12` | ostrzeżenia |
-| `--color-info`    | `#3498DB` | informacje |
+### Green (logo) i Accent
+
+| Figma Variable | Token CSS (skalowy) | Alias ludzki | Hex | Użycie |
+|----------------|---------------------|--------------|-----|--------|
+| `green/forest-900` | `--color-green-900`        | `--color-forest-900` | `#164037` | logo |
+| `accent/butter`    | `--color-accent-highlight` | `--color-butter`     | `#FDE68A` | żółte podkreślenie nagłówków |
+| `accent/paper`     | `--color-white`            | `--color-paper`      | `#FFFFFF` | tło inputów, karty na scenie |
+
+### Semantic
+
+| Figma Variable | Token CSS (skalowy) | Alias ludzki | Hex | Użycie |
+|----------------|---------------------|--------------|-----|--------|
+| `semantic/leaf`     | `--color-success` | `--color-leaf`     | `#2ECC71` | powodzenie |
+| `semantic/tomato`   | `--color-error`   | `--color-tomato`   | `#E74C3C` | błędy walidacji |
+| `semantic/marigold` | `--color-warning` | `--color-marigold` | `#F39C12` | ostrzeżenia |
+| `semantic/sky`      | `--color-info`    | `--color-sky`      | `#3498DB` | informacje |
 
 ---
 

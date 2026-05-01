@@ -35,6 +35,29 @@
   --color-warning: #F39C12;
   --color-info:    #3498DB;
 
+  /* ---------- Aliasy „ludzkie" (lustro nazw z Figma Variables) ----------
+     Każdy alias = ten sam kolor co token wyżej, tylko pod nazwą czytelną.
+     Można używać zamiennie z `--color-primary-500` itd. */
+  --color-peach-100:    var(--color-primary-100);
+  --color-amber-300:    var(--color-primary-300);
+  --color-orange-500:   var(--color-primary-500);
+  --color-rust-700:     var(--color-primary-700);
+  --color-brick-900:    var(--color-primary-900);
+  --color-cream-50:     var(--color-neutral-50);
+  --color-sand-100:     var(--color-neutral-100);
+  --color-stone-200:    var(--color-neutral-200);
+  --color-fog-400:      var(--color-neutral-400);
+  --color-smoke-600:    var(--color-neutral-600);
+  --color-charcoal-800: var(--color-neutral-800);
+  --color-ink-900:      var(--color-neutral-900);
+  --color-forest-900:   var(--color-green-900);
+  --color-butter:       var(--color-accent-highlight);
+  --color-paper:        var(--color-white);
+  --color-leaf:         var(--color-success);
+  --color-tomato:       var(--color-error);
+  --color-marigold:     var(--color-warning);
+  --color-sky:          var(--color-info);
+
   /* ---------- Aliasy semantyczne (użycie w UI) ---------- */
   --bg-warm:       var(--color-neutral-50);
   --bg-subtle:     var(--color-neutral-100);
