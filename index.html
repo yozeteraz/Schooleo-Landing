@@ -313,23 +313,116 @@
       stroke-width: 2;
     }
 
-    .hero__price-chip {
-      display: inline-flex;
+    /* Hero — price chip warianty (A/B/C) — przełączane przez [data-chip-variant] na <body> */
+    .hero__price-eyebrow,
+    .hero__price-microcopy,
+    .topbar__price-tag { display: none; }
+    body[data-chip-variant="a"] .hero__price-eyebrow { display: inline-flex; }
+    body[data-chip-variant="b"] .hero__price-microcopy { display: inline-flex; }
+    body[data-chip-variant="c"] .topbar__price-tag { display: inline-flex; }
+
+    /* Wariant A — eyebrow nad H1 */
+    .hero__price-eyebrow {
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      font: var(--font-eyebrow);
+      font-weight: 700;
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--color-orange-500);
+      text-decoration: none;
+    }
+    .hero__price-eyebrow:hover { color: var(--color-rust-700); }
+    .hero__price-eyebrow .dot {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: currentColor; opacity: 0.55;
+    }
+
+    /* Wariant B — microcopy pod CTA, bez chipa */
+    .hero__price-microcopy {
       align-items: center;
       gap: 8px;
       margin-top: var(--space-5);
-      padding: 8px 14px;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      border-radius: 999px;
       font-size: 14px;
       color: var(--text-muted);
       text-decoration: none;
-      transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+      flex-wrap: wrap;
     }
-    .hero__price-chip strong { color: var(--text); font-weight: 700; }
-    .hero__price-chip:hover { background: var(--color-paper); border-color: var(--border-strong); color: var(--text); }
-    .hero__price-chip__dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-neutral-400); display: inline-block; }
+    .hero__price-microcopy strong { color: var(--text); font-weight: 700; }
+    .hero__price-microcopy .link {
+      color: var(--color-orange-500);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1.5px;
+    }
+    .hero__price-microcopy .link:hover { color: var(--color-rust-700); }
+    .hero__price-microcopy .dot {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: var(--color-neutral-400);
+    }
+
+    /* Wariant C — pill w topbarze (peach bg, brand text) */
+    .topbar__price-tag {
+      align-items: center;
+      gap: 6px;
+      margin-right: var(--space-3);
+      padding: 6px 12px;
+      background: var(--color-primary-100);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-rust-700);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .topbar__price-tag:hover { background: var(--color-orange-500); color: var(--color-paper); }
+    @media (max-width: 760px) {
+      body[data-chip-variant="c"] .topbar__price-tag { display: none; }
+    }
+
+    /* Floating preview switcher — narzędzie do podglądu wariantów */
+    .variant-switcher {
+      position: fixed;
+      top: 78px;
+      right: 16px;
+      z-index: 9999;
+      display: inline-flex;
+      align-items: center;
+      background: rgba(26, 23, 20, 0.94);
+      color: #fff;
+      border-radius: 999px;
+      padding: 4px;
+      gap: 2px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(8px);
+    }
+    .variant-switcher__label {
+      padding: 0 10px 0 12px;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .variant-switcher__btn {
+      border: 0;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font: inherit;
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .variant-switcher__btn:hover { color: #fff; }
+    .variant-switcher__btn.is-active {
+      background: var(--color-orange-500);
+      color: #fff;
+    }
 
     /* ---------- Statement section (dark) ---------- */
     /* figma: 16:114 — bg forest-900, eyebrow Caveat, h2 52px Display/XL, paragrafy body-large */
@@ -990,7 +1083,15 @@
     .footer a:hover { color: var(--text); }
   </style>
 </head>
-<body>
+<body data-chip-variant="a">
+
+  <!-- ============ PREVIEW SWITCHER (dev) ============ -->
+  <div class="variant-switcher" role="radiogroup" aria-label="Wariant chipa cenowego">
+    <span class="variant-switcher__label">Wariant chipa</span>
+    <button type="button" class="variant-switcher__btn" data-variant="a" aria-pressed="true" title="Eyebrow nad H1">A</button>
+    <button type="button" class="variant-switcher__btn" data-variant="b" aria-pressed="false" title="Microcopy pod CTA">B</button>
+    <button type="button" class="variant-switcher__btn" data-variant="c" aria-pressed="false" title="Pill w topbarze">C</button>
+  </div>
 
   <!-- ============ TOPBAR ============ -->
   <!-- figma: 16:3 Header — kolumna 1120px, logo na lewej krawędzi -->
@@ -1023,6 +1124,7 @@
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#cennik">Cennik</a></li>
       </ul>
+      <a href="#cennik" class="topbar__price-tag">od 149 zł / mies.</a>
       <button type="button" class="topbar__burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-drawer">
         <svg class="burger-icon" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <line class="l1" x1="1" y1="1" x2="17" y2="1"/>
@@ -1070,6 +1172,14 @@
           </svg>
         </div>
 
+        <a href="#cennik" class="hero__price-eyebrow">
+          od 149 zł / mies.
+          <span class="dot" aria-hidden="true"></span>
+          30 dni za&nbsp;darmo
+          <span class="dot" aria-hidden="true"></span>
+          bez karty
+        </a>
+
         <h1 class="hero__headline">
           Jeden system<br>zamiast <span class="hero__highlight">pięciu aplikacji</span>.
         </h1>
@@ -1089,12 +1199,10 @@
           </span>
         </div>
 
-        <a href="#cennik" class="hero__price-chip">
-          od&nbsp;<strong>149&nbsp;zł / mies.</strong>
-          <span class="hero__price-chip__dot" aria-hidden="true"></span>
-          bez karty
-          <span class="hero__price-chip__dot" aria-hidden="true"></span>
-          30 dni za&nbsp;darmo
+        <a href="#cennik" class="hero__price-microcopy">
+          Od&nbsp;<strong>149&nbsp;zł / mies.</strong>
+          <span class="dot" aria-hidden="true"></span>
+          <span class="link">Zobacz pełny cennik →</span>
         </a>
       </div>
     </section>
@@ -1478,6 +1586,28 @@
         const btn = item.querySelector('.faq__q');
         if (btn) btn.addEventListener('click', () => setFaqOpen(item, !item.classList.contains('is-open')));
       });
+
+      // Variant switcher — chip cenowy w hero (A/B/C)
+      const switcher = document.querySelector('.variant-switcher');
+      if (switcher) {
+        const KEY = 'schooleo-chip-variant';
+        const apply = (v) => {
+          document.body.setAttribute('data-chip-variant', v);
+          switcher.querySelectorAll('.variant-switcher__btn').forEach((b) => {
+            const active = b.dataset.variant === v;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          try { localStorage.setItem(KEY, v); } catch (e) {}
+        };
+        switcher.addEventListener('click', (e) => {
+          const btn = e.target.closest('.variant-switcher__btn');
+          if (btn) apply(btn.dataset.variant);
+        });
+        let initial = 'a';
+        try { initial = localStorage.getItem(KEY) || 'a'; } catch (e) {}
+        apply(initial);
+      }
 
       // Pricing calculator
       const pricing = document.getElementById('pricing-widget');
