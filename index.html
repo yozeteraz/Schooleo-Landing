@@ -313,116 +313,63 @@
       stroke-width: 2;
     }
 
-    /* Hero — price chip warianty (A/B/C) — przełączane przez [data-chip-variant] na <body> */
-    .hero__price-eyebrow,
-    .hero__price-microcopy,
-    .topbar__price-tag { display: none; }
-    body[data-chip-variant="a"] .hero__price-eyebrow { display: inline-flex; }
-    body[data-chip-variant="b"] .hero__price-microcopy { display: inline-flex; }
-    body[data-chip-variant="c"] .topbar__price-tag { display: inline-flex; }
-
-    /* Wariant A — eyebrow nad H1 */
-    .hero__price-eyebrow {
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      font: var(--font-eyebrow);
+    /* Hero — drugi przycisk (outline) obok primary CTA */
+    .hero__cta-secondary.btn {
+      padding: 16px 26px;
+      background: var(--color-paper);
+      color: var(--text);
+      font-size: 18px;
       font-weight: 700;
-      letter-spacing: var(--tracking-eyebrow);
-      text-transform: uppercase;
-      color: var(--color-orange-500);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      border: 2px solid var(--text);
+      box-shadow: 0 4px 0 var(--text);
       text-decoration: none;
     }
-    .hero__price-eyebrow:hover { color: var(--color-rust-700); }
-    .hero__price-eyebrow .dot {
-      width: 3px; height: 3px; border-radius: 50%;
-      background: currentColor; opacity: 0.55;
+    .hero__cta-secondary.btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 0 var(--text);
+    }
+    .hero__cta-secondary.btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 var(--text);
+    }
+    .hero__cta-secondary .price {
+      color: var(--color-orange-500);
+      margin-left: 4px;
     }
 
-    /* Wariant B — microcopy pod CTA, bez chipa */
-    .hero__price-microcopy {
-      align-items: center;
-      gap: 8px;
-      margin-top: var(--space-5);
-      font-size: 14px;
-      color: var(--text-muted);
-      text-decoration: none;
-      flex-wrap: wrap;
+    /* Hero price statement — bold Inter z butter highlight (jak H1 highlight) */
+    .hero__price-statement {
+      margin: 28px 0 0;
+      font-size: clamp(20px, 2.4vw, 26px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+      color: var(--text);
+      text-wrap: balance;
+      max-width: 32ch;
     }
-    .hero__price-microcopy strong { color: var(--text); font-weight: 700; }
-    .hero__price-microcopy .link {
+    .hero__price-statement .price {
+      background-image: linear-gradient(transparent 60%, var(--color-butter) 60%, var(--color-butter) 92%, transparent 92%);
+      background-repeat: no-repeat;
+      padding-inline: 0.1em;
+    }
+    .hero__price-statement .muted {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .hero__price-statement .link {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 15px;
+      font-weight: 600;
       color: var(--color-orange-500);
       text-decoration: underline;
       text-underline-offset: 3px;
       text-decoration-thickness: 1.5px;
     }
-    .hero__price-microcopy .link:hover { color: var(--color-rust-700); }
-    .hero__price-microcopy .dot {
-      width: 3px; height: 3px; border-radius: 50%;
-      background: var(--color-neutral-400);
-    }
-
-    /* Wariant C — pill w topbarze (peach bg, brand text) */
-    .topbar__price-tag {
-      align-items: center;
-      gap: 6px;
-      margin-right: var(--space-3);
-      padding: 6px 12px;
-      background: var(--color-primary-100);
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--color-rust-700);
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background var(--transition-fast), color var(--transition-fast);
-    }
-    .topbar__price-tag:hover { background: var(--color-orange-500); color: var(--color-paper); }
-    @media (max-width: 760px) {
-      body[data-chip-variant="c"] .topbar__price-tag { display: none; }
-    }
-
-    /* Floating preview switcher — narzędzie do podglądu wariantów */
-    .variant-switcher {
-      position: fixed;
-      top: 78px;
-      right: 16px;
-      z-index: 9999;
-      display: inline-flex;
-      align-items: center;
-      background: rgba(26, 23, 20, 0.94);
-      color: #fff;
-      border-radius: 999px;
-      padding: 4px;
-      gap: 2px;
-      font-family: var(--font-sans);
-      font-size: 12px;
-      font-weight: 700;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
-      backdrop-filter: blur(8px);
-    }
-    .variant-switcher__label {
-      padding: 0 10px 0 12px;
-      color: rgba(255, 255, 255, 0.55);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-    .variant-switcher__btn {
-      border: 0;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.7);
-      padding: 6px 12px;
-      border-radius: 999px;
-      font: inherit;
-      cursor: pointer;
-      transition: background var(--transition-fast), color var(--transition-fast);
-    }
-    .variant-switcher__btn:hover { color: #fff; }
-    .variant-switcher__btn.is-active {
-      background: var(--color-orange-500);
-      color: #fff;
-    }
+    .hero__price-statement .link:hover { color: var(--color-rust-700); }
 
     /* ---------- Statement section (dark) ---------- */
     /* figma: 16:114 — bg forest-900, eyebrow Caveat, h2 52px Display/XL, paragrafy body-large */
@@ -444,18 +391,35 @@
       z-index: 2;
     }
 
-    .statement__illo {
-      position: absolute;
-      right: -40px;
-      bottom: -30px;
-      width: 400px;
-      height: 400px;
-      opacity: 0.95;
-      pointer-events: none;
-      z-index: 1;
+    .statement__layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+      align-items: center;
     }
-    @media (max-width: 768px) {
-      .statement__illo { display: none; }
+    @media (min-width: 900px) {
+      .statement__layout {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        gap: var(--space-12);
+        align-items: center;
+      }
+      .statement .container { max-width: 1240px; }
+      .statement__inner { max-width: none; margin-inline: 0; }
+    }
+
+    .statement__media {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .statement__media img {
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+      display: block;
+    }
+    @media (max-width: 899px) {
+      .statement__media img { max-width: 420px; }
     }
 
     .statement__eyebrow {
@@ -552,8 +516,8 @@
 
     .feature__icon {
       width: 220px;
-      height: 200px;
-      margin-bottom: var(--space-5);
+      height: 220px;
+      margin-bottom: var(--space-4);
       border-radius: var(--radius-md);
       background: var(--bg-subtle);
       border: 1px solid var(--border);
@@ -586,14 +550,16 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
+      object-position: center;
     }
 
     .feature__label {
       display: inline-block;
       font-family: var(--font-accent);
-      font-size: 22px;
-      line-height: 1.3;
-      color: var(--color-orange-500);
+      font-size: 26px;
+      line-height: 1.2;
+      font-weight: 700;
+      color: var(--color-rust-700);
       transform: rotate(-2deg);
       margin-bottom: var(--space-3);
     }
@@ -1058,6 +1024,206 @@
       margin: 16px 0 0;
     }
 
+    /* ---------- Pricing — wariant B (slider) ---------- */
+    .pricing__slider-wrap {
+      max-width: 480px;
+      margin: 0 auto 28px;
+      text-align: left;
+    }
+    .pricing__slider-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+    .pricing__slider-label {
+      font: var(--font-eyebrow);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .pricing__slider-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .pricing__slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(to right, var(--color-orange-500) 0%, var(--color-orange-500) var(--fill, 0%), var(--bg-subtle) var(--fill, 0%), var(--bg-subtle) 100%);
+      outline: none;
+      cursor: pointer;
+    }
+    .pricing__slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--color-paper);
+      border: 3px solid var(--color-orange-500);
+      box-shadow: 0 2px 8px rgba(232, 75, 32, 0.25);
+      cursor: grab;
+      transition: transform var(--transition-fast);
+    }
+    .pricing__slider::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.08); }
+    .pricing__slider::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--color-paper);
+      border: 3px solid var(--color-orange-500);
+      box-shadow: 0 2px 8px rgba(232, 75, 32, 0.25);
+      cursor: grab;
+    }
+    .pricing__ticks {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding: 0 6px;
+    }
+    .pricing__tick {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: 0;
+      padding: 4px 6px;
+      transition: color var(--transition-fast);
+    }
+    .pricing__tick:hover { color: var(--text); }
+    .pricing__tick.is-active { color: var(--color-orange-500); }
+
+    /* ---------- Pricing — wariant C (stepper + savings) ---------- */
+    .pricing__stepper-wrap {
+      max-width: 380px;
+      margin: 0 auto 24px;
+    }
+    .pricing__stepper-label {
+      display: block;
+      font: var(--font-eyebrow);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .pricing__stepper {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      background: var(--color-paper);
+      border: 2px solid var(--text);
+      border-radius: 12px;
+      box-shadow: 0 4px 0 var(--text);
+      padding: 4px;
+    }
+    .pricing__stepper-btn {
+      width: 44px;
+      height: 44px;
+      border: 0;
+      background: transparent;
+      border-radius: 8px;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+    .pricing__stepper-btn:hover:not(:disabled) { background: var(--bg-subtle); }
+    .pricing__stepper-btn:disabled { color: var(--text-subtle); cursor: not-allowed; }
+    .pricing__stepper-input {
+      width: 90px;
+      height: 44px;
+      border: 0;
+      background: transparent;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      outline: none;
+      -moz-appearance: textfield;
+    }
+    .pricing__stepper-input::-webkit-outer-spin-button,
+    .pricing__stepper-input::-webkit-inner-spin-button {
+      -webkit-appearance: none; margin: 0;
+    }
+    .pricing__stepper-suffix {
+      font-size: 14px;
+      color: var(--text-muted);
+      padding-right: 14px;
+      white-space: nowrap;
+    }
+    .pricing__tier-badge {
+      display: inline-block;
+      background: var(--color-peach-100);
+      color: var(--color-rust-700);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-top: 14px;
+    }
+    .pricing__breakdown {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      max-width: 480px;
+      margin: 24px auto 0;
+    }
+    .pricing__breakdown-cell {
+      background: var(--bg-warm);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      text-align: left;
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+    }
+    .pricing__breakdown-cell.is-selected {
+      border-color: var(--color-orange-500);
+      background: var(--color-paper);
+      box-shadow: 0 0 0 1px var(--color-orange-500);
+    }
+    .pricing__breakdown-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .pricing__breakdown-price {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .pricing__breakdown-price small {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .pricing__breakdown-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .pricing__savings {
+      display: inline-block;
+      background: var(--color-success);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-left: 6px;
+      vertical-align: 1px;
+    }
+
     @media (max-width: 640px) {
       .pricing { padding: 64px 0; }
       .pricing__widget { padding: 28px 20px; }
@@ -1083,15 +1249,7 @@
     .footer a:hover { color: var(--text); }
   </style>
 </head>
-<body data-chip-variant="a">
-
-  <!-- ============ PREVIEW SWITCHER (dev) ============ -->
-  <div class="variant-switcher" role="radiogroup" aria-label="Wariant chipa cenowego">
-    <span class="variant-switcher__label">Wariant chipa</span>
-    <button type="button" class="variant-switcher__btn" data-variant="a" aria-pressed="true" title="Eyebrow nad H1">A</button>
-    <button type="button" class="variant-switcher__btn" data-variant="b" aria-pressed="false" title="Microcopy pod CTA">B</button>
-    <button type="button" class="variant-switcher__btn" data-variant="c" aria-pressed="false" title="Pill w topbarze">C</button>
-  </div>
+<body>
 
   <!-- ============ TOPBAR ============ -->
   <!-- figma: 16:3 Header — kolumna 1120px, logo na lewej krawędzi -->
@@ -1121,10 +1279,11 @@
       <ul class="topbar__links">
         <li><a href="#funkcje">Funkcje</a></li>
         <li><a href="#co-potrafi">Co potrafi</a></li>
+        <li><a href="case-study.html">Case study</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#cennik">Cennik</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
       </ul>
-      <a href="#cennik" class="topbar__price-tag">od 149 zł / mies.</a>
       <button type="button" class="topbar__burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-drawer">
         <svg class="burger-icon" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <line class="l1" x1="1" y1="1" x2="17" y2="1"/>
@@ -1132,7 +1291,7 @@
           <line class="l3" x1="1" y1="13" x2="17" y2="13"/>
         </svg>
       </button>
-      <a href="#" class="topbar__login">Zaloguj się</a>
+      <a href="login.html" class="topbar__login">Zaloguj się</a>
     </nav>
    </div>
   </header>
@@ -1144,8 +1303,11 @@
       <ul class="mobile-drawer__links">
         <li><a href="#funkcje" data-drawer-close>Funkcje</a></li>
         <li><a href="#co-potrafi" data-drawer-close>Co potrafi</a></li>
+        <li><a href="case-study.html">Case study</a></li>
         <li><a href="#faq" data-drawer-close>FAQ</a></li>
         <li><a href="#cennik" data-drawer-close>Cennik</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+        <li><a href="login.html">Zaloguj się</a></li>
       </ul>
     </aside>
   </div>
@@ -1172,14 +1334,6 @@
           </svg>
         </div>
 
-        <a href="#cennik" class="hero__price-eyebrow">
-          od 149 zł / mies.
-          <span class="dot" aria-hidden="true"></span>
-          30 dni za&nbsp;darmo
-          <span class="dot" aria-hidden="true"></span>
-          bez karty
-        </a>
-
         <h1 class="hero__headline">
           Jeden system<br>zamiast <span class="hero__highlight">pięciu aplikacji</span>.
         </h1>
@@ -1199,11 +1353,10 @@
           </span>
         </div>
 
-        <a href="#cennik" class="hero__price-microcopy">
-          Od&nbsp;<strong>149&nbsp;zł / mies.</strong>
-          <span class="dot" aria-hidden="true"></span>
-          <span class="link">Zobacz pełny cennik →</span>
-        </a>
+        <p class="hero__price-statement">
+          <span class="price">Od&nbsp;149&nbsp;zł / miesięcznie.</span> <span class="muted">Bez modułów do&nbsp;dokupienia. Bez konsultantów. Bez ukrytych dopłat.</span>
+          <a href="#cennik" class="link">Zobacz cennik →</a>
+        </p>
       </div>
     </section>
 
@@ -1211,66 +1364,33 @@
     <!-- figma: 16:114 — Tak myślimy o Twojej pracy / Prowadzisz szkołę żeby uczyć -->
     <section class="statement">
       <div class="container">
-        <div class="statement__inner">
-          <span class="statement__eyebrow">Tak myślimy o&nbsp;Twojej pracy</span>
+        <div class="statement__layout">
+          <div class="statement__inner">
+            <span class="statement__eyebrow">Tak myślimy o&nbsp;Twojej pracy</span>
 
-          <h2 class="statement__headline">
-            Prowadzisz szkołę, żeby <span class="statement__highlight">uczyć</span>.<br>
-            Nie żeby kleić grafiki w&nbsp;Excelu o&nbsp;23:00.
-          </h2>
+            <h2 class="statement__headline">
+              Prowadzisz szkołę, żeby <span class="statement__highlight">uczyć</span>.<br>
+              Nie żeby kleić grafiki w&nbsp;Excelu o&nbsp;23:00.
+            </h2>
 
-          <div class="statement__body">
-            <p>
-              Znamy to: poniedziałek rano, lektor choruje, trzeba przenieść trzy grupy, rodzic pyta o&nbsp;fakturę, kadrowa prosi o&nbsp;listę godzin, a&nbsp;Ty — między jedną a&nbsp;drugą kawą — otwierasz <strong>czwarty arkusz tego dnia</strong>.
-            </p>
-            <p>
-              Schooleo powstało po to, żeby tego wszystkiego <strong>nie musiało być</strong>. To nie jest „platforma edukacyjna" — to jest narzędzie biurowe dla szkoły, która chce działać spokojnie. Bez 40&nbsp;zakładek, bez PDF-ów wysyłanych mailem, bez pamiętania kto komu co jest winien.
-            </p>
-            <p>
-              <span class="lead">Chcemy, żebyś o&nbsp;piątej wyszedł z&nbsp;pracy.</span> <span class="lead-rest">I&nbsp;żeby w&nbsp;sobotę nikt do&nbsp;Ciebie nie&nbsp;dzwonił.</span>
-            </p>
+            <div class="statement__body">
+              <p>
+                Znamy to: poniedziałek rano, lektor choruje, trzeba przenieść trzy grupy, rodzic pyta o&nbsp;fakturę, kadrowa prosi o&nbsp;listę godzin, a&nbsp;Ty — między jedną a&nbsp;drugą kawą — otwierasz <strong>czwarty arkusz tego dnia</strong>.
+              </p>
+              <p>
+                Schooleo powstało po to, żeby tego wszystkiego <strong>nie musiało być</strong>. To nie jest „platforma edukacyjna" — to jest narzędzie biurowe dla szkoły, która chce działać spokojnie. Bez 40&nbsp;zakładek, bez PDF-ów wysyłanych mailem, bez pamiętania kto komu co jest winien.
+              </p>
+              <p>
+                <span class="lead">Chcemy, żebyś o&nbsp;piątej wyszedł z&nbsp;pracy.</span> <span class="lead-rest">I&nbsp;żeby w&nbsp;sobotę nikt do&nbsp;Ciebie nie&nbsp;dzwonił.</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="statement__media" aria-hidden="true">
+            <img src="Landing%20Page/Manifest.png" alt="" loading="lazy">
           </div>
         </div>
       </div>
-
-      <!-- Manifest illustration: stosik arkuszy z krzyżykiem + zegar -->
-      <svg class="statement__illo" viewBox="0 0 400 400" fill="none" stroke="var(--color-butter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <!-- clock behind -->
-        <circle cx="300" cy="100" r="60" fill="rgba(255,255,255,0.06)" stroke="var(--color-butter)" stroke-width="2"></circle>
-        <circle cx="300" cy="100" r="3" fill="var(--color-butter)" stroke="none"></circle>
-        <line x1="300" y1="100" x2="300" y2="60" stroke="var(--color-butter)" stroke-width="2.5"></line>
-        <line x1="300" y1="100" x2="330" y2="100" stroke="var(--color-butter)" stroke-width="2.5"></line>
-        <g stroke="var(--color-butter)" stroke-width="2">
-          <line x1="300" y1="44" x2="300" y2="50"></line><line x1="356" y1="100" x2="350" y2="100"></line>
-          <line x1="300" y1="156" x2="300" y2="150"></line><line x1="244" y1="100" x2="250" y2="100"></line>
-        </g>
-        <!-- stack of excel sheets -->
-        <g stroke="rgba(255,255,255,0.55)" stroke-width="2" fill="rgba(255,255,255,0.04)">
-          <rect x="70" y="200" width="180" height="150" rx="4" transform="rotate(-8 160 275)"></rect>
-          <rect x="90" y="180" width="180" height="150" rx="4" transform="rotate(-2 180 255)"></rect>
-          <rect x="110" y="160" width="180" height="150" rx="4" transform="rotate(3 200 235)"></rect>
-        </g>
-        <!-- top sheet with cells -->
-        <g transform="translate(110, 160) rotate(3 90 75)">
-          <rect x="0" y="0" width="180" height="150" rx="4" fill="#F7F2E8" stroke="var(--color-ink-900)" stroke-width="1.5"></rect>
-          <line x1="0" y1="22" x2="180" y2="22" stroke="var(--color-ink-900)" stroke-width="1"></line>
-          <line x1="45" y1="0" x2="45" y2="150" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
-          <line x1="90" y1="0" x2="90" y2="150" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
-          <line x1="135" y1="0" x2="135" y2="150" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
-          <line x1="0" y1="50" x2="180" y2="50" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
-          <line x1="0" y1="78" x2="180" y2="78" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
-          <line x1="0" y1="106" x2="180" y2="106" stroke="var(--color-ink-900)" stroke-width="1" opacity="0.4"></line>
-          <rect x="0" y="0" width="180" height="22" fill="#164037" stroke="none"></rect>
-          <line x1="8" y1="36" x2="38" y2="36" stroke="var(--color-ink-900)" stroke-width="1.2" opacity="0.6"></line>
-          <line x1="50" y1="36" x2="80" y2="36" stroke="var(--color-ink-900)" stroke-width="1.2" opacity="0.6"></line>
-          <line x1="95" y1="64" x2="125" y2="64" stroke="var(--color-ink-900)" stroke-width="1.2" opacity="0.6"></line>
-          <line x1="140" y1="92" x2="170" y2="92" stroke="var(--color-ink-900)" stroke-width="1.2" opacity="0.6"></line>
-          <line x1="8" y1="120" x2="38" y2="120" stroke="var(--color-ink-900)" stroke-width="1.2" opacity="0.6"></line>
-        </g>
-        <!-- big red X -->
-        <path d="M 60 150 L 330 360" stroke="var(--color-orange-500)" stroke-width="7" stroke-linecap="round"></path>
-        <path d="M 330 150 L 60 360" stroke="var(--color-orange-500)" stroke-width="7" stroke-linecap="round"></path>
-      </svg>
     </section>
 
     <!-- ============ FEATURES (6 rzeczy) ============ -->
@@ -1315,8 +1435,8 @@
 
           <!-- 4: Komunikacja -->
           <article class="feature" data-figma="16:294">
-            <div class="feature__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="M3 8l7 5 7-5"/><circle cx="19" cy="6" r="3" fill="currentColor" stroke="none"/></svg>
+            <div class="feature__icon feature__icon--img" aria-hidden="true">
+              <img src="Landing%20Page/phone.png" alt="" loading="lazy">
             </div>
             <span class="feature__label">email + SMS + push</span>
             <h3 class="feature__title">Jedna skrzynka <span class="hl">na wszystko</span></h3>
@@ -1325,8 +1445,8 @@
 
           <!-- 5: Raporty -->
           <article class="feature" data-figma="16:338">
-            <div class="feature__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><rect x="5" y="13" width="3" height="6" fill="currentColor" stroke="none"/><rect x="10" y="9" width="3" height="10" fill="currentColor" stroke="none"/><rect x="15" y="5" width="3" height="14" fill="currentColor" stroke="none"/></svg>
+            <div class="feature__icon feature__icon--img" aria-hidden="true">
+              <img src="Landing%20Page/Reports.png" alt="" loading="lazy">
             </div>
             <span class="feature__label">bez Excela</span>
             <h3 class="feature__title">Raporty, które <span class="hl">mają sens</span></h3>
@@ -1335,8 +1455,8 @@
 
           <!-- 6: Portal -->
           <article class="feature" data-figma="16:375">
-            <div class="feature__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 19h4"/><path d="M9 6h6"/></svg>
+            <div class="feature__icon feature__icon--img" aria-hidden="true">
+              <img src="Landing%20Page/Portal.png" alt="" loading="lazy">
             </div>
             <span class="feature__label">web + mobile</span>
             <h3 class="feature__title">Portal dla <span class="hl">uczniów i&nbsp;rodziców</span></h3>
@@ -1527,10 +1647,11 @@
     <div class="container footer__inner">
       <span>© 2026 Schooleo · zrobione w&nbsp;Poznaniu</span>
       <div class="footer__links">
+        <a href="case-study.html">Case study</a>
+        <a href="kontakt.html">Kontakt</a>
         <a href="#">Regulamin</a>
         <a href="#">Prywatność</a>
-        <a href="#">Status</a>
-        <a href="mailto:czesc@schooleo.io">czesc@schooleo.io</a>
+        <a href="mailto:kontakt@schooleo.io">kontakt@schooleo.io</a>
       </div>
     </div>
   </footer>
@@ -1587,40 +1708,19 @@
         if (btn) btn.addEventListener('click', () => setFaqOpen(item, !item.classList.contains('is-open')));
       });
 
-      // Variant switcher — chip cenowy w hero (A/B/C)
-      const switcher = document.querySelector('.variant-switcher');
-      if (switcher) {
-        const KEY = 'schooleo-chip-variant';
-        const apply = (v) => {
-          document.body.setAttribute('data-chip-variant', v);
-          switcher.querySelectorAll('.variant-switcher__btn').forEach((b) => {
-            const active = b.dataset.variant === v;
-            b.classList.toggle('is-active', active);
-            b.setAttribute('aria-pressed', active ? 'true' : 'false');
-          });
-          try { localStorage.setItem(KEY, v); } catch (e) {}
-        };
-        switcher.addEventListener('click', (e) => {
-          const btn = e.target.closest('.variant-switcher__btn');
-          if (btn) apply(btn.dataset.variant);
-        });
-        let initial = 'a';
-        try { initial = localStorage.getItem(KEY) || 'a'; } catch (e) {}
-        apply(initial);
-      }
+      // Wspólny model cenowy (używany przez bottom pricing widget i mini-chipy w hero)
+      const PRICES = {
+        monthly: { 100: 149, 200: 249, 300: 349, 400: 449 },
+        yearly:  { 100: 119, 200: 199, 300: 279, 400: 359 },
+      };
+      const YEARLY_TOTAL = { 100: 1430, 200: 2390, 300: 3350, 400: 4310 };
+      const STEPS = [100, 200, 300, 400];
+      const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0');
 
-      // Pricing calculator
+      // Bottom pricing widget — pille (wariant A — finalny)
       const pricing = document.getElementById('pricing-widget');
       if (pricing) {
-        const PRICES = {
-          monthly: { 100: 149, 200: 249, 300: 349, 400: 449 },
-          yearly:  { 100: 119, 200: 199, 300: 279, 400: 359 },
-        };
-        const YEARLY_TOTAL = { 100: 1430, 200: 2390, 300: 3350, 400: 4310 };
-        const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0');
-
         const state = { cycle: 'monthly', students: 100 };
-
         const $amount = document.getElementById('pricing-amount');
         const $perStudent = document.getElementById('pricing-per-student');
         const $yearlyNote = document.getElementById('pricing-yearly-note');
@@ -1632,14 +1732,11 @@
           const price = PRICES[state.cycle][state.students];
           $amount.textContent = fmt(price);
           const perStudentZl = price / state.students;
-          const formatted = perStudentZl.toFixed(2).replace('.', ',');
-          $perStudent.textContent = `to\u00A0ok. ${formatted}\u00A0zł za\u00A0ucznia miesięcznie`;
+          $perStudent.textContent = `to\u00A0ok. ${perStudentZl.toFixed(2).replace('.', ',')}\u00A0zł za\u00A0ucznia miesięcznie`;
           if (state.cycle === 'yearly') {
             $yearlyTotal.textContent = fmt(YEARLY_TOTAL[state.students]);
             $yearlyNote.hidden = false;
-          } else {
-            $yearlyNote.hidden = true;
-          }
+          } else { $yearlyNote.hidden = true; }
           $cycleBtns.forEach((b) => {
             const active = b.dataset.cycle === state.cycle;
             b.classList.toggle('is-active', active);
@@ -1651,17 +1748,11 @@
             b.setAttribute('aria-pressed', active ? 'true' : 'false');
           });
         };
-
-        $cycleBtns.forEach((b) => b.addEventListener('click', () => {
-          state.cycle = b.dataset.cycle;
-          render();
-        }));
-        $pillBtns.forEach((b) => b.addEventListener('click', () => {
-          state.students = Number(b.dataset.students);
-          render();
-        }));
+        $cycleBtns.forEach((b) => b.addEventListener('click', () => { state.cycle = b.dataset.cycle; render(); }));
+        $pillBtns.forEach((b) => b.addEventListener('click', () => { state.students = Number(b.dataset.students); render(); }));
         render();
       }
+
     })();
   </script>
 </body>
