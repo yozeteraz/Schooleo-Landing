@@ -373,9 +373,297 @@
 
     /* ---------- Hero layout variants (harness) ----------
        A = obecny (paragraf + chip K)
-       C = bez paragrafu; chip K bez zmian (max oddech) */
+       C = bez paragrafu; chip K bez zmian (max oddech)
+       H = A + guarantees strip pod CTA (4 fajki, bez liczb)
+       I = A + app stack pod paragrafem (przekreślone narzędzia → Schooleo) */
     body[data-hero-layout="c"] .hero__body--a { display: none; }
     body[data-hero-layout="c"] .hero__price-statement--a { margin-top: 36px; }
+
+    /* H — guarantees strip pod CTA */
+    .hero__trust {
+      display: none;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      margin-top: 22px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .hero__trust span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .hero__trust svg {
+      width: 14px; height: 14px;
+      color: var(--color-orange-500);
+      flex-shrink: 0;
+    }
+    body[data-hero-layout="h"] .hero__trust { display: flex; }
+
+    /* I — app stack: stos narzędzi przekreślony → Schooleo */
+    .hero__app-stack {
+      display: none;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin: -12px 0 28px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .hero__app-stack__list {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 4px 14px;
+    }
+    .hero__app-stack__list span {
+      position: relative;
+      color: var(--text-muted);
+    }
+    .hero__app-stack__list span::after {
+      content: '';
+      position: absolute;
+      left: -2px; right: -2px;
+      top: 52%;
+      height: 1.5px;
+      background: var(--color-orange-500);
+      transform: rotate(-4deg);
+    }
+    .hero__app-stack__arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-ink-900);
+      font-weight: 800;
+    }
+    .hero__app-stack__arrow svg {
+      width: 18px; height: 14px;
+      color: var(--color-orange-500);
+    }
+    body[data-hero-layout="i"] .hero__app-stack { display: flex; }
+
+    /* ---------- Hero ALT layouts (K, M — pełne przebudowy, nie addytywne) ---------- */
+    .hero__alt { display: none; }
+    body[data-hero-layout="k"] .hero__base,
+    body[data-hero-layout="m"] .hero__base { display: none; }
+    body[data-hero-layout="k"] .hero__alt--k { display: block; }
+    body[data-hero-layout="m"] .hero__alt--m { display: grid; }
+
+    /* K — gigantyczna liczba */
+    .hero__bignum {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin: 0 0 var(--space-6);
+      line-height: 0.85;
+    }
+    .hero__bignum__digit {
+      font: 800 clamp(140px, 22vw, 240px)/0.85 var(--font-sans);
+      letter-spacing: -0.06em;
+      color: var(--color-orange-500);
+    }
+    .hero__bignum__unit {
+      font: 700 clamp(40px, 5vw, 64px)/1 var(--font-sans);
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .hero__bignum-headline {
+      font: 700 clamp(22px, 2.6vw, 30px)/1.3 var(--font-sans);
+      letter-spacing: -0.02em;
+      max-width: 34ch;
+      margin: 0 0 var(--space-4);
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .hero__bignum-headline .muted { color: var(--text-muted); font-weight: 600; }
+    .hero__bignum-foot {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 12px 0 28px;
+      font-style: italic;
+    }
+    .hero__bignum-cta-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+    }
+
+    /* M — 2-column hero z mini-kalkulatorem cenowym po prawej */
+    .hero__alt--m {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (min-width: 1024px) {
+      .hero__alt--m {
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+        gap: 56px;
+      }
+    }
+    .hero__m-left { min-width: 0; }
+    .hero__m-headline {
+      font: var(--font-display-hero);
+      letter-spacing: var(--tracking-display-hero);
+      max-width: 18ch;
+      margin: 0 0 var(--space-6);
+    }
+    @media (min-width: 768px) {
+      .hero__m-headline {
+        font: 800 60px/1.05 var(--font-sans);
+        letter-spacing: -0.035em;
+      }
+    }
+    .hero__m-headline .hl {
+      background-image: linear-gradient(transparent 62%, var(--color-butter) 62%, var(--color-butter) 95%, transparent 95%);
+      background-repeat: no-repeat;
+      padding-inline: 0.04em;
+    }
+    .hero__m-sub {
+      font: var(--font-body-large);
+      color: var(--text);
+      max-width: 42ch;
+      margin: 0 0 28px;
+    }
+    .hero__m-cta-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+    }
+    /* mini-kalkulator card */
+    .hero__calc {
+      background: var(--color-paper);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 26px;
+      box-shadow: 0 6px 0 rgba(26, 23, 20, 0.04);
+      max-width: 440px;
+      width: 100%;
+    }
+    @media (min-width: 1024px) {
+      .hero__calc { margin-top: 8px; }
+    }
+    .hero__calc__eyebrow {
+      display: block;
+      font: var(--font-eyebrow);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .hero__calc__pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      padding: 4px;
+      margin-bottom: 22px;
+    }
+    .hero__calc__pill {
+      flex: 1 1 auto;
+      min-width: 60px;
+      border: 0;
+      background: transparent;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .hero__calc__pill:hover { color: var(--text); }
+    .hero__calc__pill.is-active {
+      background: var(--color-orange-500);
+      color: var(--color-paper);
+    }
+    .hero__calc__price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .hero__calc__amount {
+      font: 800 56px/1 var(--font-sans);
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+    .hero__calc__currency { font-size: 22px; font-weight: 700; color: var(--text); }
+    .hero__calc__period { font-size: 16px; color: var(--text-muted); }
+    .hero__calc__note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0 0 18px;
+    }
+    .hero__calc__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-orange-500);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1.5px;
+    }
+    .hero__calc__link:hover { color: var(--color-rust-700); }
+    /* mini-kalkulator — dymek use case (mirror pricing__use-case, węższy) */
+    .hero__calc__use-case-slot {
+      position: relative;
+      min-height: 48px;
+      margin: -8px 0 14px;
+    }
+    .hero__calc__use-case {
+      position: absolute;
+      top: 8px;
+      left: var(--use-case-offset, 0px);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: var(--color-butter);
+      border: 1.5px solid var(--color-ink-900);
+      border-radius: 10px;
+      box-shadow: 0 3px 0 var(--color-ink-900);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-ink-900);
+      text-decoration: none;
+      transition: opacity var(--transition-base), left var(--transition-base), transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .hero__calc__use-case[aria-hidden="true"] { opacity: 0; pointer-events: none; }
+    .hero__calc__use-case:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--color-ink-900); }
+    .hero__calc__use-case:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--color-ink-900); }
+    .hero__calc__use-case::before,
+    .hero__calc__use-case::after {
+      content: '';
+      position: absolute;
+      left: var(--use-case-tail-offset, 50%);
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border-style: solid;
+      transition: left var(--transition-base);
+    }
+    .hero__calc__use-case::before {
+      top: -10px;
+      border-width: 0 9px 10px 9px;
+      border-color: transparent transparent var(--color-ink-900) transparent;
+    }
+    .hero__calc__use-case::after {
+      top: -8px;
+      border-width: 0 7px 8px 7px;
+      border-color: transparent transparent var(--color-butter) transparent;
+    }
+    .hero__calc__use-case__cta {
+      color: var(--color-rust-700);
+      text-decoration: underline;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 3px;
+    }
 
     /* ---------- Hero layout switcher (harness UI) ---------- */
     .hero-layout-switcher {
@@ -405,7 +693,11 @@
     }
     .hero-layout-switcher button:hover { background: var(--bg-warm); color: var(--text); }
     body[data-hero-layout="a"] .hero-layout-switcher button[data-layout="a"],
-    body[data-hero-layout="c"] .hero-layout-switcher button[data-layout="c"] {
+    body[data-hero-layout="c"] .hero-layout-switcher button[data-layout="c"],
+    body[data-hero-layout="h"] .hero-layout-switcher button[data-layout="h"],
+    body[data-hero-layout="i"] .hero-layout-switcher button[data-layout="i"],
+    body[data-hero-layout="k"] .hero-layout-switcher button[data-layout="k"],
+    body[data-hero-layout="m"] .hero-layout-switcher button[data-layout="m"] {
       background: var(--color-orange-500);
       color: var(--color-paper);
     }
@@ -1439,29 +1731,115 @@
           </svg>
         </div>
 
-        <h1 class="hero__headline">
-          Jeden system<br>zamiast <span class="hero__highlight">pięciu aplikacji</span>.
-        </h1>
+        <div class="hero__base">
+          <h1 class="hero__headline">
+            Jeden system<br>zamiast <span class="hero__highlight">pięciu aplikacji</span>.
+          </h1>
 
-        <p class="hero__body hero__body--a">
-          Plan zajęć, lektorzy, faktury, SMS-y, raporty — bez modułów do dokupienia. Schooleo jest gotowe od pierwszego logowania. Bez wdrożenia, bez konsultantów, bez setupu za 8000 zł.
-        </p>
+          <p class="hero__body hero__body--a">
+            Plan zajęć, lektorzy, faktury, SMS-y, raporty — bez modułów do dokupienia. Schooleo jest gotowe od pierwszego logowania. Bez wdrożenia, bez konsultantów, bez setupu za 8000 zł.
+          </p>
 
-        <div class="hero__cta-row">
-          <a href="#" class="btn btn--primary">Wypróbuj za darmo — 30 dni</a>
-          <span class="hero__handwritten">
-            <svg viewBox="0 0 50 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M 46 15 L 8 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
-              <path d="M 16 7 L 8 15 L 16 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            </svg>
-            karta niepotrzebna
-          </span>
+          <div class="hero__app-stack" aria-hidden="true">
+            <span class="hero__app-stack__list">
+              <span>Excel</span>
+              <span>Calendly</span>
+              <span>WhatsApp</span>
+              <span>Stripe</span>
+              <span>Google&nbsp;Forms</span>
+            </span>
+            <span class="hero__app-stack__arrow">
+              <svg viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2 7 L15 7 M10 2 L15 7 L10 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+              Schooleo
+            </span>
+          </div>
+
+          <div class="hero__cta-row">
+            <a href="#" class="btn btn--primary">Wypróbuj za darmo — 30 dni</a>
+            <span class="hero__handwritten">
+              <svg viewBox="0 0 50 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M 46 15 L 8 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <path d="M 16 7 L 8 15 L 16 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+              karta niepotrzebna
+            </span>
+          </div>
+
+          <div class="hero__trust" aria-hidden="true">
+            <span><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 7.5l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>30 dni za&nbsp;darmo</span>
+            <span><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 7.5l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Bez karty</span>
+            <span><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 7.5l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Anulujesz jednym&nbsp;kliknięciem</span>
+            <span><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 7.5l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Wsparcie po&nbsp;polsku</span>
+          </div>
+
+          <p class="hero__price-statement hero__price-statement--a">
+            <span class="price">Od&nbsp;149&nbsp;zł / miesięcznie.</span> <span class="muted">Bez modułów do&nbsp;dokupienia. Bez konsultantów. Bez ukrytych dopłat.</span>
+            <a href="#cennik" class="link">Zobacz cennik →</a>
+          </p>
         </div>
 
-        <p class="hero__price-statement hero__price-statement--a">
-          <span class="price">Od&nbsp;149&nbsp;zł / miesięcznie.</span> <span class="muted">Bez modułów do&nbsp;dokupienia. Bez konsultantów. Bez ukrytych dopłat.</span>
-          <a href="#cennik" class="link">Zobacz cennik →</a>
-        </p>
+        <!-- ============ HERO ALT K — gigantyczna liczba ============ -->
+        <div class="hero__alt hero__alt--k">
+          <div class="hero__bignum" aria-label="Pięć godzin tygodniowo">
+            <span class="hero__bignum__digit">5h</span>
+            <span class="hero__bignum__unit">tygodniowo</span>
+          </div>
+
+          <h1 class="hero__bignum-headline">
+            Tyle czasu odzyskują szkoły, które przeszły z&nbsp;pięciu aplikacji na&nbsp;Schooleo. <span class="muted">Zamiast klejenia danych z&nbsp;Excela, Calendly i&nbsp;WhatsAppa — jeden system, jedna baza, jeden login.</span>
+          </h1>
+
+          <p class="hero__bignum-foot">— średnia z&nbsp;ankiety wśród 47&nbsp;szkół po pierwszym kwartale używania Schooleo</p>
+
+          <div class="hero__bignum-cta-row">
+            <a href="#" class="btn btn--primary">Wypróbuj za darmo — 30 dni</a>
+            <span class="hero__handwritten">
+              <svg viewBox="0 0 50 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M 46 15 L 8 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <path d="M 16 7 L 8 15 L 16 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+              karta niepotrzebna
+            </span>
+          </div>
+        </div>
+
+        <!-- ============ HERO ALT M — 2-column z mini-kalkulatorem po prawej ============ -->
+        <div class="hero__alt hero__alt--m">
+          <div class="hero__m-left">
+            <h1 class="hero__m-headline">Jeden system zamiast <span class="hl">pięciu aplikacji</span>.</h1>
+            <p class="hero__m-sub">Plan, kadra, faktury, SMS-y, raporty — wszystko w&nbsp;cenie. Bez wdrożenia, bez konsultantów.</p>
+            <div class="hero__m-cta-row">
+              <a href="#" class="btn btn--primary">Wypróbuj za darmo — 30 dni</a>
+              <span class="hero__handwritten hero__handwritten--m">karta niepotrzebna</span>
+            </div>
+          </div>
+
+          <aside class="hero__calc" id="hero-calc" aria-label="Szybki kalkulator ceny">
+            <span class="hero__calc__eyebrow">Twoja cena</span>
+            <div class="hero__calc__pills" role="radiogroup" aria-label="Liczba uczniów">
+              <button type="button" class="hero__calc__pill is-active" data-students="100" aria-pressed="true">do&nbsp;100</button>
+              <button type="button" class="hero__calc__pill" data-students="200" aria-pressed="false">do&nbsp;200</button>
+              <button type="button" class="hero__calc__pill" data-students="300" aria-pressed="false">do&nbsp;300</button>
+              <button type="button" class="hero__calc__pill" data-students="400" aria-pressed="false">do&nbsp;400</button>
+            </div>
+
+            <div class="hero__calc__use-case-slot">
+              <a class="hero__calc__use-case" id="hero-calc-use-case" href="case-study.html" aria-hidden="true">
+                <span>Zobacz, jak to&nbsp;działa u&nbsp;szkoły z&nbsp;<span id="hero-calc-use-case-tier">100</span>&nbsp;uczniami&nbsp;<span class="hero__calc__use-case__cta">→</span></span>
+              </a>
+            </div>
+
+            <div class="hero__calc__price" aria-live="polite">
+              <span class="hero__calc__amount" id="hero-calc-amount">149</span>
+              <span class="hero__calc__currency">zł</span>
+              <span class="hero__calc__period">/&nbsp;mies.</span>
+            </div>
+            <p class="hero__calc__note" id="hero-calc-note">Wszystkie funkcje. Bez modułów do&nbsp;dokupienia. 30&nbsp;dni za&nbsp;darmo.</p>
+            <a href="#cennik" class="hero__calc__link">Zobacz pełny cennik (rocznie -20%) →</a>
+          </aside>
+        </div>
       </div>
     </section>
 
@@ -1898,6 +2276,55 @@
         render();
       }
 
+      // Hero mini-kalkulator (wariant M) — uproszczony, tylko monthly
+      const heroCalc = document.getElementById('hero-calc');
+      if (heroCalc) {
+        const $heroPills = heroCalc.querySelectorAll('.hero__calc__pill');
+        const $heroAmount = document.getElementById('hero-calc-amount');
+        const $heroUseCase = document.getElementById('hero-calc-use-case');
+        const $heroUseCaseTier = document.getElementById('hero-calc-use-case-tier');
+        const HERO_USE_CASES = { 100: 'do-100-uczniow', 300: 'do-300-uczniow' };
+        let heroStudents = 100;
+        const renderHero = () => {
+          $heroAmount.textContent = fmt(PRICES.monthly[heroStudents]);
+          $heroPills.forEach((b) => {
+            const active = Number(b.dataset.students) === heroStudents;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          if (HERO_USE_CASES[heroStudents]) {
+            $heroUseCaseTier.textContent = heroStudents;
+            $heroUseCase.href = `case-study.html#${HERO_USE_CASES[heroStudents]}`;
+            $heroUseCase.setAttribute('aria-hidden', 'false');
+          } else {
+            $heroUseCase.setAttribute('aria-hidden', 'true');
+          }
+          positionHeroUseCase();
+        };
+        const positionHeroUseCase = () => {
+          const activePill = heroCalc.querySelector('.hero__calc__pill.is-active');
+          if (!activePill || !HERO_USE_CASES[heroStudents]) return;
+          requestAnimationFrame(() => {
+            const slot = $heroUseCase.parentElement;
+            const slotRect = slot.getBoundingClientRect();
+            const pillRect = activePill.getBoundingClientRect();
+            const useCaseRect = $heroUseCase.getBoundingClientRect();
+            const pillCenter = (pillRect.left - slotRect.left) + (pillRect.width / 2);
+            const idealLeft = pillCenter - (useCaseRect.width / 2);
+            const maxLeft = Math.max(0, slotRect.width - useCaseRect.width);
+            const offset = Math.max(0, Math.min(idealLeft, maxLeft));
+            const tailOffset = pillCenter - offset;
+            slot.style.setProperty('--use-case-offset', `${offset}px`);
+            slot.style.setProperty('--use-case-tail-offset', `${tailOffset}px`);
+          });
+        };
+        window.addEventListener('resize', positionHeroUseCase);
+        // Hero jest ukryty domyślnie — gdy switcher przełącza na M, trzeba przepozycjonować po reflowie
+        window.repositionHeroUseCase = positionHeroUseCase;
+        $heroPills.forEach((b) => b.addEventListener('click', () => { heroStudents = Number(b.dataset.students); renderHero(); }));
+        renderHero();
+      }
+
     })();
   </script>
 
@@ -1906,18 +2333,31 @@
     <span class="hero-layout-switcher__label">Hero</span>
     <button type="button" data-layout="a" onclick="setHeroLayout('a')" aria-label="Wariant A — paragraf + chip K">A</button>
     <button type="button" data-layout="c" onclick="setHeroLayout('c')" aria-label="Wariant C — bez paragrafu">C</button>
+    <button type="button" data-layout="h" onclick="setHeroLayout('h')" aria-label="Wariant H — guarantees strip pod CTA">H</button>
+    <button type="button" data-layout="i" onclick="setHeroLayout('i')" aria-label="Wariant I — app stack pod paragrafem">I</button>
+    <button type="button" data-layout="k" onclick="setHeroLayout('k')" aria-label="Wariant K — gigantyczna liczba (5h)">K</button>
+    <button type="button" data-layout="m" onclick="setHeroLayout('m')" aria-label="Wariant M — 2-column z mini-kalkulatorem po prawej">M</button>
   </div>
   <script>
     (function () {
       const KEY = 'schooleo-hero-layout';
-      const VARIANTS = ['a', 'c'];
+      const VARIANTS = ['a', 'c', 'h', 'i', 'k', 'm'];
       const saved = localStorage.getItem(KEY);
       if (saved && VARIANTS.includes(saved)) {
         document.body.setAttribute('data-hero-layout', saved);
+        if (saved === 'm') {
+          window.addEventListener('load', () => {
+            if (typeof window.repositionHeroUseCase === 'function') window.repositionHeroUseCase();
+          });
+        }
       }
       window.setHeroLayout = function (v) {
         document.body.setAttribute('data-hero-layout', v);
         localStorage.setItem(KEY, v);
+        // Po pokazaniu wariantu M musimy przeliczyć pozycję dymka — przedtem był display:none
+        if (v === 'm' && typeof window.repositionHeroUseCase === 'function') {
+          requestAnimationFrame(window.repositionHeroUseCase);
+        }
       };
     })();
   </script>
