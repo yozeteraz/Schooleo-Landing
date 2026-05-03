@@ -371,6 +371,45 @@
     }
     .hero__price-statement .link:hover { color: var(--color-rust-700); }
 
+    /* ---------- Hero layout variants (harness) ----------
+       A = obecny (paragraf + chip K)
+       C = bez paragrafu; chip K bez zmian (max oddech) */
+    body[data-hero-layout="c"] .hero__body--a { display: none; }
+    body[data-hero-layout="c"] .hero__price-statement--a { margin-top: 36px; }
+
+    /* ---------- Hero layout switcher (harness UI) ---------- */
+    .hero-layout-switcher {
+      position: fixed; bottom: 20px; right: 20px; z-index: 200;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 10px;
+      background: var(--color-paper);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      box-shadow: 0 6px 24px rgba(26, 23, 20, 0.10);
+      font: var(--font-label-small);
+    }
+    .hero-layout-switcher__label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted);
+      padding-inline: 4px;
+    }
+    .hero-layout-switcher button {
+      width: 28px; height: 28px;
+      border-radius: 999px;
+      font-size: 12px; font-weight: 700;
+      color: var(--text-muted);
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .hero-layout-switcher button:hover { background: var(--bg-warm); color: var(--text); }
+    body[data-hero-layout="a"] .hero-layout-switcher button[data-layout="a"],
+    body[data-hero-layout="c"] .hero-layout-switcher button[data-layout="c"] {
+      background: var(--color-orange-500);
+      color: var(--color-paper);
+    }
+
     /* ---------- Statement section (dark) ---------- */
     /* figma: 16:114 — bg forest-900, eyebrow Caveat, h2 52px Display/XL, paragrafy body-large */
     .statement {
@@ -1024,6 +1063,72 @@
       margin: 16px 0 0;
     }
 
+    /* ---------- Pricing — use case trigger (speech bubble, Basecamp-style) ----------
+       Stały slot żeby cennik nie skakał; fade in/out zamiast display:none.
+       Dymek z ogonkiem wskazującym w górę na pille. */
+    .pricing__use-case-slot {
+      position: relative;
+      min-height: 52px;
+      margin-top: 14px;
+    }
+    .pricing__use-case {
+      position: absolute;
+      top: 8px;
+      left: var(--use-case-offset, 0px);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: var(--color-butter);
+      border: 1.5px solid var(--color-ink-900);
+      border-radius: 10px;
+      box-shadow: 0 3px 0 var(--color-ink-900);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-ink-900);
+      text-decoration: none;
+      transition: opacity var(--transition-base), left var(--transition-base), transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .pricing__use-case[aria-hidden="true"] {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .pricing__use-case:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--color-ink-900); }
+    .pricing__use-case:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--color-ink-900); }
+    /* ogonek dymka — kotwiczy się dynamicznie pod aktywnym pillem */
+    .pricing__use-case::before,
+    .pricing__use-case::after {
+      content: '';
+      position: absolute;
+      left: var(--use-case-tail-offset, 50%);
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border-style: solid;
+      transition: left var(--transition-base);
+    }
+    .pricing__use-case::before {
+      top: -10px;
+      border-width: 0 9px 10px 9px;
+      border-color: transparent transparent var(--color-ink-900) transparent;
+    }
+    .pricing__use-case::after {
+      top: -8px;
+      border-width: 0 7px 8px 7px;
+      border-color: transparent transparent var(--color-butter) transparent;
+    }
+    .pricing__use-case__icon {
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+      color: var(--color-rust-700);
+    }
+    .pricing__use-case__cta {
+      color: var(--color-rust-700);
+      text-decoration: underline;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 3px;
+    }
+
     /* ---------- Pricing — wariant B (slider) ---------- */
     .pricing__slider-wrap {
       max-width: 480px;
@@ -1249,7 +1354,7 @@
     .footer a:hover { color: var(--text); }
   </style>
 </head>
-<body>
+<body data-hero-layout="a">
 
   <!-- ============ TOPBAR ============ -->
   <!-- figma: 16:3 Header — kolumna 1120px, logo na lewej krawędzi -->
@@ -1338,7 +1443,7 @@
           Jeden system<br>zamiast <span class="hero__highlight">pięciu aplikacji</span>.
         </h1>
 
-        <p class="hero__body">
+        <p class="hero__body hero__body--a">
           Plan zajęć, lektorzy, faktury, SMS-y, raporty — bez modułów do dokupienia. Schooleo jest gotowe od pierwszego logowania. Bez wdrożenia, bez konsultantów, bez setupu za 8000 zł.
         </p>
 
@@ -1353,7 +1458,7 @@
           </span>
         </div>
 
-        <p class="hero__price-statement">
+        <p class="hero__price-statement hero__price-statement--a">
           <span class="price">Od&nbsp;149&nbsp;zł / miesięcznie.</span> <span class="muted">Bez modułów do&nbsp;dokupienia. Bez konsultantów. Bez ukrytych dopłat.</span>
           <a href="#cennik" class="link">Zobacz cennik →</a>
         </p>
@@ -1616,6 +1721,15 @@
                 <button type="button" class="pricing__pill" data-students="300" aria-pressed="false">do 300</button>
                 <button type="button" class="pricing__pill" data-students="400" aria-pressed="false">do 400</button>
               </div>
+
+              <div class="pricing__use-case-slot">
+                <a class="pricing__use-case" id="pricing-use-case" href="case-study.html" aria-hidden="true">
+                  <svg class="pricing__use-case__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                  </svg>
+                  <span>Zobacz, jak to działa u&nbsp;szkoły z&nbsp;<span id="pricing-use-case-tier">100</span>&nbsp;uczniami&nbsp;<span class="pricing__use-case__cta">→</span></span>
+                </a>
+              </div>
             </div>
 
             <div class="pricing__price" aria-live="polite">
@@ -1727,6 +1841,9 @@
         const $yearlyTotal = document.getElementById('pricing-yearly-total');
         const $cycleBtns = pricing.querySelectorAll('.pricing__toggle-opt');
         const $pillBtns = pricing.querySelectorAll('.pricing__pill');
+        const $useCase = document.getElementById('pricing-use-case');
+        const $useCaseTier = document.getElementById('pricing-use-case-tier');
+        const USE_CASES = { 100: 'do-100-uczniow', 300: 'do-300-uczniow' };
 
         const render = () => {
           const price = PRICES[state.cycle][state.students];
@@ -1747,12 +1864,61 @@
             b.classList.toggle('is-active', active);
             b.setAttribute('aria-pressed', active ? 'true' : 'false');
           });
+          if (USE_CASES[state.students]) {
+            $useCaseTier.textContent = state.students;
+            $useCase.href = `case-study.html#${USE_CASES[state.students]}`;
+            $useCase.setAttribute('aria-hidden', 'false');
+          } else {
+            $useCase.setAttribute('aria-hidden', 'true');
+          }
+          positionUseCase();
         };
+
+        const positionUseCase = () => {
+          const activePill = pricing.querySelector('.pricing__pill.is-active');
+          if (!activePill || !USE_CASES[state.students]) return;
+          requestAnimationFrame(() => {
+            const slot = $useCase.parentElement;
+            const slotRect = slot.getBoundingClientRect();
+            const pillRect = activePill.getBoundingClientRect();
+            const useCaseRect = $useCase.getBoundingClientRect();
+            const pillCenter = (pillRect.left - slotRect.left) + (pillRect.width / 2);
+            const idealLeft = pillCenter - (useCaseRect.width / 2);
+            const maxLeft = Math.max(0, slotRect.width - useCaseRect.width);
+            const offset = Math.max(0, Math.min(idealLeft, maxLeft));
+            // Dzióbek zawsze wskazuje środek aktywnego pilla — nawet gdy dymek dosuwa się do krawędzi
+            const tailOffset = pillCenter - offset;
+            slot.style.setProperty('--use-case-offset', `${offset}px`);
+            slot.style.setProperty('--use-case-tail-offset', `${tailOffset}px`);
+          });
+        };
+        window.addEventListener('resize', positionUseCase);
         $cycleBtns.forEach((b) => b.addEventListener('click', () => { state.cycle = b.dataset.cycle; render(); }));
         $pillBtns.forEach((b) => b.addEventListener('click', () => { state.students = Number(b.dataset.students); render(); }));
         render();
       }
 
+    })();
+  </script>
+
+  <!-- ============ HERO LAYOUT SWITCHER (harness) ============ -->
+  <div class="hero-layout-switcher" role="group" aria-label="Wariant układu hero">
+    <span class="hero-layout-switcher__label">Hero</span>
+    <button type="button" data-layout="a" onclick="setHeroLayout('a')" aria-label="Wariant A — paragraf + chip K">A</button>
+    <button type="button" data-layout="c" onclick="setHeroLayout('c')" aria-label="Wariant C — bez paragrafu">C</button>
+  </div>
+  <script>
+    (function () {
+      const KEY = 'schooleo-hero-layout';
+      const VARIANTS = ['a', 'c'];
+      const saved = localStorage.getItem(KEY);
+      if (saved && VARIANTS.includes(saved)) {
+        document.body.setAttribute('data-hero-layout', saved);
+      }
+      window.setHeroLayout = function (v) {
+        document.body.setAttribute('data-hero-layout', v);
+        localStorage.setItem(KEY, v);
+      };
     })();
   </script>
 </body>
