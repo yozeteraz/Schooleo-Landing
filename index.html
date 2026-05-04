@@ -651,19 +651,14 @@
     /* CTA-row wewnątrz kalkulatora — tylko wariant N */
     .hero__calc__cta-row {
       display: none;
-      align-items: center;
-      gap: var(--space-4);
-      flex-wrap: wrap;
       margin-top: 20px;
       padding-top: 20px;
       border-top: 1px solid var(--border);
     }
     .hero__calc__cta-row .btn--primary {
+      width: 100%;
       padding: 14px 22px;
       font-size: 18px;
-    }
-    .hero__calc__cta-row .hero__handwritten {
-      font-size: 22px;
     }
     /* mini-kalkulator — dymek use case (mirror pricing__use-case, węższy) */
     .hero__calc__use-case-slot {
@@ -1903,7 +1898,6 @@
             <a href="#cennik" class="hero__calc__link">Zobacz pełny cennik (rocznie -20%) →</a>
             <div class="hero__calc__cta-row">
               <a href="#" class="btn btn--primary">Wypróbuj za darmo — 30 dni</a>
-              <span class="hero__handwritten hero__handwritten--m">karta niepotrzebna</span>
             </div>
           </aside>
         </div>
