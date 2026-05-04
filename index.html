@@ -456,9 +456,37 @@
     /* ---------- Hero ALT layouts (K, M — pełne przebudowy, nie addytywne) ---------- */
     .hero__alt { display: none; }
     body[data-hero-layout="k"] .hero__base,
-    body[data-hero-layout="m"] .hero__base { display: none; }
+    body[data-hero-layout="m"] .hero__base,
+    body[data-hero-layout="n"] .hero__base { display: none; }
     body[data-hero-layout="k"] .hero__alt--k { display: block; }
-    body[data-hero-layout="m"] .hero__alt--m { display: grid; }
+    body[data-hero-layout="m"] .hero__alt--m,
+    body[data-hero-layout="n"] .hero__alt--m { display: grid; }
+    /* N — wariant M, ale CTA przenosimy do środka kalkulatora */
+    body[data-hero-layout="n"] .hero__m-cta-row { display: none; }
+    body[data-hero-layout="n"] .hero__calc__cta-row { display: flex; }
+    /* N — sub-text: dłuższe copy zamiast krótkiego z M */
+    .hero__m-sub--n { display: none; }
+    body[data-hero-layout="n"] .hero__m-sub--m { display: none; }
+    body[data-hero-layout="n"] .hero__m-sub--n { display: block; }
+    /* N — kalkulator wyżej (negative margin na desktopie) */
+    @media (min-width: 1024px) {
+      body[data-hero-layout="n"] .hero__calc { margin-top: -28px; }
+    }
+    /* N — tagline pod sub-textem (kontynuacja, ten sam styl co m-sub) */
+    .hero__m-tagline {
+      display: none;
+      font: var(--font-body-large);
+      color: var(--text);
+      max-width: 42ch;
+      margin: -8px 0 28px;
+    }
+    .hero__m-tagline__hl {
+      font-weight: 700;
+      background-image: linear-gradient(transparent 62%, var(--color-butter) 62%, var(--color-butter) 95%, transparent 95%);
+      background-repeat: no-repeat;
+      padding-inline: 0.06em;
+    }
+    body[data-hero-layout="n"] .hero__m-tagline { display: block; }
 
     /* K — gigantyczna liczba */
     .hero__bignum {
@@ -620,6 +648,23 @@
       text-decoration-thickness: 1.5px;
     }
     .hero__calc__link:hover { color: var(--color-rust-700); }
+    /* CTA-row wewnątrz kalkulatora — tylko wariant N */
+    .hero__calc__cta-row {
+      display: none;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .hero__calc__cta-row .btn--primary {
+      padding: 14px 22px;
+      font-size: 18px;
+    }
+    .hero__calc__cta-row .hero__handwritten {
+      font-size: 22px;
+    }
     /* mini-kalkulator — dymek use case (mirror pricing__use-case, węższy) */
     .hero__calc__use-case-slot {
       position: relative;
@@ -707,7 +752,8 @@
     body[data-hero-layout="h"] .hero-layout-switcher button[data-layout="h"],
     body[data-hero-layout="i"] .hero-layout-switcher button[data-layout="i"],
     body[data-hero-layout="k"] .hero-layout-switcher button[data-layout="k"],
-    body[data-hero-layout="m"] .hero-layout-switcher button[data-layout="m"] {
+    body[data-hero-layout="m"] .hero-layout-switcher button[data-layout="m"],
+    body[data-hero-layout="n"] .hero-layout-switcher button[data-layout="n"] {
       background: var(--color-orange-500);
       color: var(--color-paper);
     }
@@ -1822,7 +1868,11 @@
         <div class="hero__alt hero__alt--m">
           <div class="hero__m-left">
             <h1 class="hero__m-headline">Jeden system zamiast <span class="hl">pięciu aplikacji</span>.</h1>
-            <p class="hero__m-sub">Plan, kadra, faktury, SMS-y, raporty — wszystko w&nbsp;cenie. Bez wdrożenia, bez konsultantów.</p>
+            <p class="hero__m-sub hero__m-sub--m">Plan, kadra, faktury, SMS-y, raporty — wszystko w&nbsp;cenie. Bez wdrożenia, bez konsultantów.</p>
+            <p class="hero__m-sub hero__m-sub--n">Plan zajęć, lektorzy, faktury, SMS-y, raporty — bez modułów do&nbsp;dokupienia. Schooleo jest gotowe od&nbsp;pierwszego logowania. Bez wdrożenia, bez konsultantów, bez setupu za&nbsp;8000&nbsp;zł.</p>
+            <p class="hero__m-tagline">
+              Zamiast klejenia danych z&nbsp;Excela, Calendly i&nbsp;WhatsAppa — <span class="hero__m-tagline__hl">jeden system, jedna baza, jeden login</span>.
+            </p>
             <div class="hero__m-cta-row">
               <a href="#" class="btn btn--primary">Wypróbuj za darmo — 30 dni</a>
               <span class="hero__handwritten hero__handwritten--m">karta niepotrzebna</span>
@@ -1851,6 +1901,10 @@
             </div>
             <p class="hero__calc__note" id="hero-calc-note">Wszystkie funkcje. Bez modułów do&nbsp;dokupienia. 30&nbsp;dni za&nbsp;darmo.</p>
             <a href="#cennik" class="hero__calc__link">Zobacz pełny cennik (rocznie -20%) →</a>
+            <div class="hero__calc__cta-row">
+              <a href="#" class="btn btn--primary">Wypróbuj za darmo — 30 dni</a>
+              <span class="hero__handwritten hero__handwritten--m">karta niepotrzebna</span>
+            </div>
           </aside>
         </div>
       </div>
@@ -2350,15 +2404,16 @@
     <button type="button" data-layout="i" onclick="setHeroLayout('i')" aria-label="Wariant I — app stack pod paragrafem">I</button>
     <button type="button" data-layout="k" onclick="setHeroLayout('k')" aria-label="Wariant K — gigantyczna liczba (5h)">K</button>
     <button type="button" data-layout="m" onclick="setHeroLayout('m')" aria-label="Wariant M — 2-column z mini-kalkulatorem po prawej">M</button>
+    <button type="button" data-layout="n" onclick="setHeroLayout('n')" aria-label="Wariant N — jak M, ale CTA wewnątrz kalkulatora">N</button>
   </div>
   <script>
     (function () {
       const KEY = 'schooleo-hero-layout';
-      const VARIANTS = ['a', 'c', 'h', 'i', 'k', 'm'];
+      const VARIANTS = ['a', 'c', 'h', 'i', 'k', 'm', 'n'];
       const saved = localStorage.getItem(KEY);
       if (saved && VARIANTS.includes(saved)) {
         document.body.setAttribute('data-hero-layout', saved);
-        if (saved === 'm') {
+        if (saved === 'm' || saved === 'n') {
           window.addEventListener('load', () => {
             if (typeof window.repositionHeroUseCase === 'function') window.repositionHeroUseCase();
           });
@@ -2367,8 +2422,8 @@
       window.setHeroLayout = function (v) {
         document.body.setAttribute('data-hero-layout', v);
         localStorage.setItem(KEY, v);
-        // Po pokazaniu wariantu M musimy przeliczyć pozycję dymka — przedtem był display:none
-        if (v === 'm' && typeof window.repositionHeroUseCase === 'function') {
+        // Po pokazaniu wariantu M / N musimy przeliczyć pozycję dymka — przedtem był display:none
+        if ((v === 'm' || v === 'n') && typeof window.repositionHeroUseCase === 'function') {
           requestAnimationFrame(window.repositionHeroUseCase);
         }
       };
