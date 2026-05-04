@@ -378,6 +378,16 @@
        I = A + app stack pod paragrafem (przekreślone narzędzia → Schooleo) */
     body[data-hero-layout="c"] .hero__body--a { display: none; }
     body[data-hero-layout="c"] .hero__price-statement--a { margin-top: 36px; }
+    /* C — CTA row pod price statement (zmiana kolejności) */
+    body[data-hero-layout="c"] .hero__base {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    body[data-hero-layout="c"] .hero__cta-row {
+      order: 99;
+      margin-top: 32px;
+    }
 
     /* H — guarantees strip pod CTA */
     .hero__trust {
@@ -921,11 +931,14 @@
     }
     .trusted__heading {
       font-family: var(--font-accent);
-      font-size: 24px;
-      line-height: 1.3;
+      font-size: 36px;
+      line-height: 1.25;
       text-align: center;
       color: #3A342D;
-      margin: 0 0 24px;
+      margin: 0 0 32px;
+    }
+    @media (max-width: 640px) {
+      .trusted__heading { font-size: 26px; }
     }
     .trusted__strip {
       position: relative;
