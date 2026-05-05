@@ -485,9 +485,6 @@
     body[data-hero-layout="o"] .hero__calc__note--m { display: none; }
     body[data-hero-layout="o"] .hero__calc__note--o { display: block; }
     /* O — pill "Dla Ciebie" (Enterprise) zastępuje "do 400" */
-    .hero__calc__pill--enterprise { display: none; }
-    body[data-hero-layout="o"] .hero__calc__pill--400 { display: none; }
-    body[data-hero-layout="o"] .hero__calc__pill--enterprise { display: inline-flex; }
     /* Enterprise state — gdy aktywny pill "Dla Ciebie": chowamy "zł / mies.", zmniejszamy amount, podmieniamy notkę */
     .hero__calc.is-enterprise .hero__calc__currency,
     .hero__calc.is-enterprise .hero__calc__period { display: none; }
@@ -2239,7 +2236,6 @@
               <button type="button" class="hero__calc__pill is-active" data-students="100" aria-pressed="true">do&nbsp;100</button>
               <button type="button" class="hero__calc__pill" data-students="200" aria-pressed="false">do&nbsp;200</button>
               <button type="button" class="hero__calc__pill" data-students="300" aria-pressed="false">do&nbsp;300</button>
-              <button type="button" class="hero__calc__pill hero__calc__pill--400" data-students="400" aria-pressed="false">do&nbsp;400</button>
               <button type="button" class="hero__calc__pill hero__calc__pill--enterprise" data-students="enterprise" aria-pressed="false">Dla&nbsp;Ciebie</button>
             </div>
 
@@ -2770,8 +2766,6 @@
         const parsePillValue = (v) => isNaN(Number(v)) ? v : Number(v);
         let heroStudents = 100;
         const renderHero = () => {
-          // Reset gdy variant się zmienił a heroStudents wskazuje na pill niedostępny w nowym wariancie
-          if (heroStudents === 'enterprise' && document.body.dataset.heroLayout !== 'o') heroStudents = 100;
           const isEnterprise = heroStudents === 'enterprise';
           heroCalc.classList.toggle('is-enterprise', isEnterprise);
           $heroAmount.textContent = isEnterprise ? 'Dla Ciebie' : fmt(PRICES.monthly[heroStudents]);
