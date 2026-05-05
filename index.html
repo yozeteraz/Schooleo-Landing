@@ -8,7 +8,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Caveat:wght@400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Caveat:wght@400;700&display=swap">
   <link rel="stylesheet" href="tokens.css">
 
   <style>
@@ -457,21 +457,46 @@
     .hero__alt { display: none; }
     body[data-hero-layout="k"] .hero__base,
     body[data-hero-layout="m"] .hero__base,
-    body[data-hero-layout="n"] .hero__base { display: none; }
+    body[data-hero-layout="n"] .hero__base,
+    body[data-hero-layout="o"] .hero__base { display: none; }
     body[data-hero-layout="k"] .hero__alt--k { display: block; }
     body[data-hero-layout="m"] .hero__alt--m,
-    body[data-hero-layout="n"] .hero__alt--m { display: grid; }
-    /* N — wariant M, ale CTA przenosimy do środka kalkulatora */
-    body[data-hero-layout="n"] .hero__m-cta-row { display: none; }
-    body[data-hero-layout="n"] .hero__calc__cta-row { display: flex; }
-    /* N — sub-text: dłuższe copy zamiast krótkiego z M */
+    body[data-hero-layout="n"] .hero__alt--m,
+    body[data-hero-layout="o"] .hero__alt--m { display: grid; }
+    /* N / O — wariant M, ale CTA przenosimy do środka kalkulatora */
+    body[data-hero-layout="n"] .hero__m-cta-row,
+    body[data-hero-layout="o"] .hero__m-cta-row { display: none; }
+    body[data-hero-layout="n"] .hero__calc__cta-row,
+    body[data-hero-layout="o"] .hero__calc__cta-row { display: flex; }
+    /* N / O — sub-text: dłuższe copy zamiast krótkiego z M */
     .hero__m-sub--n { display: none; }
-    body[data-hero-layout="n"] .hero__m-sub--m { display: none; }
-    body[data-hero-layout="n"] .hero__m-sub--n { display: block; }
-    /* N — kalkulator wyżej (negative margin na desktopie) */
+    body[data-hero-layout="n"] .hero__m-sub--m,
+    body[data-hero-layout="o"] .hero__m-sub--m { display: none; }
+    body[data-hero-layout="n"] .hero__m-sub--n,
+    body[data-hero-layout="o"] .hero__m-sub--n { display: block; }
+    /* N / O — kalkulator wyżej (negative margin na desktopie) */
     @media (min-width: 1024px) {
-      body[data-hero-layout="n"] .hero__calc { margin-top: -28px; }
+      body[data-hero-layout="n"] .hero__calc,
+      body[data-hero-layout="o"] .hero__calc { margin-top: -28px; }
     }
+    /* O — disclaimer pod kalkulatorem mocniejszy (fix krytyki: trzy konkretne uderzenia) */
+    .hero__calc__note--o,
+    .hero__calc__note--enterprise { display: none; }
+    body[data-hero-layout="o"] .hero__calc__note--m { display: none; }
+    body[data-hero-layout="o"] .hero__calc__note--o { display: block; }
+    /* O — pill "Dla Ciebie" (Enterprise) zastępuje "do 400" */
+    .hero__calc__pill--enterprise { display: none; }
+    body[data-hero-layout="o"] .hero__calc__pill--400 { display: none; }
+    body[data-hero-layout="o"] .hero__calc__pill--enterprise { display: inline-flex; }
+    /* Enterprise state — gdy aktywny pill "Dla Ciebie": chowamy "zł / mies.", zmniejszamy amount, podmieniamy notkę */
+    .hero__calc.is-enterprise .hero__calc__currency,
+    .hero__calc.is-enterprise .hero__calc__period { display: none; }
+    .hero__calc.is-enterprise .hero__calc__amount {
+      letter-spacing: -0.03em;
+    }
+    .hero__calc.is-enterprise .hero__calc__note--m,
+    .hero__calc.is-enterprise .hero__calc__note--o { display: none; }
+    .hero__calc.is-enterprise .hero__calc__note--enterprise { display: block; }
     /* N — tagline pod sub-textem (kontynuacja, ten sam styl co m-sub) */
     .hero__m-tagline {
       display: none;
@@ -486,7 +511,8 @@
       background-repeat: no-repeat;
       padding-inline: 0.06em;
     }
-    body[data-hero-layout="n"] .hero__m-tagline { display: block; }
+    body[data-hero-layout="n"] .hero__m-tagline,
+    body[data-hero-layout="o"] .hero__m-tagline { display: block; }
 
     /* K — gigantyczna liczba */
     .hero__bignum {
@@ -603,12 +629,17 @@
     .hero__calc__pill {
       flex: 1 1 auto;
       min-width: 60px;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border: 0;
       background: transparent;
       border-radius: 999px;
-      padding: 8px 12px;
+      padding: 6px 12px;
       font-weight: 700;
       font-size: 13px;
+      line-height: 1;
       color: var(--text-muted);
       cursor: pointer;
       transition: background var(--transition-fast), color var(--transition-fast);
@@ -633,8 +664,10 @@
     .hero__calc__period { font-size: 16px; color: var(--text-muted); }
     .hero__calc__note {
       font-size: 13px;
+      line-height: 1.45;
       color: var(--text-muted);
       margin: 0 0 18px;
+      min-height: 56px;
     }
     .hero__calc__link {
       display: inline-flex;
@@ -648,6 +681,46 @@
       text-decoration-thickness: 1.5px;
     }
     .hero__calc__link:hover { color: var(--color-rust-700); }
+    .hero__calc__discount {
+      position: relative;
+      display: inline-block;
+    }
+    .hero__calc__discount-strike {
+      position: absolute;
+      left: -3px;
+      right: -3px;
+      top: 50%;
+      width: calc(100% + 6px);
+      height: 10px;
+      color: var(--text);
+      transform: translateY(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-fast);
+    }
+    .hero__calc__discount-bump {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      margin-left: 4px;
+      font-family: var(--font-accent);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+      white-space: nowrap;
+      transform: translateY(-50%) rotate(-8deg);
+      transform-origin: center;
+      text-decoration: none;
+      pointer-events: none;
+    }
+    .hero__calc.is-enterprise .hero__calc__discount-strike {
+      opacity: 1;
+    }
+    .hero__calc.is-enterprise .hero__calc__discount-bump {
+      display: inline-block;
+    }
     /* CTA-row wewnątrz kalkulatora — tylko wariant N */
     .hero__calc__cta-row {
       display: none;
@@ -665,6 +738,11 @@
       position: relative;
       min-height: 48px;
       margin: -8px 0 14px;
+    }
+    .hero__calc__use-case__icon {
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+      color: var(--color-rust-700);
     }
     .hero__calc__use-case {
       position: absolute;
@@ -716,22 +794,32 @@
     }
 
     /* ---------- Hero layout switcher (harness UI) ---------- */
-    .hero-layout-switcher {
+    /* Pulpit z przełącznikami wariantów — wspólny floating UI dla hero, sekcji use-cases (i kolejnych) */
+    .variant-harness {
       position: fixed; bottom: 20px; right: 20px; z-index: 200;
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 10px;
+      display: flex; flex-direction: column; gap: 4px;
+      padding: 10px;
       background: var(--color-paper);
       border: 1px solid var(--border);
-      border-radius: 999px;
+      border-radius: 18px;
       box-shadow: 0 6px 24px rgba(26, 23, 20, 0.10);
       font: var(--font-label-small);
     }
-    .hero-layout-switcher__label {
+    .variant-harness__row {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .variant-harness__row + .variant-harness__row {
+      border-top: 1px solid var(--border);
+      padding-top: 6px;
+      margin-top: 2px;
+    }
+    .variant-harness__label {
       font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
       text-transform: uppercase; color: var(--text-muted);
       padding-inline: 4px;
+      min-width: 130px;
     }
-    .hero-layout-switcher button {
+    .variant-harness button {
       width: 28px; height: 28px;
       border-radius: 999px;
       font-size: 12px; font-weight: 700;
@@ -741,14 +829,18 @@
       cursor: pointer;
       transition: background var(--transition-fast), color var(--transition-fast);
     }
-    .hero-layout-switcher button:hover { background: var(--bg-warm); color: var(--text); }
-    body[data-hero-layout="a"] .hero-layout-switcher button[data-layout="a"],
-    body[data-hero-layout="c"] .hero-layout-switcher button[data-layout="c"],
-    body[data-hero-layout="h"] .hero-layout-switcher button[data-layout="h"],
-    body[data-hero-layout="i"] .hero-layout-switcher button[data-layout="i"],
-    body[data-hero-layout="k"] .hero-layout-switcher button[data-layout="k"],
-    body[data-hero-layout="m"] .hero-layout-switcher button[data-layout="m"],
-    body[data-hero-layout="n"] .hero-layout-switcher button[data-layout="n"] {
+    .variant-harness button:hover { background: var(--bg-warm); color: var(--text); }
+    body[data-hero-layout="a"] .variant-harness button[data-layout="a"],
+    body[data-hero-layout="c"] .variant-harness button[data-layout="c"],
+    body[data-hero-layout="h"] .variant-harness button[data-layout="h"],
+    body[data-hero-layout="i"] .variant-harness button[data-layout="i"],
+    body[data-hero-layout="k"] .variant-harness button[data-layout="k"],
+    body[data-hero-layout="m"] .variant-harness button[data-layout="m"],
+    body[data-hero-layout="n"] .variant-harness button[data-layout="n"],
+    body[data-hero-layout="o"] .variant-harness button[data-layout="o"],
+    body[data-cases-layout="a"] .variant-harness button[data-cases="a"],
+    body[data-cases-layout="b"] .variant-harness button[data-cases="b"],
+    body[data-cases-layout="c"] .variant-harness button[data-cases="c"] {
       background: var(--color-orange-500);
       color: var(--color-paper);
     }
@@ -963,6 +1055,225 @@
       color: var(--text-muted);
       max-width: 440px;
     }
+
+    /* ---------- Case studies (use cases) ---------- */
+    .case-studies {
+      padding: 100px 0;
+      background: #fff;
+    }
+    .case-studies__eyebrow {
+      display: block;
+      font: var(--font-eyebrow);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .case-studies__heading {
+      font: var(--font-display-l);
+      letter-spacing: var(--tracking-display-l);
+      color: var(--text);
+      margin: 0 0 12px;
+      max-width: 22ch;
+      text-wrap: balance;
+    }
+    .case-studies__heading .hl {
+      background-image: linear-gradient(transparent 62%, var(--color-butter) 62%, var(--color-butter) 95%, transparent 95%);
+      background-repeat: no-repeat;
+      padding-inline: 0.06em;
+    }
+    .case-studies__sub {
+      font: var(--font-body-large);
+      color: var(--text-muted);
+      max-width: 56ch;
+      margin: 0 0 56px;
+    }
+    .case-studies__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    @media (min-width: 768px) {
+      .case-studies__grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+    }
+    .case-card {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 36px;
+      background: var(--bg-warm);
+      border: 1px solid rgba(26, 23, 20, 0.08);
+      border-radius: 16px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    }
+    .case-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(26, 23, 20, 0.16);
+      box-shadow: 0 1px 0 rgba(26, 23, 20, 0.04), 0 14px 32px rgba(26, 23, 20, 0.08);
+    }
+    .case-card:hover .case-card__cta { color: var(--color-rust-700); }
+    .case-card:hover .case-card__cta::after { transform: translateX(3px); }
+    .case-card__head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .case-card__logo {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: var(--color-orange-500);
+      color: #fff;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+    .case-card__logo--forest { background: #164037; }
+    .case-card__org {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .case-card__org-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .case-card__org-meta {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+    .case-card__quote {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.5;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      color: var(--text);
+      text-wrap: pretty;
+    }
+    .case-card__foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: auto;
+      padding-top: 4px;
+    }
+    .case-card__author {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .case-card__cta {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-orange-500);
+      white-space: nowrap;
+      transition: color var(--transition-fast);
+    }
+    .case-card__cta::after {
+      content: ' →';
+      display: inline-block;
+      transition: transform var(--transition-fast);
+    }
+    @media (max-width: 640px) {
+      .case-studies { padding: 64px 0; }
+      .case-card { padding: 28px 24px; gap: 20px; }
+      .case-card__quote { font-size: 17px; }
+      .case-card__foot { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+
+    /* Wariant B — żółte karteczki post-it z lekkim obrotem */
+    body[data-cases-layout="b"] .case-studies__grid { gap: 40px; padding: 8px 0 16px; }
+    body[data-cases-layout="b"] .case-card {
+      background: #FDE68A;
+      border: 0;
+      border-radius: 4px;
+      box-shadow: 0 1px 0 rgba(26, 23, 20, 0.08), 0 18px 30px -12px rgba(26, 23, 20, 0.18);
+    }
+    body[data-cases-layout="b"] .case-card:nth-child(odd) { transform: rotate(-1.4deg); }
+    body[data-cases-layout="b"] .case-card:nth-child(even) { transform: rotate(1.6deg); }
+    body[data-cases-layout="b"] .case-card:hover {
+      transform: rotate(0deg) translateY(-2px);
+      box-shadow: 0 1px 0 rgba(26, 23, 20, 0.10), 0 24px 36px -10px rgba(26, 23, 20, 0.22);
+      border-color: transparent;
+    }
+    body[data-cases-layout="b"] .case-card__quote { font-size: 21px; font-weight: 600; }
+    body[data-cases-layout="b"] .case-card__logo {
+      background: var(--text);
+      color: #FDE68A;
+      border-radius: 8px;
+    }
+    body[data-cases-layout="b"] .case-card__logo--forest {
+      background: #164037;
+      color: #FDE68A;
+    }
+    body[data-cases-layout="b"] .case-card__cta { color: var(--text); }
+    body[data-cases-layout="b"] .case-card__author { color: var(--text); }
+
+
+    /* Wariant C — Basecamp / HEY / Fizzy: duży blockquote, bez ramki, wielki cudzysłów */
+    body[data-cases-layout="c"] .case-studies__grid { gap: 80px; }
+    @media (min-width: 768px) {
+      body[data-cases-layout="c"] .case-studies__grid { gap: 56px; }
+    }
+    body[data-cases-layout="c"] .case-card {
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+      gap: 24px;
+      position: relative;
+    }
+    body[data-cases-layout="c"] .case-card:hover {
+      transform: none;
+      border-color: transparent;
+      box-shadow: none;
+    }
+    body[data-cases-layout="c"] .case-card::before {
+      content: '\201C';
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 700;
+      font-size: 96px;
+      line-height: 0.7;
+      color: var(--color-orange-500);
+      margin-bottom: -16px;
+    }
+    body[data-cases-layout="c"] .case-card__quote {
+      font-size: clamp(22px, 2.2vw, 26px);
+      line-height: 1.35;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+    }
+    body[data-cases-layout="c"] .case-card__head {
+      order: 2;
+      gap: 12px;
+    }
+    body[data-cases-layout="c"] .case-card__quote { order: 1; }
+    body[data-cases-layout="c"] .case-card__foot { order: 3; padding-top: 4px; }
+    body[data-cases-layout="c"] .case-card__logo {
+      width: 40px; height: 40px;
+      font-size: 14px;
+      border-radius: 50%;
+    }
+    body[data-cases-layout="c"] .case-card__org-name { font-size: 15px; }
+    body[data-cases-layout="c"] .case-card__org-meta { font-size: 13px; }
+    body[data-cases-layout="c"] .case-card__cta {
+      border-bottom: 1.5px solid var(--color-orange-500);
+      padding-bottom: 1px;
+    }
+    body[data-cases-layout="c"] .case-card__cta::after { content: ''; }
+    body[data-cases-layout="c"] .case-card:hover .case-card__cta { color: var(--color-orange-500); border-color: var(--color-rust-700); }
 
     /* ---------- Trusted by — figma 16:494 / parytet z live (.clients) ---------- */
     .trusted {
@@ -1313,16 +1624,54 @@
       color: var(--color-orange-500);
       font-weight: 700;
       margin-left: 4px;
+      position: relative;
+      display: inline-block;
+    }
+    .pricing__discount-strike {
+      position: absolute;
+      left: -3px;
+      right: -3px;
+      top: 50%;
+      width: calc(100% + 6px);
+      height: 10px;
+      color: var(--text);
+      transform: translateY(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-fast);
+    }
+    .pricing__discount-bump {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      margin-left: 6px;
+      font-family: var(--font-accent);
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+      white-space: nowrap;
+      transform: translateY(-50%) rotate(-8deg);
+      transform-origin: center;
+      pointer-events: none;
+    }
+    .pricing__widget.is-enterprise .pricing__toggle-opt[data-cycle="yearly"] .pricing__discount-strike {
+      opacity: 1;
+    }
+    .pricing__widget.is-enterprise .pricing__toggle-opt[data-cycle="yearly"] .pricing__discount-bump {
+      display: inline-block;
     }
 
     .pricing__field { margin-bottom: 28px; }
     .pricing__label {
       display: block;
-      font: var(--font-eyebrow);
-      letter-spacing: var(--tracking-eyebrow);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 12px;
+      color: var(--text);
+      margin-bottom: 14px;
     }
     .pricing__pills {
       display: inline-flex;
@@ -1355,14 +1704,20 @@
       gap: 6px;
     }
     .pricing__amount {
-      font-size: clamp(56px, 8vw, 78px);
+      font-size: clamp(34px, 5vw, 46px);
       font-weight: 800;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.02em;
       color: var(--text);
       line-height: 1;
     }
-    .pricing__currency { font-size: 28px; font-weight: 700; color: var(--text); }
-    .pricing__period { font-size: 18px; color: var(--text-muted); }
+    .pricing__currency { font-size: 20px; font-weight: 700; color: var(--text); }
+    .pricing__period { font-size: 15px; color: var(--text-muted); }
+
+    /* Enterprise state — "Dla Ciebie" zamiast cyfry */
+    .pricing__widget.is-enterprise .pricing__currency,
+    .pricing__widget.is-enterprise .pricing__period {
+      display: none;
+    }
 
     .pricing__per-student {
       font-size: 14px;
@@ -1416,6 +1771,10 @@
       position: relative;
       min-height: 52px;
       margin-top: 14px;
+    }
+    .pricing__widget.is-enterprise .pricing__use-case-slot {
+      min-height: 13px;
+      margin-top: 4px;
     }
     .pricing__use-case {
       position: absolute;
@@ -1700,7 +2059,7 @@
     .footer a:hover { color: var(--text); }
   </style>
 </head>
-<body data-hero-layout="a">
+<body data-hero-layout="a" data-cases-layout="a">
 
   <!-- ============ TOPBAR ============ -->
   <!-- figma: 16:3 Header — kolumna 1120px, logo na lewej krawędzi -->
@@ -1880,11 +2239,15 @@
               <button type="button" class="hero__calc__pill is-active" data-students="100" aria-pressed="true">do&nbsp;100</button>
               <button type="button" class="hero__calc__pill" data-students="200" aria-pressed="false">do&nbsp;200</button>
               <button type="button" class="hero__calc__pill" data-students="300" aria-pressed="false">do&nbsp;300</button>
-              <button type="button" class="hero__calc__pill" data-students="400" aria-pressed="false">do&nbsp;400</button>
+              <button type="button" class="hero__calc__pill hero__calc__pill--400" data-students="400" aria-pressed="false">do&nbsp;400</button>
+              <button type="button" class="hero__calc__pill hero__calc__pill--enterprise" data-students="enterprise" aria-pressed="false">Dla&nbsp;Ciebie</button>
             </div>
 
             <div class="hero__calc__use-case-slot">
               <a class="hero__calc__use-case" id="hero-calc-use-case" href="case-study.html" aria-hidden="true">
+                <svg class="hero__calc__use-case__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
                 <span>Zobacz, jak to&nbsp;działa u&nbsp;szkoły z&nbsp;<span id="hero-calc-use-case-tier">100</span>&nbsp;uczniami&nbsp;<span class="hero__calc__use-case__cta">→</span></span>
               </a>
             </div>
@@ -1894,8 +2257,10 @@
               <span class="hero__calc__currency">zł</span>
               <span class="hero__calc__period">/&nbsp;mies.</span>
             </div>
-            <p class="hero__calc__note" id="hero-calc-note">Wszystkie funkcje. Bez modułów do&nbsp;dokupienia. 30&nbsp;dni za&nbsp;darmo.</p>
-            <a href="#cennik" class="hero__calc__link">Zobacz pełny cennik (rocznie -20%) →</a>
+            <p class="hero__calc__note hero__calc__note--m" id="hero-calc-note">Wszystkie funkcje. Bez modułów do&nbsp;dokupienia. 30&nbsp;dni za&nbsp;darmo.</p>
+            <p class="hero__calc__note hero__calc__note--o">Wszystkie funkcje w&nbsp;cenie. Bez konsultantów. Bez ukrytych dopłat.</p>
+            <p class="hero__calc__note hero__calc__note--enterprise">Bez limitu uczniów, oddziałów i&nbsp;lektorów. Bezpośredni support. Dla sieci szkół albo franczyzy — dopasujemy ofertę pod Twoją skalę.</p>
+            <a href="#cennik" class="hero__calc__link">Zobacz pełny cennik (rocznie&nbsp;<span class="hero__calc__discount">-20%<svg class="hero__calc__discount-strike" viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7 Q 16 2, 30 6 T 58 5" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" fill="none"/></svg><span class="hero__calc__discount-bump" aria-hidden="true">−25%</span></span>) →</a>
             <div class="hero__calc__cta-row">
               <a href="#" class="btn btn--primary">Wypróbuj za darmo — 30 dni</a>
             </div>
@@ -2007,6 +2372,52 @@
             <p class="feature__body">Plan zajęć, oceny, obecności, faktury — wszystko w&nbsp;telefonie. Rodzic sam widzi, że Jaś był w&nbsp;środę. Ty nie odpowiadasz już na&nbsp;40 maili tygodniowo.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <!-- ============ CASE STUDIES (use cases) ============ -->
+    <section class="case-studies" id="historie" aria-label="Historie szkół">
+      <div class="container">
+        <span class="case-studies__eyebrow">Historie szkół</span>
+        <h2 class="case-studies__heading">Dwa rozmiary, <span class="hl">jeden system</span>.</h2>
+        <p class="case-studies__sub">Zobacz jak Schooleo działa u&nbsp;szkoły wielkości takiej jak Twoja — od&nbsp;jednoosobowej działalności po&nbsp;sieć z&nbsp;trzema oddziałami.</p>
+
+        <div class="case-studies__grid">
+          <a href="case-study.html#do-100-uczniow" class="case-card">
+            <header class="case-card__head">
+              <span class="case-card__logo" aria-hidden="true">EL</span>
+              <span class="case-card__org">
+                <span class="case-card__org-name">EnglishLab Kraków</span>
+                <span class="case-card__org-meta">Szkoła językowa · 80&nbsp;uczniów · 4&nbsp;lektorów</span>
+              </span>
+            </header>
+            <blockquote class="case-card__quote">
+              „Zaczęłam sama, na&nbsp;Excelu i&nbsp;WhatsAppie. Po&nbsp;dwóch latach zatrudniłam czterech lektorów i&nbsp;przestałam ogarniać. Schooleo poskładało wszystko w&nbsp;jeden poniedziałek."
+            </blockquote>
+            <footer class="case-card__foot">
+              <span class="case-card__author">Magda Wójcik, właścicielka</span>
+              <span class="case-card__cta">Zobacz historię</span>
+            </footer>
+          </a>
+
+          <a href="case-study.html#do-300-uczniow" class="case-card">
+            <header class="case-card__head">
+              <span class="case-card__logo case-card__logo--forest" aria-hidden="true">CH</span>
+              <span class="case-card__org">
+                <span class="case-card__org-name">Centrum Helios</span>
+                <span class="case-card__org-meta">Trzy oddziały · 280&nbsp;uczniów · 14&nbsp;lektorów</span>
+              </span>
+            </header>
+            <blockquote class="case-card__quote">
+              „Trzy oddziały, każdy działał po&nbsp;swojemu. Teraz mam jeden plan zajęć i&nbsp;jedno pytanie — kto ma okno w&nbsp;czwartek po&nbsp;16. Odpowiedź zajmuje cztery sekundy."
+            </blockquote>
+            <footer class="case-card__foot">
+              <span class="case-card__author">Tomasz Nowak, dyrektor</span>
+              <span class="case-card__cta">Zobacz historię</span>
+            </footer>
+          </a>
+        </div>
+
       </div>
     </section>
 
@@ -2149,7 +2560,7 @@
           <div class="pricing__widget" id="pricing-widget">
             <div class="pricing__toggle" role="radiogroup" aria-label="Cykl rozliczeń">
               <button type="button" class="pricing__toggle-opt is-active" data-cycle="monthly" aria-pressed="true">Miesięcznie</button>
-              <button type="button" class="pricing__toggle-opt" data-cycle="yearly" aria-pressed="false">Rocznie<span class="pricing__discount">-20%</span></button>
+              <button type="button" class="pricing__toggle-opt" data-cycle="yearly" aria-pressed="false">Rocznie<span class="pricing__discount">-20%<svg class="pricing__discount-strike" viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7 Q 16 2, 30 6 T 58 5" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" fill="none"/></svg><span class="pricing__discount-bump" aria-hidden="true">−25%</span></span></button>
             </div>
 
             <div class="pricing__field">
@@ -2158,7 +2569,7 @@
                 <button type="button" class="pricing__pill is-active" data-students="100" aria-pressed="true">do 100</button>
                 <button type="button" class="pricing__pill" data-students="200" aria-pressed="false">do 200</button>
                 <button type="button" class="pricing__pill" data-students="300" aria-pressed="false">do 300</button>
-                <button type="button" class="pricing__pill" data-students="400" aria-pressed="false">do 400</button>
+                <button type="button" class="pricing__pill pricing__pill--enterprise" data-students="enterprise" aria-pressed="false">Dla Ciebie</button>
               </div>
 
               <div class="pricing__use-case-slot">
@@ -2283,27 +2694,37 @@
         const $useCase = document.getElementById('pricing-use-case');
         const $useCaseTier = document.getElementById('pricing-use-case-tier');
         const USE_CASES = { 100: 'do-100-uczniow', 300: 'do-300-uczniow' };
+        const parsePill = (v) => isNaN(Number(v)) ? v : Number(v);
 
         const render = () => {
+          const isEnterprise = state.students === 'enterprise';
+          pricing.classList.toggle('is-enterprise', isEnterprise);
+          if (isEnterprise) {
+            $amount.textContent = 'Dla Ciebie';
+            $perStudent.textContent = 'Bez limitu uczniów. Bezpośredni support.';
+            $yearlyNote.textContent = 'Przy umowie na rok — −25% zamiast standardowych −20%.';
+            $yearlyNote.hidden = false;
+          } else {
           const price = PRICES[state.cycle][state.students];
           $amount.textContent = fmt(price);
           const perStudentZl = price / state.students;
           $perStudent.textContent = `to\u00A0ok. ${perStudentZl.toFixed(2).replace('.', ',')}\u00A0zł za\u00A0ucznia miesięcznie`;
           if (state.cycle === 'yearly') {
-            $yearlyTotal.textContent = fmt(YEARLY_TOTAL[state.students]);
+            $yearlyNote.innerHTML = `Płatne raz w roku — <span id="pricing-yearly-total">${fmt(YEARLY_TOTAL[state.students])}</span> zł`;
             $yearlyNote.hidden = false;
           } else { $yearlyNote.hidden = true; }
+          }
           $cycleBtns.forEach((b) => {
             const active = b.dataset.cycle === state.cycle;
             b.classList.toggle('is-active', active);
             b.setAttribute('aria-pressed', active ? 'true' : 'false');
           });
           $pillBtns.forEach((b) => {
-            const active = Number(b.dataset.students) === state.students;
+            const active = parsePill(b.dataset.students) === state.students;
             b.classList.toggle('is-active', active);
             b.setAttribute('aria-pressed', active ? 'true' : 'false');
           });
-          if (USE_CASES[state.students]) {
+          if (!isEnterprise && USE_CASES[state.students]) {
             $useCaseTier.textContent = state.students;
             $useCase.href = `case-study.html#${USE_CASES[state.students]}`;
             $useCase.setAttribute('aria-hidden', 'false');
@@ -2315,7 +2736,7 @@
 
         const positionUseCase = () => {
           const activePill = pricing.querySelector('.pricing__pill.is-active');
-          if (!activePill || !USE_CASES[state.students]) return;
+          if (!activePill || state.students === 'enterprise' || !USE_CASES[state.students]) return;
           requestAnimationFrame(() => {
             const slot = $useCase.parentElement;
             const slotRect = slot.getBoundingClientRect();
@@ -2333,7 +2754,7 @@
         };
         window.addEventListener('resize', positionUseCase);
         $cycleBtns.forEach((b) => b.addEventListener('click', () => { state.cycle = b.dataset.cycle; render(); }));
-        $pillBtns.forEach((b) => b.addEventListener('click', () => { state.students = Number(b.dataset.students); render(); }));
+        $pillBtns.forEach((b) => b.addEventListener('click', () => { state.students = parsePill(b.dataset.students); render(); }));
         render();
       }
 
@@ -2344,12 +2765,18 @@
         const $heroAmount = document.getElementById('hero-calc-amount');
         const $heroUseCase = document.getElementById('hero-calc-use-case');
         const $heroUseCaseTier = document.getElementById('hero-calc-use-case-tier');
+        // Case study tylko dla 100 i 300 — to jedyne istniejące case studies. Dla 200 / 400 / enterprise: bubble się chowa.
         const HERO_USE_CASES = { 100: 'do-100-uczniow', 300: 'do-300-uczniow' };
+        const parsePillValue = (v) => isNaN(Number(v)) ? v : Number(v);
         let heroStudents = 100;
         const renderHero = () => {
-          $heroAmount.textContent = fmt(PRICES.monthly[heroStudents]);
+          // Reset gdy variant się zmienił a heroStudents wskazuje na pill niedostępny w nowym wariancie
+          if (heroStudents === 'enterprise' && document.body.dataset.heroLayout !== 'o') heroStudents = 100;
+          const isEnterprise = heroStudents === 'enterprise';
+          heroCalc.classList.toggle('is-enterprise', isEnterprise);
+          $heroAmount.textContent = isEnterprise ? 'Dla Ciebie' : fmt(PRICES.monthly[heroStudents]);
           $heroPills.forEach((b) => {
-            const active = Number(b.dataset.students) === heroStudents;
+            const active = parsePillValue(b.dataset.students) === heroStudents;
             b.classList.toggle('is-active', active);
             b.setAttribute('aria-pressed', active ? 'true' : 'false');
           });
@@ -2362,6 +2789,7 @@
           }
           positionHeroUseCase();
         };
+        window.rerenderHeroCalc = renderHero;
         const positionHeroUseCase = () => {
           const activePill = heroCalc.querySelector('.hero__calc__pill.is-active');
           if (!activePill || !HERO_USE_CASES[heroStudents]) return;
@@ -2382,43 +2810,70 @@
         window.addEventListener('resize', positionHeroUseCase);
         // Hero jest ukryty domyślnie — gdy switcher przełącza na M, trzeba przepozycjonować po reflowie
         window.repositionHeroUseCase = positionHeroUseCase;
-        $heroPills.forEach((b) => b.addEventListener('click', () => { heroStudents = Number(b.dataset.students); renderHero(); }));
+        $heroPills.forEach((b) => b.addEventListener('click', () => { heroStudents = parsePillValue(b.dataset.students); renderHero(); }));
         renderHero();
       }
 
     })();
   </script>
 
-  <!-- ============ HERO LAYOUT SWITCHER (harness) ============ -->
-  <div class="hero-layout-switcher" role="group" aria-label="Wariant układu hero">
-    <span class="hero-layout-switcher__label">Hero</span>
-    <button type="button" data-layout="a" onclick="setHeroLayout('a')" aria-label="Wariant A — paragraf + chip K">A</button>
-    <button type="button" data-layout="c" onclick="setHeroLayout('c')" aria-label="Wariant C — bez paragrafu">C</button>
-    <button type="button" data-layout="h" onclick="setHeroLayout('h')" aria-label="Wariant H — guarantees strip pod CTA">H</button>
-    <button type="button" data-layout="i" onclick="setHeroLayout('i')" aria-label="Wariant I — app stack pod paragrafem">I</button>
-    <button type="button" data-layout="k" onclick="setHeroLayout('k')" aria-label="Wariant K — gigantyczna liczba (5h)">K</button>
-    <button type="button" data-layout="m" onclick="setHeroLayout('m')" aria-label="Wariant M — 2-column z mini-kalkulatorem po prawej">M</button>
-    <button type="button" data-layout="n" onclick="setHeroLayout('n')" aria-label="Wariant N — jak M, ale CTA wewnątrz kalkulatora">N</button>
+  <!-- ============ VARIANT HARNESS — wspólny pulpit przełączników ============ -->
+  <div class="variant-harness" role="group" aria-label="Warianty układu strony">
+    <div class="variant-harness__row" role="group" aria-label="Wariant układu hero">
+      <span class="variant-harness__label">Hero</span>
+      <button type="button" data-layout="a" onclick="setHeroLayout('a')" aria-label="Wariant A — paragraf + chip K">A</button>
+      <button type="button" data-layout="c" onclick="setHeroLayout('c')" aria-label="Wariant C — bez paragrafu">C</button>
+      <button type="button" data-layout="h" onclick="setHeroLayout('h')" aria-label="Wariant H — guarantees strip pod CTA">H</button>
+      <button type="button" data-layout="i" onclick="setHeroLayout('i')" aria-label="Wariant I — app stack pod paragrafem">I</button>
+      <button type="button" data-layout="k" onclick="setHeroLayout('k')" aria-label="Wariant K — gigantyczna liczba (5h)">K</button>
+      <button type="button" data-layout="m" onclick="setHeroLayout('m')" aria-label="Wariant M — 2-column z mini-kalkulatorem po prawej">M</button>
+      <button type="button" data-layout="n" onclick="setHeroLayout('n')" aria-label="Wariant N — jak M, ale CTA wewnątrz kalkulatora">N</button>
+      <button type="button" data-layout="o" onclick="setHeroLayout('o')" aria-label="Wariant O — N z fixami: use-case dla wszystkich tierów + mocniejszy disclaimer">O</button>
+    </div>
+    <div class="variant-harness__row" role="group" aria-label="Wariant sekcji use cases">
+      <span class="variant-harness__label">Sekcja use cases</span>
+      <button type="button" data-cases="a" onclick="setCasesLayout('a')" aria-label="Wariant A — kafle">A</button>
+      <button type="button" data-cases="b" onclick="setCasesLayout('b')" aria-label="Wariant B — żółte karteczki">B</button>
+      <button type="button" data-cases="c" onclick="setCasesLayout('c')" aria-label="Wariant C — Basecamp-style blockquote">C</button>
+    </div>
   </div>
   <script>
     (function () {
       const KEY = 'schooleo-hero-layout';
-      const VARIANTS = ['a', 'c', 'h', 'i', 'k', 'm', 'n'];
+      const VARIANTS = ['a', 'c', 'h', 'i', 'k', 'm', 'n', 'o'];
+      const CALC_VARIANTS = ['m', 'n', 'o'];
       const saved = localStorage.getItem(KEY);
       if (saved && VARIANTS.includes(saved)) {
         document.body.setAttribute('data-hero-layout', saved);
-        if (saved === 'm' || saved === 'n') {
+        if (CALC_VARIANTS.includes(saved)) {
           window.addEventListener('load', () => {
+            if (typeof window.rerenderHeroCalc === 'function') window.rerenderHeroCalc();
             if (typeof window.repositionHeroUseCase === 'function') window.repositionHeroUseCase();
           });
         }
       }
+      // Sekcja use cases — wariant A | B | C, persystencja w localStorage
+      const CASES_KEY = 'schooleo-cases-layout';
+      const CASES_VARIANTS = ['a', 'b', 'c'];
+      const savedCases = localStorage.getItem(CASES_KEY);
+      if (savedCases && CASES_VARIANTS.includes(savedCases)) {
+        document.body.setAttribute('data-cases-layout', savedCases);
+      }
+      window.setCasesLayout = function (v) {
+        if (!CASES_VARIANTS.includes(v)) return;
+        document.body.setAttribute('data-cases-layout', v);
+        localStorage.setItem(CASES_KEY, v);
+      };
+
       window.setHeroLayout = function (v) {
         document.body.setAttribute('data-hero-layout', v);
         localStorage.setItem(KEY, v);
-        // Po pokazaniu wariantu M / N musimy przeliczyć pozycję dymka — przedtem był display:none
-        if ((v === 'm' || v === 'n') && typeof window.repositionHeroUseCase === 'function') {
-          requestAnimationFrame(window.repositionHeroUseCase);
+        // Po przełączeniu na wariant z kalkulatorem — przerysuj (mapowanie use-case zależy od wariantu) i przepozycjonuj dymek
+        if (CALC_VARIANTS.includes(v)) {
+          if (typeof window.rerenderHeroCalc === 'function') window.rerenderHeroCalc();
+          if (typeof window.repositionHeroUseCase === 'function') {
+            requestAnimationFrame(window.repositionHeroUseCase);
+          }
         }
       };
     })();
