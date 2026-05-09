@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@400&display=swap">
   <link rel="stylesheet" href="tokens.css">
+  <!-- Prefetch iframe formularza — gdy user kliknie event, HTML jest już w cache (modal otwiera się natychmiast) -->
+  <link rel="prefetch" href="course-form-preview.html?embed=1" as="document">
 
   <style>
     /* ---------- Lokalne zmienne kalendarza (event colors) ---------- */
@@ -164,10 +166,8 @@
     .course-modal__backdrop {
       position: absolute;
       inset: 0;
-      background: rgba(247, 244, 238, 0.72);
-      -webkit-backdrop-filter: blur(3px) saturate(120%);
-      backdrop-filter: blur(3px) saturate(120%);
-      animation: course-modal-fade 160ms ease;
+      background: rgba(247, 244, 238, 0.82);
+      animation: course-modal-fade 100ms ease-out;
     }
     .course-modal__panel {
       position: relative;
@@ -177,7 +177,7 @@
       border-radius: 16px;
       box-shadow: 0 24px 64px -16px rgba(26, 23, 20, 0.28), 0 4px 12px -4px rgba(26, 23, 20, 0.08);
       overflow: hidden;
-      animation: course-modal-pop 200ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+      animation: course-modal-pop 130ms cubic-bezier(0.2, 0.9, 0.3, 1.05);
     }
     .course-modal__frame {
       width: 100%;
@@ -191,8 +191,8 @@
       to   { opacity: 1; }
     }
     @keyframes course-modal-pop {
-      from { opacity: 0; transform: translateY(8px) scale(0.98); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     @media (max-width: 640px) {
       .course-modal { padding: 0; }
