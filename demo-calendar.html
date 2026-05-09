@@ -44,7 +44,7 @@
        ========================================================= */
     .demo-banner {
       max-width: 1440px;
-      margin: 12px auto 4px;
+      margin: 0 auto;
       padding: 0 24px;
     }
     .demo-banner__inner {
@@ -626,7 +626,7 @@
   </section>
 
   <script>
-    (() => {
+    document.addEventListener('DOMContentLoaded', () => {
       // ============ Stan użytkownika ============
       const USER_KEY = 'schooleo-trial-user';
       const TIER_KEY = 'schooleo-tier';
@@ -972,7 +972,7 @@
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
       });
-    })();
+    });
   </script>
 
   <!-- ============ MODAL z formularzem kursu (iframe lazy-loaded) ============ -->
