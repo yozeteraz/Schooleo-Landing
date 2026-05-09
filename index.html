@@ -123,6 +123,26 @@
       background: var(--text);
       color: var(--color-paper);
     }
+    .topbar__trial {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 18px;
+      background: var(--color-orange-500);
+      color: var(--color-paper);
+      border: 0;
+      border-radius: 999px;
+      font: var(--font-label);
+      letter-spacing: 0;
+      box-shadow: 0 2px 0 var(--color-brick-900);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .topbar__trial:hover { transform: translateY(-1px); box-shadow: 0 3px 0 var(--color-brick-900); }
+    .topbar__trial:active { transform: translateY(2px); box-shadow: 0 0 0 var(--color-brick-900); }
+    /* Na mobile (≤768px) "Zaloguj" chowamy do drawera, zostaje tylko trial CTA + burger */
+    @media (max-width: 767px) {
+      .topbar__login { display: none; }
+      .topbar__trial { padding: 8px 14px; font-size: 13px; }
+    }
 
     /* ---------- Burger (mobile, przed Zaloguj) ---------- */
     .topbar__burger {
@@ -2250,6 +2270,7 @@
         </svg>
       </button>
       <a href="login.html" class="topbar__login">Zaloguj się</a>
+      <a href="signup.html" class="topbar__trial" data-trial-cta>Wypróbuj demo</a>
     </nav>
    </div>
   </header>
@@ -2266,6 +2287,7 @@
         <li><a href="#cennik" data-drawer-close>Cennik</a></li>
         <li><a href="kontakt.html">Kontakt</a></li>
         <li><a href="login.html">Zaloguj się</a></li>
+        <li><a href="signup.html" data-trial-cta data-drawer-close><b>Wypróbuj demo →</b></a></li>
       </ul>
     </aside>
   </div>
