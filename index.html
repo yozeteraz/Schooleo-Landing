@@ -2054,6 +2054,144 @@
     .footer__links { display: flex; gap: 20px; flex-wrap: wrap; }
     .footer a { color: inherit; text-decoration: none; }
     .footer a:hover { color: var(--text); }
+
+    /* ==========================================================================
+       MOBILE (≤640px) — wymuszamy kanoniczne warianty Hero=N, Cases=B
+       Harness ukryty, więc użytkownik mobile nie przełącza wariantów.
+       Reguły bez body[data-...] dla wymuszenia; minimalne overrides typografii.
+       ========================================================================== */
+    @media (max-width: 640px) {
+
+      /* ---------- 1. Globals ---------- */
+      .container { padding-inline: 20px; }
+      main { overflow-x: hidden; }
+
+      /* ---------- 13. Variant harness — chowamy ---------- */
+      .variant-harness { display: none; }
+
+      /* ---------- 3. Hero — wymuszony wariant N ---------- */
+      .hero__base { display: none; }
+      .hero__alt--m { display: grid; }
+      .hero__m-sub--m { display: none; }
+      .hero__m-sub--n { display: block; }
+      .hero__m-tagline { display: block; }
+      .hero__m-cta-row { display: none; }
+      .hero__calc__cta-row { display: flex; }
+      /* notka: zostaje --m (krótka, najczytelniejsza na małym ekranie) */
+      .hero__calc__note--o,
+      .hero__calc__note--enterprise { display: none; }
+      .hero__calc__note--m { display: block; }
+
+      /* hero N — mobile overrides */
+      .hero { padding-block: 88px 56px; }
+      .hero__alt--m { grid-template-columns: 1fr; gap: 28px; }
+      .hero__m-headline { font-size: 38px; line-height: 1.08; letter-spacing: -0.025em; max-width: none; margin-bottom: 18px; }
+      .hero__m-sub { font-size: 17px; line-height: 1.55; max-width: none; margin-bottom: 18px; }
+      .hero__m-tagline { font-size: 15px; line-height: 1.55; margin: -4px 0 4px; max-width: none; }
+      .hero__calc { max-width: 100%; padding: 22px 20px; border-radius: 14px; margin-top: 8px; }
+      .hero__calc__pills { gap: 4px; }
+      .hero__calc__pill { font-size: 12px; padding: 6px 8px; min-width: 0; }
+      .hero__calc__amount { font-size: 44px; }
+      .hero__calc__note { min-height: 0; margin-bottom: 14px; }
+      .hero__calc__cta-row .btn,
+      .hero__calc__cta-row .button { width: 100%; justify-content: center; }
+      /* dymek use-case — pozycjonowany absolutnie via JS, na wąskim ekranie wystaje */
+      .hero__calc__use-case-slot { display: none; }
+      /* brand wordmark w hero — zmniejszamy żeby się mieścił */
+      .hero__brand { gap: 10px; }
+      .hero__brand-icon { width: 44px; height: 44px; }
+      .hero__brand-wordmark { height: 28px; }
+
+      /* ---------- 4. Statement ---------- */
+      .statement { padding-block: 56px; }
+      .statement__layout { grid-template-columns: 1fr; gap: 28px; }
+      .statement__headline { font-size: 32px; line-height: 1.1; letter-spacing: -0.025em; }
+      .statement__body { font-size: 16px; line-height: 1.6; }
+
+      /* ---------- 5. Features ---------- */
+      .features { padding-block: 56px; }
+      .features__heading { font-size: 32px; line-height: 1.1; letter-spacing: -0.025em; }
+      .features__sub { font-size: 16px; }
+      .features__grid { grid-template-columns: 1fr; gap: 16px; }
+      .feature-card { padding: 24px 20px; }
+      .feature-card__title { font-size: 20px; }
+      .feature-card__body { font-size: 15px; }
+
+      /* ---------- 6. Cases — wymuszony wariant B (sticky-note) ---------- */
+      .case-studies { padding-block: 56px; padding-inline: 20px; }
+      .case-studies__heading { font-size: 32px; line-height: 1.1; letter-spacing: -0.025em; }
+      .case-studies__sub { font-size: 16px; }
+      .case-studies__grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 8px 0 16px;
+      }
+      .case-card {
+        background: #FDE68A;
+        border: 0;
+        border-radius: 4px;
+        padding: 24px 22px;
+        gap: 18px;
+        box-shadow: 0 1px 0 rgba(26, 23, 20, 0.08), 0 18px 30px -12px rgba(26, 23, 20, 0.18);
+      }
+      .case-card:nth-child(odd)  { transform: rotate(-1.4deg); }
+      .case-card:nth-child(even) { transform: rotate(1.6deg); }
+      .case-card:hover {
+        transform: rotate(0deg) translateY(-2px);
+        box-shadow: 0 1px 0 rgba(26, 23, 20, 0.10), 0 24px 36px -10px rgba(26, 23, 20, 0.22);
+      }
+      .case-card__quote { font-size: 17px; font-weight: 600; }
+      .case-card__logo { background: var(--text); color: #FDE68A; border-radius: 8px; }
+      .case-card__logo--forest { background: #164037; color: #FDE68A; }
+      .case-card__cta { color: var(--text); }
+      .case-card__author { color: var(--text); }
+      .case-card__foot { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+      /* ---------- 7. Trusted by ---------- */
+      .trusted { padding-block: 40px; }
+      .trusted__heading { font-size: 22px; padding-inline: 20px; }
+      .trusted__track { gap: 48px; }
+      .trusted__logo { font-size: 18px; }
+      .trusted__monogram { width: 32px; height: 32px; font-size: 13px; }
+
+      /* ---------- 8. Yes list ---------- */
+      .yes { padding-block: 56px; }
+      .yes__intro { grid-template-columns: 1fr; gap: 20px; margin-bottom: 28px; }
+      .yes__heading { font-size: 32px; }
+      .yes__lead { font-size: 16px; }
+      .yes__list { grid-template-columns: 1fr; gap: 0; }
+      .yes__item { font-size: 15px; padding: 14px 0; gap: 12px; }
+      .yes__check { width: 22px; height: 22px; }
+
+      /* ---------- 9. Quote section (już ma częściowe override 1406) ---------- */
+      .quote-section { padding-block: 48px; }
+      .quote { padding: 32px 22px; }
+      .quote__body { font-size: 19px; line-height: 1.45; }
+
+      /* ---------- 10. FAQ ---------- */
+      .faq-section { padding-block: 56px 72px; }
+      .faq__heading { font-size: 32px; line-height: 1.1; letter-spacing: -0.025em; }
+      .faq__sub { font-size: 15px; }
+      .faq__q { font-size: 17px; padding-block: 18px; gap: 16px; }
+      .faq__a-inner { font-size: 15px; line-height: 1.55; }
+
+      /* ---------- 11. Sign-off / pricing (już ma częściowe override 2034) ---------- */
+      .pricing { padding-block: 56px; }
+      .pricing__heading { font-size: 32px; line-height: 1.1; letter-spacing: -0.025em; }
+      .pricing__lead { font-size: 16px; }
+      .pricing__widget { padding: 24px 20px; max-width: 100%; }
+      .pricing__pills { gap: 4px; }
+      .pricing__pill { font-size: 12px; padding: 8px 10px; min-width: 0; }
+      .pricing__amount { font-size: 52px; }
+      .pricing__use-case-slot { display: none; }
+      .pricing__benefits { font-size: 15px; }
+      .pricing__cta { width: 100%; justify-content: center; }
+
+      /* ---------- 12. Footer ---------- */
+      .footer { padding: 32px 0 40px; font-size: 13px; }
+      .footer__inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+    } /* /MOBILE */
   </style>
 </head>
 <body data-hero-layout="a" data-cases-layout="a">
@@ -2258,7 +2396,7 @@
             <p class="hero__calc__note hero__calc__note--enterprise">Bez limitu uczniów, oddziałów i&nbsp;lektorów. Bezpośredni support. Dla sieci szkół albo franczyzy — dopasujemy ofertę pod Twoją skalę.</p>
             <a href="#cennik" class="hero__calc__link">Zobacz pełny cennik (rocznie&nbsp;<span class="hero__calc__discount">-20%<svg class="hero__calc__discount-strike" viewBox="0 0 60 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7 Q 16 2, 30 6 T 58 5" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" fill="none"/></svg><span class="hero__calc__discount-bump" aria-hidden="true">−25%</span></span>) →</a>
             <div class="hero__calc__cta-row">
-              <a href="#" class="btn btn--primary">Wypróbuj za darmo — 30 dni</a>
+              <a href="signup.html" class="btn btn--primary" data-trial-cta>Wypróbuj za darmo — 30 dni</a>
             </div>
           </aside>
         </div>
@@ -2593,7 +2731,7 @@
               <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>30 dni za&nbsp;darmo, bez karty, bez wdrożenia</li>
             </ul>
 
-            <a href="#" class="btn btn--primary pricing__cta">Załóż konto Schooleo</a>
+            <a href="signup.html" class="btn btn--primary pricing__cta" data-trial-cta>Załóż konto Schooleo</a>
             <p class="pricing__small">Możesz zmienić pakiet w&nbsp;każdej chwili. Bez umowy na&nbsp;czas określony.</p>
           </div>
         </div>
@@ -2750,7 +2888,11 @@
         };
         window.addEventListener('resize', positionUseCase);
         $cycleBtns.forEach((b) => b.addEventListener('click', () => { state.cycle = b.dataset.cycle; render(); }));
-        $pillBtns.forEach((b) => b.addEventListener('click', () => { state.students = parsePill(b.dataset.students); render(); }));
+        $pillBtns.forEach((b) => b.addEventListener('click', () => {
+          state.students = parsePill(b.dataset.students);
+          try { localStorage.setItem('schooleo-tier', String(state.students)); } catch (e) {}
+          render();
+        }));
         render();
       }
 
@@ -2804,7 +2946,11 @@
         window.addEventListener('resize', positionHeroUseCase);
         // Hero jest ukryty domyślnie — gdy switcher przełącza na M, trzeba przepozycjonować po reflowie
         window.repositionHeroUseCase = positionHeroUseCase;
-        $heroPills.forEach((b) => b.addEventListener('click', () => { heroStudents = parsePillValue(b.dataset.students); renderHero(); }));
+        $heroPills.forEach((b) => b.addEventListener('click', () => {
+          heroStudents = parsePillValue(b.dataset.students);
+          try { localStorage.setItem('schooleo-tier', String(heroStudents)); } catch (e) {}
+          renderHero();
+        }));
         renderHero();
       }
 
