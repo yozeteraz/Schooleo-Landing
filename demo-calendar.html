@@ -73,10 +73,29 @@
     }
     .demo-banner__pill::before {
       content: '';
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 999px;
-      background: var(--color-orange-500);
+      background: #E74C3C;
+      box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.55);
+      animation: live-pulse 1.6s ease-out infinite;
+    }
+    @keyframes live-pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.6), 0 0 0 rgba(231, 76, 60, 0);
+        opacity: 1;
+      }
+      60% {
+        box-shadow: 0 0 0 6px rgba(231, 76, 60, 0), 0 0 8px rgba(231, 76, 60, 0.55);
+        opacity: 0.95;
+      }
+      100% {
+        box-shadow: 0 0 0 8px rgba(231, 76, 60, 0), 0 0 0 rgba(231, 76, 60, 0);
+        opacity: 1;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .demo-banner__pill::before { animation: none; }
     }
     .demo-banner__msg {
       flex: 1 1 auto;
