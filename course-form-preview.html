@@ -181,6 +181,54 @@
       --ev-4: #BF5AF2; --ev-5: #64D2FF; --ev-6: #FF375F;
     }
 
+    /* ========================================================================
+       EMBED MODE — gdy formularz jest w iframe modala (?embed=1)
+       Form-shell przejmuje rolę kontenera: pełna wysokość, header/footer sticky,
+       body scroll. Bez paddingu .app, bez border/radius shell.
+       ======================================================================== */
+    body.is-embedded {
+      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
+    }
+    body.is-embedded .app {
+      min-height: 100vh;
+      height: 100vh;
+      padding: 0;
+      align-items: stretch;
+    }
+    body.is-embedded .form-shell {
+      max-width: none;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    body.is-embedded .form-header {
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg-surface);
+    }
+    body.is-embedded .form-body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    body.is-embedded .action-bar {
+      flex-shrink: 0;
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
+      background: var(--bg-surface);
+      border-radius: 0;
+      box-shadow: 0 -1px 0 var(--border);
+    }
+
     /* Back link do demo (renderowany przez JS gdy ?from=demo) */
     .demo-back-link {
       position: fixed;
@@ -2254,11 +2302,27 @@
       const isEmbed = params.get('embed') === '1';
 
       if (isEmbed) {
-        // Tryb iframe — schowaj theme-switcher i wymuś temat schooleo
+        // Tryb iframe — schowaj theme-switcher, wymuś temat schooleo i klasę body
+        document.body.classList.add('is-embedded');
         const switcher = document.querySelector('.theme-switcher');
         if (switcher) switcher.style.display = 'none';
         applyTheme('schooleo');
         applyScreen('form');
+
+        // Komunikacja z parent — klik X w headerze, Esc, lub Anuluj zamykają modal
+        const closeToParent = () => {
+          try { window.parent.postMessage('schooleo-close-modal', '*'); } catch (e) {}
+        };
+        const headerClose = document.querySelector('.form-header .icon-btn[aria-label="Zamknij"]');
+        if (headerClose) headerClose.addEventListener('click', closeToParent);
+
+        const cancelBtn = Array.from(document.querySelectorAll('.action-bar .btn'))
+          .find(b => b.textContent.trim() === 'Anuluj');
+        if (cancelBtn) cancelBtn.addEventListener('click', closeToParent);
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') closeToParent();
+        });
       } else {
         try {
           const savedTheme = localStorage.getItem(THEME_KEY);
