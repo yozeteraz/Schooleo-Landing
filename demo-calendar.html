@@ -52,10 +52,9 @@
       align-items: center;
       gap: 18px;
       flex-wrap: wrap;
-      padding: 14px 18px 14px 20px;
+      padding: 14px 18px;
       background: var(--color-butter);
       border-radius: 12px;
-      border-left: 4px solid var(--color-orange-500);
       box-shadow: 0 1px 0 rgba(26, 23, 20, 0.04);
     }
     .demo-banner__pill {
@@ -950,9 +949,14 @@
       const modalClose = document.getElementById('course-modal-close');
       const modalBackdrop = document.getElementById('course-modal-backdrop');
 
+      let modalLoaded = false;
       function openModal() {
-        // Lazy-load iframe src dopiero przy pierwszym otwarciu — szybsze pierwsze ładowanie strony
-        if (!modalFrame.src) modalFrame.src = 'course-form-preview.html?embed=1';
+        // Lazy-load iframe src przy pierwszym otwarciu — UWAGA: nie używaj src="" w HTML, bo iframe.src
+        // czytane z JS rezolwuje pusty src do pełnego URL bieżącej strony (i if (!frame.src) = false).
+        if (!modalLoaded) {
+          modalFrame.src = 'course-form-preview.html?embed=1';
+          modalLoaded = true;
+        }
         modal.classList.add('is-open');
         modal.removeAttribute('hidden');
         document.body.style.overflow = 'hidden';
@@ -984,7 +988,7 @@
           <path d="M3 3l10 10M13 3L3 13"/>
         </svg>
       </button>
-      <iframe class="course-modal__frame" id="course-modal-frame" title="Formularz kursu" src="" loading="lazy"></iframe>
+      <iframe class="course-modal__frame" id="course-modal-frame" title="Formularz kursu"></iframe>
     </div>
   </div>
 </body>
