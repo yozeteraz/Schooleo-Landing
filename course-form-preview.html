@@ -181,6 +181,35 @@
       --ev-4: #BF5AF2; --ev-5: #64D2FF; --ev-6: #FF375F;
     }
 
+    /* Back link do demo (renderowany przez JS gdy ?from=demo) */
+    .demo-back-link {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: #FFFFFF;
+      border: 1px solid #E8E4DA;
+      border-radius: 999px;
+      font: 600 13px/1 'Inter', sans-serif;
+      color: #1A1714;
+      text-decoration: none;
+      box-shadow: 0 4px 12px -4px rgba(26, 23, 20, 0.12);
+      transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+    }
+    .demo-back-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px -4px rgba(26, 23, 20, 0.16);
+      border-color: #B0AAA0;
+    }
+    .demo-back-link svg { color: #6B6560; }
+    @media (max-width: 640px) {
+      .demo-back-link { top: 8px; left: 8px; padding: 6px 12px; font-size: 12px; }
+    }
+
     /* ========================================================================
        THEME SWITCHER UI (niezależny od tematów — zawsze biała karta)
        ======================================================================== */
@@ -2214,12 +2243,41 @@
       };
       themeButtons.forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.theme)));
       screenButtons.forEach(b => b.addEventListener('click', () => applyScreen(b.dataset.screen)));
-      try {
-        const savedTheme = localStorage.getItem(THEME_KEY);
-        if (savedTheme && THEMES.includes(savedTheme)) applyTheme(savedTheme);
-        const savedScreen = localStorage.getItem(SCREEN_KEY);
-        applyScreen(savedScreen && SCREENS.includes(savedScreen) ? savedScreen : 'form');
-      } catch (e) { applyScreen('form'); }
+
+      // URL params:
+      //   ?screen=form|calendar — nadpisuje localStorage
+      //   ?from=demo            — renderuje "← Wróć do demo" link (gdy strona jest pełnoekranowa)
+      //   ?embed=1              — tryb iframe: wymusza theme schooleo + ekran form, chowa switcher
+      const params = new URLSearchParams(location.search);
+      const urlScreen = params.get('screen');
+      const fromDemo = params.get('from') === 'demo';
+      const isEmbed = params.get('embed') === '1';
+
+      if (isEmbed) {
+        // Tryb iframe — schowaj theme-switcher i wymuś temat schooleo
+        const switcher = document.querySelector('.theme-switcher');
+        if (switcher) switcher.style.display = 'none';
+        applyTheme('schooleo');
+        applyScreen('form');
+      } else {
+        try {
+          const savedTheme = localStorage.getItem(THEME_KEY);
+          if (savedTheme && THEMES.includes(savedTheme)) applyTheme(savedTheme);
+          const savedScreen = localStorage.getItem(SCREEN_KEY);
+          const initialScreen = (urlScreen && SCREENS.includes(urlScreen))
+            ? urlScreen
+            : (savedScreen && SCREENS.includes(savedScreen) ? savedScreen : 'form');
+          applyScreen(initialScreen);
+        } catch (e) { applyScreen(urlScreen && SCREENS.includes(urlScreen) ? urlScreen : 'form'); }
+      }
+
+      if (fromDemo && !isEmbed) {
+        const back = document.createElement('a');
+        back.href = 'demo-calendar.html';
+        back.className = 'demo-back-link';
+        back.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg> Wróć do demo';
+        document.body.appendChild(back);
+      }
 
       // ===== CALENDAR =====
       const CAL_START = 8;   // 08:00
@@ -2367,6 +2425,16 @@
         grid.appendChild(body);
       }
       renderCalendar();
+
+      // Klik w event w kalendarzu → przełącz na ekran formularza (klikalny prototyp)
+      const calGrid = document.getElementById('cal-grid');
+      if (calGrid) {
+        calGrid.addEventListener('click', (e) => {
+          if (!e.target.closest('.cal-event')) return;
+          applyScreen('form');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
 
     })();
   </script>

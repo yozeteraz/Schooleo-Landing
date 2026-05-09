@@ -40,16 +40,24 @@
     :focus-visible { outline: 2px solid var(--color-orange-500); outline-offset: 2px; }
 
     /* =========================================================
-       DEMO BANNER — 4 warianty (A/B/C/D)
-       Wybierany przez body[data-banner-variant="X"]
+       DEMO BANNER — pasek upgrade nad kalendarzem (in-flow)
        ========================================================= */
-    .demo-banner { display: none; }
-    body[data-banner-variant="a"] .demo-banner--a { display: block; }
-    body[data-banner-variant="b"] .demo-banner--b { display: block; }
-    body[data-banner-variant="c"] .demo-banner--c { display: flex; }
-    body[data-banner-variant="d"] .demo-banner--d { display: inline-flex; }
-
-    /* Wspólne elementy (pill, msg, cta) — używane wewnątrz wszystkich wariantów */
+    .demo-banner {
+      max-width: 1440px;
+      margin: 12px auto 4px;
+      padding: 0 24px;
+    }
+    .demo-banner__inner {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      padding: 14px 18px 14px 20px;
+      background: var(--color-butter);
+      border-radius: 12px;
+      border-left: 4px solid var(--color-orange-500);
+      box-shadow: 0 1px 0 rgba(26, 23, 20, 0.04);
+    }
     .demo-banner__pill {
       display: inline-flex;
       align-items: center;
@@ -97,174 +105,6 @@
     .demo-banner__cta:hover { transform: translateY(-1px); box-shadow: 0 3px 0 var(--color-brick-900); }
     .demo-banner__cta:active { transform: translateY(2px); box-shadow: 0 0 0 var(--color-brick-900); }
 
-    /* ---------- Wariant A — sticky top, nad logo ---------- */
-    .demo-banner--a {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: var(--color-butter);
-      border-bottom: 1px solid color-mix(in srgb, var(--color-orange-500) 12%, var(--color-butter));
-      box-shadow: 0 1px 0 rgba(26, 23, 20, 0.04);
-    }
-    .demo-banner--a .demo-banner__inner {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    /* ---------- Wariant B — pod linią loga (in-flow, w kontenerze) ---------- */
-    .demo-banner--b {
-      max-width: 1440px;
-      margin: 12px auto 4px;
-      padding: 0 24px;
-    }
-    .demo-banner--b .demo-banner__inner {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-      padding: 14px 18px 14px 20px;
-      background: var(--color-butter);
-      border-radius: 12px;
-      border-left: 4px solid var(--color-orange-500);
-      box-shadow: 0 1px 0 rgba(26, 23, 20, 0.04);
-    }
-
-    /* ---------- Wariant C — floating bottom-right (non-blocking) ---------- */
-    .demo-banner--c {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-      z-index: 45;
-      max-width: min(420px, calc(100vw - 48px));
-      align-items: stretch;
-      gap: 0;
-      padding: 14px 16px;
-      background: var(--color-paper);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: 0 12px 32px -8px rgba(26, 23, 20, 0.18), 0 2px 0 rgba(26, 23, 20, 0.04);
-      flex-direction: column;
-    }
-    .demo-banner--c .demo-banner__inner {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .demo-banner--c .demo-banner__head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .demo-banner--c .demo-banner__msg {
-      font-size: 13.5px;
-      line-height: 1.45;
-    }
-    .demo-banner--c .demo-banner__cta {
-      align-self: stretch;
-      justify-content: center;
-      padding: 10px 16px;
-      font-size: 13px;
-    }
-
-    /* ---------- Wariant D — inline chip w toolbar kalendarza ---------- */
-    .demo-banner--d {
-      align-items: center;
-      gap: 8px;
-      padding: 0;
-      background: transparent;
-      border: 0;
-    }
-    .demo-banner--d .demo-banner__inner {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      height: 28px;
-      padding: 0 12px 0 4px;
-      background: var(--color-butter);
-      border: 1px solid color-mix(in srgb, var(--color-orange-500) 25%, var(--color-butter));
-      border-radius: 999px;
-      font: 600 12px/1 var(--font-sans);
-      color: var(--color-ink-900);
-    }
-    .demo-banner--d .demo-banner__pill {
-      padding: 3px 8px;
-      font-size: 10px;
-    }
-    .demo-banner--d .demo-banner__msg {
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 1;
-      white-space: nowrap;
-      flex: 0 0 auto;
-    }
-    .demo-banner--d .demo-banner__msg b { font-weight: 700; }
-    .demo-banner--d .demo-banner__cta {
-      padding: 5px 10px;
-      font-size: 11px;
-      box-shadow: 0 1px 0 var(--color-brick-900);
-      border-radius: 999px;
-    }
-    .demo-banner--d .demo-banner__cta:hover { box-shadow: 0 2px 0 var(--color-brick-900); }
-    .demo-banner--d .demo-banner__cta:active { box-shadow: 0 0 0 var(--color-brick-900); }
-
-    /* =========================================================
-       VARIANT HARNESS — switcher pasków (bottom-LEFT, żeby nie
-       kolidował z wariantem C w bottom-right)
-       ========================================================= */
-    .variant-harness {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 60;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding: 10px 12px;
-      background: var(--color-paper);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: 0 8px 24px -6px rgba(26, 23, 20, 0.16);
-    }
-    .variant-harness__row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .variant-harness__label {
-      min-width: 80px;
-      font: 600 10px/1 var(--font-sans);
-      letter-spacing: var(--tracking-eyebrow);
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .variant-harness button {
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--bg-warm);
-      font: 700 12px/1 var(--font-sans);
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: var(--transition-fast);
-    }
-    .variant-harness button:hover { border-color: var(--border-strong); color: var(--text); }
-    .variant-harness button.is-active {
-      background: var(--color-orange-500);
-      color: var(--color-paper);
-      border-color: var(--color-orange-500);
-    }
-    @media (max-width: 640px) {
-      .variant-harness { display: none; }
-      .demo-banner--c { right: 16px; bottom: 16px; max-width: calc(100vw - 32px); }
-    }
-
     /* =========================================================
        DEMO TOPBAR (logo + welcome + wyjście)
        ========================================================= */
@@ -292,20 +132,85 @@
       color: var(--text-muted);
     }
     .demo-topbar__greeting b { color: var(--text); font-weight: 700; }
-    .demo-topbar__logout {
+
+    /* =========================================================
+       MODAL — formularz kursu w iframe nad kalendarzem
+       ========================================================= */
+    .course-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .course-modal.is-open { display: flex; }
+    .course-modal__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(247, 244, 238, 0.72);
+      -webkit-backdrop-filter: blur(3px) saturate(120%);
+      backdrop-filter: blur(3px) saturate(120%);
+      animation: course-modal-fade 160ms ease;
+    }
+    .course-modal__panel {
+      position: relative;
+      width: min(960px, 100%);
+      height: min(840px, calc(100vh - 48px));
+      background: var(--color-paper);
+      border-radius: 16px;
+      box-shadow: 0 24px 64px -16px rgba(26, 23, 20, 0.28), 0 4px 12px -4px rgba(26, 23, 20, 0.08);
+      overflow: hidden;
+      animation: course-modal-pop 200ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+    }
+    .course-modal__close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      font: 600 13px/1 var(--font-sans);
-      color: var(--text-muted);
-      border: 1px solid var(--border);
+      justify-content: center;
+      width: 36px;
+      height: 36px;
       border-radius: 999px;
-      background: var(--bg-surface);
+      background: var(--color-paper);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
       transition: var(--transition-fast);
+      box-shadow: 0 2px 8px rgba(26, 23, 20, 0.08);
     }
-    .demo-topbar__logout:hover { color: var(--text); border-color: var(--border-strong); }
-    .demo-topbar__logout svg { width: 14px; height: 14px; }
+    .course-modal__close:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+      transform: scale(1.05);
+    }
+    .course-modal__close svg { width: 16px; height: 16px; }
+    .course-modal__frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: var(--bg-warm);
+    }
+    @keyframes course-modal-fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes course-modal-pop {
+      from { opacity: 0; transform: translateY(8px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @media (max-width: 640px) {
+      .course-modal { padding: 0; }
+      .course-modal__panel {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+      }
+    }
 
     /* =========================================================
        CALENDAR (kopia z course-form-preview.html, sekcja kalendarza)
@@ -620,15 +525,6 @@
 </head>
 <body>
 
-  <!-- ============ DEMO BANNER · WARIANT A — sticky top, nad logo ============ -->
-  <div class="demo-banner demo-banner--a" role="region" aria-label="Informacja o wersji demo">
-    <div class="demo-banner__inner">
-      <span class="demo-banner__pill">Demo</span>
-      <p class="demo-banner__msg" data-banner-msg>Twoja skala: <b>—</b></p>
-      <a class="demo-banner__cta" data-banner-cta href="index.html#cennik">Wykup pakiet →</a>
-    </div>
-  </div>
-
   <!-- ============ DEMO TOPBAR ============ -->
   <header class="demo-topbar">
     <a href="index.html" class="demo-topbar__brand" aria-label="Schooleo — strona główna">
@@ -649,16 +545,10 @@
       </svg>
     </a>
     <p class="demo-topbar__greeting" id="demo-greeting">Witaj w wersji demo Schooleo.</p>
-    <a href="index.html" class="demo-topbar__logout" id="demo-logout" title="Zakończ wersję demo">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M10 11l3-3-3-3M13 8H6M9 14H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h5"/>
-      </svg>
-      Zakończ demo
-    </a>
   </header>
 
-  <!-- ============ DEMO BANNER · WARIANT B — pod linią loga, w kontenerze ============ -->
-  <div class="demo-banner demo-banner--b" role="region" aria-label="Informacja o wersji demo">
+  <!-- ============ DEMO BANNER — pasek upgrade nad kalendarzem ============ -->
+  <div class="demo-banner" role="region" aria-label="Informacja o wersji demo">
     <div class="demo-banner__inner">
       <span class="demo-banner__pill">Demo</span>
       <p class="demo-banner__msg" data-banner-msg>Twoja skala: <b>—</b></p>
@@ -709,15 +599,6 @@
         </button>
         <button class="cal-chip cal-chip--solid" type="button">Nauczyciel · wszyscy <span class="cal-chip__x">×</span></button>
         <button class="cal-chip cal-chip--solid" type="button">Przedmiot · wszystkie <span class="cal-chip__x">×</span></button>
-
-        <!-- WARIANT D — chip w toolbar, najmniej intruzyjny -->
-        <span class="demo-banner demo-banner--d" role="region" aria-label="Informacja o wersji demo">
-          <span class="demo-banner__inner">
-            <span class="demo-banner__pill">Demo</span>
-            <span class="demo-banner__msg" data-banner-msg>Twoja skala: <b>—</b></span>
-            <a class="demo-banner__cta" data-banner-cta href="index.html#cennik">Wykup →</a>
-          </span>
-        </span>
       </div>
 
       <div class="cal-grid-wrap" id="cal-grid-wrap" role="grid" aria-label="Harmonogram dnia">
@@ -781,14 +662,6 @@
       function escapeHtml(s) {
         return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
       }
-
-      // Logout — kasuje profile i wraca do landingu
-      document.getElementById('demo-logout').addEventListener('click', (e) => {
-        try {
-          localStorage.removeItem(USER_KEY);
-          // schooleo-tier zostawiamy — gdyby user wrócił na landing, zachowuje wybór z pille
-        } catch (err) {}
-      });
 
       // ============ Fixture per tier ============
       // Każdy tier: { rooms: [...], events: [...] }
@@ -1054,45 +927,49 @@
       }
 
       renderCalendar();
+
+      // ============ Klik w event → otwiera modal z formularzem kursu ============
+      const modal = document.getElementById('course-modal');
+      const modalFrame = document.getElementById('course-modal-frame');
+      const modalClose = document.getElementById('course-modal-close');
+      const modalBackdrop = document.getElementById('course-modal-backdrop');
+
+      function openModal() {
+        // Lazy-load iframe src dopiero przy pierwszym otwarciu — szybsze pierwsze ładowanie strony
+        if (!modalFrame.src) modalFrame.src = 'course-form-preview.html?embed=1';
+        modal.classList.add('is-open');
+        modal.removeAttribute('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal() {
+        modal.classList.remove('is-open');
+        modal.setAttribute('hidden', '');
+        document.body.style.overflow = '';
+      }
+
+      document.getElementById('cal-grid').addEventListener('click', (e) => {
+        if (!e.target.closest('.cal-event')) return;
+        openModal();
+      });
+      modalClose.addEventListener('click', closeModal);
+      modalBackdrop.addEventListener('click', closeModal);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      });
     })();
   </script>
 
-  <!-- ============ DEMO BANNER · WARIANT C — floating bottom-right ============ -->
-  <div class="demo-banner demo-banner--c" role="region" aria-label="Informacja o wersji demo">
-    <div class="demo-banner__inner">
-      <div class="demo-banner__head">
-        <span class="demo-banner__pill">Demo</span>
-      </div>
-      <p class="demo-banner__msg" data-banner-msg>Twoja skala: <b>—</b></p>
-      <a class="demo-banner__cta" data-banner-cta href="index.html#cennik">Wykup pakiet →</a>
+  <!-- ============ MODAL z formularzem kursu (iframe lazy-loaded) ============ -->
+  <div class="course-modal" id="course-modal" role="dialog" aria-modal="true" aria-label="Formularz kursu" hidden>
+    <div class="course-modal__backdrop" id="course-modal-backdrop"></div>
+    <div class="course-modal__panel">
+      <button type="button" class="course-modal__close" id="course-modal-close" aria-label="Zamknij formularz">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <path d="M3 3l10 10M13 3L3 13"/>
+        </svg>
+      </button>
+      <iframe class="course-modal__frame" id="course-modal-frame" title="Formularz kursu" src="" loading="lazy"></iframe>
     </div>
   </div>
-
-  <!-- ============ VARIANT HARNESS — switcher pasków A/B/C/D ============ -->
-  <div class="variant-harness" role="group" aria-label="Wybór pozycji paska demo">
-    <div class="variant-harness__row" role="group" aria-label="Wariant paska">
-      <span class="variant-harness__label">Pasek demo</span>
-      <button type="button" data-banner-variant="a" onclick="setBannerVariant('a')" aria-label="Wariant A — sticky nad logo">A</button>
-      <button type="button" data-banner-variant="b" onclick="setBannerVariant('b')" aria-label="Wariant B — pod logiem">B</button>
-      <button type="button" data-banner-variant="c" onclick="setBannerVariant('c')" aria-label="Wariant C — floating bottom-right">C</button>
-      <button type="button" data-banner-variant="d" onclick="setBannerVariant('d')" aria-label="Wariant D — chip w toolbar">D</button>
-    </div>
-  </div>
-  <script>
-    (function () {
-      const KEY = 'schooleo-demo-banner-variant';
-      const VARIANTS = ['a', 'b', 'c', 'd'];
-      window.setBannerVariant = function (v) {
-        if (!VARIANTS.includes(v)) return;
-        document.body.setAttribute('data-banner-variant', v);
-        try { localStorage.setItem(KEY, v); } catch (e) {}
-        document.querySelectorAll('.variant-harness button[data-banner-variant]').forEach(btn => {
-          btn.classList.toggle('is-active', btn.dataset.bannerVariant === v);
-        });
-      };
-      const saved = localStorage.getItem(KEY);
-      setBannerVariant(VARIANTS.includes(saved) ? saved : 'a');
-    })();
-  </script>
 </body>
 </html>

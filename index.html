@@ -458,27 +458,39 @@
     body[data-hero-layout="k"] .hero__base,
     body[data-hero-layout="m"] .hero__base,
     body[data-hero-layout="n"] .hero__base,
-    body[data-hero-layout="o"] .hero__base { display: none; }
+    body[data-hero-layout="o"] .hero__base,
+    body[data-hero-layout="p"] .hero__base { display: none; }
     body[data-hero-layout="k"] .hero__alt--k { display: block; }
     body[data-hero-layout="m"] .hero__alt--m,
     body[data-hero-layout="n"] .hero__alt--m,
-    body[data-hero-layout="o"] .hero__alt--m { display: grid; }
-    /* N / O — wariant M, ale CTA przenosimy do środka kalkulatora */
+    body[data-hero-layout="o"] .hero__alt--m,
+    body[data-hero-layout="p"] .hero__alt--m { display: grid; }
+    /* N / O / P — wariant M, ale CTA przenosimy do środka kalkulatora */
     body[data-hero-layout="n"] .hero__m-cta-row,
-    body[data-hero-layout="o"] .hero__m-cta-row { display: none; }
+    body[data-hero-layout="o"] .hero__m-cta-row,
+    body[data-hero-layout="p"] .hero__m-cta-row { display: none; }
     body[data-hero-layout="n"] .hero__calc__cta-row,
-    body[data-hero-layout="o"] .hero__calc__cta-row { display: flex; }
-    /* N / O — sub-text: dłuższe copy zamiast krótkiego z M */
+    body[data-hero-layout="o"] .hero__calc__cta-row,
+    body[data-hero-layout="p"] .hero__calc__cta-row { display: flex; }
+    /* N / O / P — sub-text: dłuższe copy zamiast krótkiego z M */
     .hero__m-sub--n { display: none; }
     body[data-hero-layout="n"] .hero__m-sub--m,
-    body[data-hero-layout="o"] .hero__m-sub--m { display: none; }
+    body[data-hero-layout="o"] .hero__m-sub--m,
+    body[data-hero-layout="p"] .hero__m-sub--m { display: none; }
     body[data-hero-layout="n"] .hero__m-sub--n,
-    body[data-hero-layout="o"] .hero__m-sub--n { display: block; }
-    /* N / O — kalkulator wyżej (negative margin na desktopie) */
+    body[data-hero-layout="o"] .hero__m-sub--n,
+    body[data-hero-layout="p"] .hero__m-sub--n { display: block; }
+    /* N / O / P — kalkulator wyżej (negative margin na desktopie) */
     @media (min-width: 1024px) {
       body[data-hero-layout="n"] .hero__calc,
-      body[data-hero-layout="o"] .hero__calc { margin-top: -28px; }
+      body[data-hero-layout="o"] .hero__calc,
+      body[data-hero-layout="p"] .hero__calc { margin-top: -28px; }
     }
+    /* P — hero z tłem warm jak w aplikacji; kalkulator zostaje biały i kontrastuje */
+    body[data-hero-layout="p"] .hero { background: var(--bg-warm); }
+    /* P — topbar dopasowany kolorystycznie do hero (zachowuje glass blur) */
+    body[data-hero-layout="p"] .topbar { background: rgba(247, 244, 238, 0.78); }
+    body[data-hero-layout="p"] .topbar.is-scrolled { background: rgba(247, 244, 238, 0.92); }
     /* O — disclaimer pod kalkulatorem mocniejszy (fix krytyki: trzy konkretne uderzenia) */
     .hero__calc__note--o,
     .hero__calc__note--enterprise { display: none; }
@@ -509,7 +521,8 @@
       padding-inline: 0.06em;
     }
     body[data-hero-layout="n"] .hero__m-tagline,
-    body[data-hero-layout="o"] .hero__m-tagline { display: block; }
+    body[data-hero-layout="o"] .hero__m-tagline,
+    body[data-hero-layout="p"] .hero__m-tagline { display: block; }
 
     /* K — gigantyczna liczba */
     .hero__bignum {
@@ -2969,6 +2982,7 @@
       <button type="button" data-layout="m" onclick="setHeroLayout('m')" aria-label="Wariant M — 2-column z mini-kalkulatorem po prawej">M</button>
       <button type="button" data-layout="n" onclick="setHeroLayout('n')" aria-label="Wariant N — jak M, ale CTA wewnątrz kalkulatora">N</button>
       <button type="button" data-layout="o" onclick="setHeroLayout('o')" aria-label="Wariant O — N z fixami: use-case dla wszystkich tierów + mocniejszy disclaimer">O</button>
+      <button type="button" data-layout="p" onclick="setHeroLayout('p')" aria-label="Wariant P — N z tłem warm (kolor aplikacji), kalkulator zostaje biały">P</button>
     </div>
     <div class="variant-harness__row" role="group" aria-label="Wariant sekcji use cases">
       <span class="variant-harness__label">Sekcja use cases</span>
@@ -2980,8 +2994,8 @@
   <script>
     (function () {
       const KEY = 'schooleo-hero-layout';
-      const VARIANTS = ['a', 'c', 'h', 'i', 'k', 'm', 'n', 'o'];
-      const CALC_VARIANTS = ['m', 'n', 'o'];
+      const VARIANTS = ['a', 'c', 'h', 'i', 'k', 'm', 'n', 'o', 'p'];
+      const CALC_VARIANTS = ['m', 'n', 'o', 'p'];
       const saved = localStorage.getItem(KEY);
       if (saved && VARIANTS.includes(saved)) {
         document.body.setAttribute('data-hero-layout', saved);
