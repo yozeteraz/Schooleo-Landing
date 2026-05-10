@@ -168,12 +168,12 @@
       stroke: var(--text);
       stroke-width: 2;
       stroke-linecap: round;
-      transform-origin: 50% 50%;
-      transition: transform var(--transition-base), opacity var(--transition-fast);
     }
-    .topbar.is-menu-open .burger-icon .l1 { transform: translateY(6px) rotate(45deg); }
-    .topbar.is-menu-open .burger-icon .l2 { opacity: 0; }
-    .topbar.is-menu-open .burger-icon .l3 { transform: translateY(-6px) rotate(-45deg); }
+    .burger-x { display: none; width: 16px; height: 16px; }
+    .burger-x path { stroke: var(--text); stroke-width: 2; stroke-linecap: round; fill: none; }
+    .topbar__burger:hover .burger-x path { stroke: var(--color-paper); }
+    .topbar.is-menu-open .burger-icon { display: none; }
+    .topbar.is-menu-open .burger-x { display: block; }
 
     /* ---------- Mobile drawer ---------- */
     .mobile-drawer {
@@ -2269,6 +2269,9 @@
           <line class="l1" x1="1" y1="1" x2="17" y2="1"/>
           <line class="l2" x1="1" y1="7" x2="17" y2="7"/>
           <line class="l3" x1="1" y1="13" x2="17" y2="13"/>
+        </svg>
+        <svg class="burger-x" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M3 3 L13 13 M13 3 L3 13"/>
         </svg>
       </button>
       <a href="login.html" class="topbar__login">Zaloguj się</a>
