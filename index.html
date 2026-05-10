@@ -1654,6 +1654,9 @@
       color: var(--text);
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     }
+    /* Toggle "Rocznie -20% / -25%" — 1:1 z Figma 181:18
+       Domyślnie "-20%" orange. W enterprise → ink-900 + STRIKETHROUGH (text-decoration),
+       plus handwritten "-25%" Caveat Bold tomato 28px rotation +4°. */
     .pricing__discount {
       color: var(--color-orange-500);
       font-weight: 700;
@@ -1661,19 +1664,8 @@
       position: relative;
       display: inline-block;
     }
-    .pricing__discount-strike {
-      position: absolute;
-      left: -3px;
-      right: -3px;
-      top: 50%;
-      width: calc(100% + 6px);
-      height: 10px;
-      color: var(--text);
-      transform: translateY(-50%);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--transition-fast);
-    }
+    /* SVG strike — wywalone, używamy text-decoration */
+    .pricing__discount-strike { display: none; }
     .pricing__discount-bump {
       display: none;
       position: absolute;
@@ -1681,17 +1673,21 @@
       top: 50%;
       margin-left: 6px;
       font-family: var(--font-accent);
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 700;
-      color: var(--text);
+      color: var(--color-tomato);
       line-height: 1;
       white-space: nowrap;
-      transform: translateY(-50%) rotate(-8deg);
+      transform: translateY(-90%) rotate(4deg);
       transform-origin: center;
       pointer-events: none;
+      text-decoration: none;
     }
-    .pricing__widget.is-enterprise .pricing__toggle-opt[data-cycle="yearly"] .pricing__discount-strike {
-      opacity: 1;
+    .pricing__widget.is-enterprise .pricing__toggle-opt[data-cycle="yearly"] .pricing__discount {
+      color: var(--text);
+      text-decoration: line-through;
+      text-decoration-thickness: 1.5px;
+      text-decoration-color: var(--text);
     }
     .pricing__widget.is-enterprise .pricing__toggle-opt[data-cycle="yearly"] .pricing__discount-bump {
       display: inline-block;
