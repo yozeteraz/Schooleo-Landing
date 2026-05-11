@@ -131,3 +131,14 @@
   --transition-fast: 120ms ease;
   --transition-base: 180ms ease;
 }
+
+/* ---------- Utility: accent kicker (handwritten dymek nad H1) ---------- */
+.accent-kicker {
+  font-family: var(--font-accent);
+  font-size: clamp(34px, 4.2vw, 50px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-orange-500);
+  display: inline-block;
+  transform: rotate(-2deg);
+}
