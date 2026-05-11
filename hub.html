@@ -38,7 +38,8 @@
       pointer-events: auto;
     }
 
-    /* Scroller — fixed na cały viewport, overflow z mgłą na top/bottom (jak 37signals) */
+    /* Scroller — fixed na cały viewport, overflow z mgłą na top/bottom (jak 37signals).
+       Mocna mgła: ~25% wysokości viewportu fade z każdej strony, środek widoczny ~50% */
     .scroller {
       position: fixed;
       inset: 0;
@@ -46,20 +47,16 @@
       overflow-x: hidden;
       mask-image: linear-gradient(
         to bottom,
-        transparent 0,
-        rgba(0,0,0,0.05) 24px,
-        #000 110px,
-        #000 calc(100% - 110px),
-        rgba(0,0,0,0.05) calc(100% - 24px),
+        transparent 0%,
+        #000 25%,
+        #000 75%,
         transparent 100%
       );
       -webkit-mask-image: linear-gradient(
         to bottom,
-        transparent 0,
-        rgba(0,0,0,0.05) 24px,
-        #000 110px,
-        #000 calc(100% - 110px),
-        rgba(0,0,0,0.05) calc(100% - 24px),
+        transparent 0%,
+        #000 25%,
+        #000 75%,
         transparent 100%
       );
     }
@@ -68,7 +65,7 @@
     .roll {
       max-width: 720px;
       margin: 0 auto;
-      padding: 120px 24px 140px;
+      padding: 180px 24px 200px;
     }
 
     .roll__intro {
@@ -116,43 +113,38 @@
     }
     .roll__list li {
       display: grid;
-      grid-template-columns: 48px 1fr auto;
-      gap: 16px;
+      grid-template-columns: 56px 1fr auto;
+      gap: 20px;
       align-items: baseline;
-      padding: 14px 0;
+      padding: 20px 0;
       border-bottom: 1px solid var(--border);
-      transition: background var(--transition-fast);
     }
     .roll__list li:last-child { border-bottom: 0; }
-    .roll__list li:hover {
-      background: rgba(232, 75, 32, 0.03);
-    }
     .roll__list li a {
       display: contents;
     }
     .roll__num {
-      font: 500 13px/1.4 ui-monospace, 'SF Mono', Menlo, monospace;
+      font: 500 14px/1.4 ui-monospace, 'SF Mono', Menlo, monospace;
       color: var(--text-subtle);
       font-feature-settings: 'tnum';
       letter-spacing: 0.02em;
     }
     .roll__title {
-      font: 600 17px/1.4 var(--font-sans);
+      font: 700 34px/1.15 var(--font-sans);
       color: var(--text);
-      letter-spacing: -0.005em;
+      letter-spacing: -0.02em;
     }
     .roll__sub {
-      font: 400 14px/1.45 var(--font-sans);
+      font: 400 17px/1.5 var(--font-sans);
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 6px;
     }
     .roll__file {
-      font: 500 11px/1.4 ui-monospace, 'SF Mono', Menlo, monospace;
+      font: 500 12px/1.4 ui-monospace, 'SF Mono', Menlo, monospace;
       color: var(--text-subtle);
       font-feature-settings: 'tnum';
       white-space: nowrap;
     }
-    .roll__list li:hover .roll__title { color: var(--color-orange-500); }
 
     /* Tag — informacyjny pasek */
     .tag {
@@ -182,9 +174,11 @@
     .roll__foot a:hover { color: var(--color-orange-500); }
 
     @media (max-width: 540px) {
-      .roll { padding: 100px 18px 100px; }
+      .roll { padding: 140px 18px 160px; }
       .roll__intro h1 { font-size: 28px; }
-      .roll__list li { grid-template-columns: 36px 1fr; }
+      .roll__list li { grid-template-columns: 40px 1fr; padding: 16px 0; }
+      .roll__title { font-size: 26px; line-height: 1.2; }
+      .roll__sub { font-size: 15px; }
       .roll__file { display: none; }
     }
   </style>
