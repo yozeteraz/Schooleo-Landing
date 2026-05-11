@@ -2424,6 +2424,12 @@
                 </svg>
                 <span>Zobacz, jak to&nbsp;działa u&nbsp;szkoły z&nbsp;<span id="hero-calc-use-case-tier">100</span>&nbsp;uczniami&nbsp;<span class="hero__calc__use-case__cta">→</span></span>
               </a>
+              <a class="hero__calc__use-case" id="hero-calc-use-case-enterprise" href="kontakt.html" aria-hidden="true">
+                <svg class="hero__calc__use-case__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                <span>Zadzwoń — odezwie się konkretna osoba. Ofertę dopasujemy w&nbsp;1 dzień&nbsp;<span class="hero__calc__use-case__cta">→</span></span>
+              </a>
             </div>
 
             <div class="hero__calc__price" aria-live="polite">
@@ -2942,8 +2948,10 @@
         const $heroPills = heroCalc.querySelectorAll('.hero__calc__pill');
         const $heroAmount = document.getElementById('hero-calc-amount');
         const $heroUseCase = document.getElementById('hero-calc-use-case');
+        const $heroUseCaseEnt = document.getElementById('hero-calc-use-case-enterprise');
         const $heroUseCaseTier = document.getElementById('hero-calc-use-case-tier');
-        // Case study tylko dla 100 i 300 — to jedyne istniejące case studies. Dla 200 / 400 / enterprise: bubble się chowa.
+        // Case study tylko dla 100 i 300 — to jedyne istniejące case studies. Dla 200 / 400: bubble się chowa.
+        // Dla enterprise: pokazuje osobny dymek "Zadzwoń — odezwie się konkretna osoba" (basecamp-style).
         const HERO_USE_CASES = { 100: 'do-100-uczniow', 300: 'do-300-uczniow' };
         const parsePillValue = (v) => isNaN(Number(v)) ? v : Number(v);
         let heroStudents = 100;
@@ -2956,24 +2964,33 @@
             b.classList.toggle('is-active', active);
             b.setAttribute('aria-pressed', active ? 'true' : 'false');
           });
-          if (HERO_USE_CASES[heroStudents]) {
+          if (isEnterprise) {
+            $heroUseCase.setAttribute('aria-hidden', 'true');
+            $heroUseCaseEnt.setAttribute('aria-hidden', 'false');
+          } else if (HERO_USE_CASES[heroStudents]) {
             $heroUseCaseTier.textContent = heroStudents;
             $heroUseCase.href = `case-study.html#${HERO_USE_CASES[heroStudents]}`;
             $heroUseCase.setAttribute('aria-hidden', 'false');
+            $heroUseCaseEnt.setAttribute('aria-hidden', 'true');
           } else {
             $heroUseCase.setAttribute('aria-hidden', 'true');
+            $heroUseCaseEnt.setAttribute('aria-hidden', 'true');
           }
           positionHeroUseCase();
         };
         window.rerenderHeroCalc = renderHero;
         const positionHeroUseCase = () => {
           const activePill = heroCalc.querySelector('.hero__calc__pill.is-active');
-          if (!activePill || !HERO_USE_CASES[heroStudents]) return;
+          if (!activePill) return;
+          const activeBubble = heroStudents === 'enterprise'
+            ? $heroUseCaseEnt
+            : (HERO_USE_CASES[heroStudents] ? $heroUseCase : null);
+          if (!activeBubble) return;
           requestAnimationFrame(() => {
-            const slot = $heroUseCase.parentElement;
+            const slot = activeBubble.parentElement;
             const slotRect = slot.getBoundingClientRect();
             const pillRect = activePill.getBoundingClientRect();
-            const useCaseRect = $heroUseCase.getBoundingClientRect();
+            const useCaseRect = activeBubble.getBoundingClientRect();
             const pillCenter = (pillRect.left - slotRect.left) + (pillRect.width / 2);
             const idealLeft = pillCenter - (useCaseRect.width / 2);
             const maxLeft = Math.max(0, slotRect.width - useCaseRect.width);
