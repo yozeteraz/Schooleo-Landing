@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schooleo — Typografia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@400;700&family=Lato:wght@800&display=swap">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--color-paper);
+      color: var(--text);
+      font: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .brand {
+      position: fixed; top: 0; left: 0; right: 0;
+      padding: 16px 40px 16px;
+      z-index: 20;
+      display: flex; flex-direction: column; align-items: stretch; gap: 20px;
+      pointer-events: none;
+      background: var(--color-paper);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand__terminal {
+      display: inline-flex; align-items: center; gap: 0;
+      font: 700 24px/1 ui-monospace, 'SF Mono', Menlo, monospace;
+      letter-spacing: -0.015em;
+      pointer-events: auto;
+    }
+    .term-seg { display: inline-flex; transition: opacity var(--transition-fast); }
+    a.term-seg:hover { opacity: 0.65; }
+    .term-a { color: #e74c3c; }
+    .term-b { color: var(--text); }
+    .term-sep { color: var(--text-subtle); margin: 0 8px; font-weight: 400; }
+    .brand__caption {
+      font: 400 16px/1.5 var(--font-sans);
+      color: var(--text-muted);
+      max-width: 880px;
+      pointer-events: auto;
+      margin: 0;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 220ms ease, transform 240ms ease;
+    }
+    .brand.is-scrolled .brand__caption {
+      opacity: 0; transform: translateY(-12px); pointer-events: none;
+    }
+
+    main { max-width: 1100px; margin: 0; padding: 140px 40px 80px; }
+
+    .section { margin-bottom: 56px; }
+    .section__head {
+      display: flex; align-items: baseline; gap: 12px;
+      margin-bottom: 18px; padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section__head h2 {
+      font: 700 12px/1 var(--font-sans);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .section__head__count {
+      font: 500 11px/1 var(--font-sans);
+      color: var(--text-subtle);
+    }
+
+
+    .font-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--color-white);
+      padding: 28px 24px;
+      margin-bottom: 14px;
+    }
+    .font-card__family {
+      font: 700 13px/1 var(--font-sans);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .font-card__lead {
+      font: 400 14px/1.5 var(--font-sans);
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      max-width: 580px;
+    }
+    .font-row {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 18px;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .font-row:last-child { border-bottom: 0; }
+    .font-row__meta {
+      font: 500 11px/1.4 ui-monospace, 'SF Mono', Menlo, monospace;
+      color: var(--text-subtle);
+      font-feature-settings: 'tnum';
+    }
+    .font-row__sample { color: var(--text); }
+    .font-row__token {
+      font: 400 11px/1.3 ui-monospace, 'SF Mono', Menlo, monospace;
+      color: var(--text-subtle);
+      margin-top: 4px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="brand">
+    <nav class="brand__terminal" aria-label="Ścieżka"><a href="hub.html" class="term-seg"><span class="term-a">schooleo</span><span class="term-b">pracownia</span></a><span class="term-sep">/</span><a href="hub.html" class="term-seg"><span class="term-b">designsystem</span></a><span class="term-sep">/</span><span class="term-seg term-seg--current"><span class="term-b">fonts</span></span></nav>
+    <p class="brand__caption">Typografia Schooleo — Inter dla UI (od display statement do caption), Caveat dla handwritten akcentów, Lato jako referencja wordmark z Figmy.</p>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section__head"><h2>Sans · Inter</h2><span class="section__head__count">14 stylów</span></div>
+      <div class="font-card">
+        <div class="font-card__family">Inter (Google Fonts) · 400 / 500 / 600 / 700 / 800</div>
+        <p class="font-card__lead">Główny font UI. Cała hierarchia od <code style="font:500 12px ui-monospace;">--font-display-statement</code> po <code style="font:500 12px ui-monospace;">--font-caption</code>. Letter-spacing tightowany dla wag display/heading (Figma synchronizacja).</p>
+      <div class="font-row">
+        <div class="font-row__meta">Display statement<br>800 · 78/1.02<br>-0.035em</div>
+        <div>
+          <div class="font-row__sample" style="font: 800 78px/1.02 var(--font-sans); letter-spacing: -0.035em;">Schooleo łączy szkoły</div>
+          <div class="font-row__token">--font-display-statement / --tracking-display-statement</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">Display hero<br>800 · 64/1.05<br>-0.035em</div>
+        <div>
+          <div class="font-row__sample" style="font: 800 64px/1.05 var(--font-sans); letter-spacing: -0.035em;">Płacisz tylko za uczniów</div>
+          <div class="font-row__token">--font-display-hero / --tracking-display-hero</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">Display XL<br>800 · 52/1.1<br>-0.03em</div>
+        <div>
+          <div class="font-row__sample" style="font: 800 52px/1.1 var(--font-sans); letter-spacing: -0.03em;">Wszystkie funkcje od początku</div>
+          <div class="font-row__token">--font-display-xl / --tracking-display-xl</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">Display L<br>800 · 46/1.1<br>-0.03em</div>
+        <div>
+          <div class="font-row__sample" style="font: 800 46px/1.1 var(--font-sans); letter-spacing: -0.03em;">Schooleo to platforma</div>
+          <div class="font-row__token">--font-display-l / --tracking-display-l</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">H1<br>800 · 36/1.2<br>-0.03em</div>
+        <div>
+          <div class="font-row__sample" style="font: 800 36px/1.2 var(--font-sans); letter-spacing: -0.03em;">Tworzenie kursu</div>
+          <div class="font-row__token">--font-h1 / --tracking-h1</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">H2<br>800 · 24/1.2<br>-0.02em</div>
+        <div>
+          <div class="font-row__sample" style="font: 800 24px/1.2 var(--font-sans); letter-spacing: -0.02em;">Termin pierwszej płatności</div>
+          <div class="font-row__token">--font-h2 / --tracking-h2</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">H3<br>700 · 20/1.4<br>-0.01em</div>
+        <div>
+          <div class="font-row__sample" style="font: 700 20px/1.4 var(--font-sans); letter-spacing: -0.01em;">Lista uczestników</div>
+          <div class="font-row__token">--font-h3 / --tracking-h3</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">Body large<br>400 · 19/1.5</div>
+        <div>
+          <div class="font-row__sample" style="font: 400 19px/1.5 var(--font-sans);">Dla szkół językowych, franczyz, freelancerów.</div>
+          <div class="font-row__token">--font-body-large</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">Body<br>400 · 17/1.55</div>
+        <div>
+          <div class="font-row__sample" style="font: 400 17px/1.55 var(--font-sans);">Plan zajęć, kadra, faktury, raporty — wszystko w jednym miejscu.</div>
+          <div class="font-row__token">--font-body</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">Body small<br>400 · 14/1.45</div>
+        <div>
+          <div class="font-row__sample" style="font: 400 14px/1.45 var(--font-sans);">Podaj kwotę za miesiąc kalendarzowy.</div>
+          <div class="font-row__token">--font-body-small</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">Label<br>600 · 14/1.43<br>0.02em</div>
+        <div>
+          <div class="font-row__sample" style="font: 600 14px/1.43 var(--font-sans); letter-spacing: 0.02em;">NAZWA KURSU</div>
+          <div class="font-row__token">--font-label / --tracking-label</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">Label small<br>600 · 12/1.33</div>
+        <div>
+          <div class="font-row__sample" style="font: 600 12px/1.33 var(--font-sans);">EDYTUJ</div>
+          <div class="font-row__token">--font-label-small</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">Eyebrow<br>400 · 11/1.45<br>0.14em</div>
+        <div>
+          <div class="font-row__sample" style="font: 400 11px/1.45 var(--font-sans); letter-spacing: 0.14em;">PODSTAWY</div>
+          <div class="font-row__token">--font-eyebrow / --tracking-eyebrow</div>
+        </div>
+      </div>
+      <div class="font-row">
+        <div class="font-row__meta">Caption<br>400 · 12/1.33</div>
+        <div>
+          <div class="font-row__sample" style="font: 400 12px/1.33 var(--font-sans);">to ok. 1,49 zł za ucznia miesięcznie</div>
+          <div class="font-row__token">--font-caption</div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head"><h2>Accent · Caveat</h2><span class="section__head__count">1 styl</span></div>
+      <div class="font-card">
+        <div class="font-card__family">Caveat (Google Fonts) · 700</div>
+        <p class="font-card__lead">Handwritten accent — dymki nad H1, kickery, ludzkie akcenty na stronach marketingowych. Token: <code style="font:500 12px ui-monospace;">--font-accent-handwritten</code> i utility <code style="font:500 12px ui-monospace;">.accent-kicker</code>.</p>
+        <div class="font-row">
+          <div class="font-row__meta">Accent kicker<br>700 · clamp(34, 4.2vw, 50)<br>rotate -2°</div>
+          <div>
+            <div class="font-row__sample" style="font: 700 50px/1 'Caveat', cursive; color: var(--color-orange-500); transform: rotate(-2deg); display: inline-block;">Pogadajmy</div>
+            <div class="font-row__token">.accent-kicker (tokens.css)</div>
+          </div>
+        </div>
+        <div class="font-row">
+          <div class="font-row__meta">Handwritten<br>400 · 24/1.3</div>
+          <div>
+            <div class="font-row__sample" style="font: 400 24px/1.3 'Caveat', cursive;">Wszystkie funkcje w cenie</div>
+            <div class="font-row__token">--font-accent-handwritten</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head"><h2>Logotype · Lato</h2><span class="section__head__count">1 styl</span></div>
+      <div class="font-card">
+        <div class="font-card__family">Lato ExtraBold 800 · 24px height (logotype reference)</div>
+        <p class="font-card__lead">Font użyty w wordmark „Schooleo Pracownia" (jako referencja z Figmy, node 189:92). Letter-spacing -4.17% przy 62.526px. W kodzie wordmark to <strong>SVG path</strong> — Lato ładujemy z Google Fonts dla porównań i drobnych przypadków.</p>
+        <div class="font-row">
+          <div class="font-row__meta">Wordmark ref<br>800 · 32/1<br>-0.0417em</div>
+          <div>
+            <span style="font: 800 32px/1 'Lato', sans-serif; letter-spacing: -0.0417em; color: #e74c3c;">Schooleo</span><span style="font: 800 32px/1 'Lato', sans-serif; letter-spacing: -0.0417em; color: var(--text); margin-left: 0.35em;">Pracownia</span>
+            <div class="font-row__token">źródło: Figma file T3MkG8vqRgLc5BzM3DA1aS, node 189:92</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      const brand = document.querySelector('.brand');
+      if (!brand) return;
+      const update = () => brand.classList.toggle('is-scrolled', window.scrollY > 40);
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+  </script>
+</body>
+</html>

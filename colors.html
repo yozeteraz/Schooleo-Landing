@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schooleo — Kolory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@400;700&family=Lato:wght@800&display=swap">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--color-paper);
+      color: var(--text);
+      font: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .brand {
+      position: fixed; top: 0; left: 0; right: 0;
+      padding: 16px 40px 16px;
+      z-index: 20;
+      display: flex; flex-direction: column; align-items: stretch; gap: 20px;
+      pointer-events: none;
+      background: var(--color-paper);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand__terminal {
+      display: inline-flex; align-items: center; gap: 0;
+      font: 700 24px/1 ui-monospace, 'SF Mono', Menlo, monospace;
+      letter-spacing: -0.015em;
+      pointer-events: auto;
+    }
+    .term-seg { display: inline-flex; transition: opacity var(--transition-fast); }
+    a.term-seg:hover { opacity: 0.65; }
+    .term-a { color: #e74c3c; }
+    .term-b { color: var(--text); }
+    .term-sep { color: var(--text-subtle); margin: 0 8px; font-weight: 400; }
+    .brand__caption {
+      font: 400 16px/1.5 var(--font-sans);
+      color: var(--text-muted);
+      max-width: 880px;
+      pointer-events: auto;
+      margin: 0;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 220ms ease, transform 240ms ease;
+    }
+    .brand.is-scrolled .brand__caption {
+      opacity: 0; transform: translateY(-12px); pointer-events: none;
+    }
+
+    main { max-width: 1100px; margin: 0; padding: 140px 40px 80px; }
+
+    .section { margin-bottom: 56px; }
+    .section__head {
+      display: flex; align-items: baseline; gap: 12px;
+      margin-bottom: 18px; padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section__head h2 {
+      font: 700 12px/1 var(--font-sans);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .section__head__count {
+      font: 500 11px/1 var(--font-sans);
+      color: var(--text-subtle);
+    }
+
+
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .swatch {
+      display: flex; flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--color-white);
+    }
+    .swatch__chip {
+      height: 90px;
+      width: 100%;
+    }
+    .swatch__chip--bordered { border-bottom: 1px solid var(--border); }
+    .swatch__meta {
+      padding: 12px 14px;
+      font: 500 13px/1.4 var(--font-sans);
+    }
+    .swatch__name {
+      font: 700 14px/1.3 var(--font-sans);
+      letter-spacing: -0.005em;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .swatch__hex {
+      font: 500 12px/1.4 ui-monospace, 'SF Mono', Menlo, monospace;
+      color: var(--text-muted);
+      font-feature-settings: 'tnum';
+      text-transform: uppercase;
+    }
+    .swatch__token {
+      font: 400 11px/1.4 ui-monospace, 'SF Mono', Menlo, monospace;
+      color: var(--text-subtle);
+      margin-top: 2px;
+    }
+    .swatch__alias {
+      font: 400 11px/1.3 var(--font-sans);
+      color: var(--text-subtle);
+      margin-top: 4px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="brand">
+    <nav class="brand__terminal" aria-label="Ścieżka"><a href="hub.html" class="term-seg"><span class="term-a">schooleo</span><span class="term-b">pracownia</span></a><span class="term-sep">/</span><a href="hub.html" class="term-seg"><span class="term-b">designsystem</span></a><span class="term-sep">/</span><span class="term-seg term-seg--current"><span class="term-b">colors</span></span></nav>
+    <p class="brand__caption">Pełna paleta kolorów Schooleo — brand, neutralne, akcent, semantyczne. Każdy swatch z hex-em, nazwą tokenu CSS i ludzkim aliasem do użycia w kodzie.</p>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section__head"><h2>Brand</h2><span class="section__head__count">5</span></div>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#E84B20"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Orange 500</div>
+            <div class="swatch__hex">#E84B20</div>
+            <div class="swatch__token">--color-primary-500</div>
+            <div class="swatch__alias">→ --color-orange-500 / --brand</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#C13A15"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Rust 700</div>
+            <div class="swatch__hex">#C13A15</div>
+            <div class="swatch__token">--color-primary-700</div>
+            <div class="swatch__alias">→ --color-rust-700 / --brand-hover</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#8B2510"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Brick 900</div>
+            <div class="swatch__hex">#8B2510</div>
+            <div class="swatch__token">--color-primary-900</div>
+            <div class="swatch__alias">→ --color-brick-900</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#FDEEE9"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Peach 100</div>
+            <div class="swatch__hex">#FDEEE9</div>
+            <div class="swatch__token">--color-primary-100</div>
+            <div class="swatch__alias">→ --color-peach-100 / --brand-subtle</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#F5A623"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Amber 300</div>
+            <div class="swatch__hex">#F5A623</div>
+            <div class="swatch__token">--color-primary-300</div>
+            <div class="swatch__alias">→ --color-amber-300</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head"><h2>Neutralne</h2><span class="section__head__count">8</span></div>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch__chip swatch__chip--bordered" style="background:#FFFFFF"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Paper (white)</div>
+            <div class="swatch__hex">#FFFFFF</div>
+            <div class="swatch__token">--color-white</div>
+            <div class="swatch__alias">→ --color-paper / --bg-surface</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip swatch__chip--bordered" style="background:#F7F4EE"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Cream 50</div>
+            <div class="swatch__hex">#F7F4EE</div>
+            <div class="swatch__token">--color-neutral-50</div>
+            <div class="swatch__alias">→ --color-cream-50 / --bg-warm</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#F0EDE7"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Sand 100</div>
+            <div class="swatch__hex">#F0EDE7</div>
+            <div class="swatch__token">--color-neutral-100</div>
+            <div class="swatch__alias">→ --color-sand-100 / --bg-subtle</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#E8E4DA"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Stone 200</div>
+            <div class="swatch__hex">#E8E4DA</div>
+            <div class="swatch__token">--color-neutral-200</div>
+            <div class="swatch__alias">→ --color-stone-200 / --border</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#B0AAA0"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Fog 400</div>
+            <div class="swatch__hex">#B0AAA0</div>
+            <div class="swatch__token">--color-neutral-400</div>
+            <div class="swatch__alias">→ --color-fog-400 / --border-strong / --text-subtle</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#6B6560"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Smoke 600</div>
+            <div class="swatch__hex">#6B6560</div>
+            <div class="swatch__token">--color-neutral-600</div>
+            <div class="swatch__alias">→ --color-smoke-600 / --text-muted</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#2E2A26"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Charcoal 800</div>
+            <div class="swatch__hex">#2E2A26</div>
+            <div class="swatch__token">--color-neutral-800</div>
+            <div class="swatch__alias">→ --color-charcoal-800</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#1A1714"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Ink 900</div>
+            <div class="swatch__hex">#1A1714</div>
+            <div class="swatch__token">--color-neutral-900</div>
+            <div class="swatch__alias">→ --color-ink-900 / --text</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head"><h2>Akcent</h2><span class="section__head__count">2</span></div>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#FDE68A"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Butter</div>
+            <div class="swatch__hex">#FDE68A</div>
+            <div class="swatch__token">--color-accent-highlight</div>
+            <div class="swatch__alias">→ --color-butter — highlight w cenniku, dymki</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#164037"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Forest 900</div>
+            <div class="swatch__hex">#164037</div>
+            <div class="swatch__token">--color-green-900</div>
+            <div class="swatch__alias">→ --color-forest-900 — kropka w logo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head"><h2>Semantyczne</h2><span class="section__head__count">4</span></div>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#2ECC71"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Leaf (success)</div>
+            <div class="swatch__hex">#2ECC71</div>
+            <div class="swatch__token">--color-success</div>
+            <div class="swatch__alias">→ --color-leaf</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#E74C3C"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Tomato (error)</div>
+            <div class="swatch__hex">#E74C3C</div>
+            <div class="swatch__token">--color-error</div>
+            <div class="swatch__alias">→ --color-tomato</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#F39C12"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Marigold (warning)</div>
+            <div class="swatch__hex">#F39C12</div>
+            <div class="swatch__token">--color-warning</div>
+            <div class="swatch__alias">→ --color-marigold</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#3498DB"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">Sky (info)</div>
+            <div class="swatch__hex">#3498DB</div>
+            <div class="swatch__token">--color-info</div>
+            <div class="swatch__alias">→ --color-sky</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      const brand = document.querySelector('.brand');
+      if (!brand) return;
+      const update = () => brand.classList.toggle('is-scrolled', window.scrollY > 40);
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+  </script>
+</body>
+</html>
