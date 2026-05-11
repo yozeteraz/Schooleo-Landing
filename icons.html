@@ -53,6 +53,19 @@
       pointer-events: auto;
       margin: 0;
     }
+.brand { transition: padding-bottom 220ms ease; }
+    .brand.is-scrolled { padding-bottom: 10px; }
+    .brand__caption {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 220ms ease, transform 240ms ease;
+    }
+    .brand.is-scrolled .brand__caption {
+      opacity: 0;
+      transform: translateY(-12px);
+      pointer-events: none;
+    }
+
 
     .top__action {
       margin-left: auto;
@@ -371,6 +384,19 @@
       const blob = await zip.generateAsync({ type: 'blob' });
       downloadBlob('schooleo-icons.zip', blob, 'application/zip');
     });
+  </script>
+
+
+  <script>
+    (function() {
+      const brand = document.querySelector('.brand');
+      if (!brand) return;
+      const update = () => {
+        brand.classList.toggle('is-scrolled', window.scrollY > 40);
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
   </script>
 
 </body>
