@@ -28,7 +28,16 @@
       display: flex; flex-direction: column; align-items: flex-start; gap: 20px;
       pointer-events: none;
       background: var(--color-paper);
-          }
+    }
+    .brand::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to bottom, var(--color-paper), transparent);
+      pointer-events: none;
+    }
 /* Terminal nav — ścieżka taksonomii, hub = root */
     .brand__terminal {
       display: inline-flex;
