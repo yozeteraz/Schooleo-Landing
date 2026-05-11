@@ -28,6 +28,15 @@
       pointer-events: none;
       background: var(--color-paper);
           }
+.brand::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 0; right: 0;
+          height: 80px;
+          background: linear-gradient(to bottom, var(--color-paper), transparent);
+          pointer-events: none;
+        }
 
     /* Terminal nav — ścieżka taksonomii w stylu mono */
     .brand__terminal {

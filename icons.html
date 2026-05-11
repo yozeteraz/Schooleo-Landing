@@ -49,8 +49,16 @@
       display: flex; flex-direction: column; align-items: stretch; gap: 20px;
       pointer-events: none;
       background: var(--color-paper);
-      border-bottom: 1px solid var(--border);
     }
+.brand::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 0; right: 0;
+          height: 80px;
+          background: linear-gradient(to bottom, var(--color-paper), transparent);
+          pointer-events: none;
+        }
     .brand__main { display: flex; align-items: center; gap: 14px; pointer-events: auto; }
     .brand__wordmark { display: inline-flex; align-items: center; height: 24px; pointer-events: auto; }
     .brand__wordmark__svg { height: 100%; width: auto; display: block; }

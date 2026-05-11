@@ -47,8 +47,16 @@
       display: flex; flex-direction: column; align-items: stretch; gap: 20px;
       pointer-events: none;
       background: var(--color-paper);
-      border-bottom: 1px solid var(--border);
     }
+.brand::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 0; right: 0;
+          height: 80px;
+          background: linear-gradient(to bottom, var(--color-paper), transparent);
+          pointer-events: none;
+        }
 
     /* Terminal nav — ścieżka taksonomii w stylu mono */
     .brand__terminal {
