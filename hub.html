@@ -39,6 +39,22 @@
       pointer-events: auto;
     }
     .brand__wordmark__svg { height: 100%; width: auto; display: block; }
+    
+    .brand__webdev {
+      display: inline-flex; align-items: center; gap: 6px;
+      font: 600 14px/1 var(--font-sans);
+      color: #E74C3C;
+      padding: 8px 14px;
+      border: 1.5px solid #E74C3C;
+      border-radius: 999px;
+      background: transparent;
+      pointer-events: auto;
+      transition: background var(--transition-fast), color var(--transition-fast);
+      align-self: flex-start;
+    }
+    .brand__webdev:hover { background: #E74C3C; color: #fff; }
+    .brand__webdev svg { width: 12px; height: 12px; }
+
     .brand__caption {
       font: 400 17px/1.5 var(--font-sans);
       color: var(--text-muted);
@@ -235,13 +251,14 @@
     <section class="roll__section">
       <div class="roll__section__head">
         <h2>Design system</h2>
-        <span class="roll__section__count">4</span>
+        <span class="roll__section__count">5</span>
       </div>
       <ul class="roll__list">
         <li><a href="icons.html"><span class="roll__num">12</span><div><div class="roll__title">Ikony<span class="tag tag--new">live</span></div><div class="roll__sub">Biblioteka 17 ikon iOS-style w 3 rozmiarach (12/16/24 px). Pobieranie pojedyncze i zbiorcze.</div></div><span class="roll__file">icons.html</span></a></li>
         <li><a href="forms.html"><span class="roll__num">13</span><div><div class="roll__title">Form patterns<span class="tag tag--new">live</span></div><div class="roll__sub">Źródło prawdy: wszystkie wzorce formularzy (pola, selecty, pickery, switche, przyciski).</div></div><span class="roll__file">forms.html</span></a></li>
-        <li><a href="design-system.md"><span class="roll__num">14</span><div><div class="roll__title">Dokumentacja systemu</div><div class="roll__sub">Tabele kolorów, typografii, spacingu, radiusów. Markdown.</div></div><span class="roll__file">design-system.md</span></a></li>
-        <li><a href="tokens.css"><span class="roll__num">15</span><div><div class="roll__title">Tokeny (CSS)</div><div class="roll__sub">Źródło prawdy dla wszystkich design tokens — kolory, font, spacing, radius.</div></div><span class="roll__file">tokens.css</span></a></li>
+        <li><a href="dla-webdev.html"><span class="roll__num">14</span><div><div class="roll__title">Dla web developera<span class="tag tag--new">live</span></div><div class="roll__sub">Co przekazujemy webdevowi przy migracji prototypu na proda — localStorage → backend, iframe modal → native, design system jako źródło prawdy.</div></div><span class="roll__file">dla-webdev.html</span></a></li>
+        <li><a href="design-system.md"><span class="roll__num">15</span><div><div class="roll__title">Dokumentacja systemu</div><div class="roll__sub">Tabele kolorów, typografii, spacingu, radiusów. Markdown.</div></div><span class="roll__file">design-system.md</span></a></li>
+        <li><a href="tokens.css"><span class="roll__num">16</span><div><div class="roll__title">Tokeny (CSS)</div><div class="roll__sub">Źródło prawdy dla wszystkich design tokens — kolory, font, spacing, radius.</div></div><span class="roll__file">tokens.css</span></a></li>
       </ul>
     </section>
 
@@ -250,7 +267,7 @@
         <h2>Dokumentacja produktu</h2>
       </div>
       <ul class="roll__list">
-        <li><a href="Dokumentacja/"><span class="roll__num">16</span><div><div class="roll__title">Baza wiedzy</div><div class="roll__sub">14 rozdziałów PDF — pierwsze kroki, kursy, nauczyciele, uczniowie, płatności, powiadomienia, integracje.</div></div><span class="roll__file">/Dokumentacja</span></a></li>
+        <li><a href="Dokumentacja/"><span class="roll__num">17</span><div><div class="roll__title">Baza wiedzy</div><div class="roll__sub">14 rozdziałów PDF — pierwsze kroki, kursy, nauczyciele, uczniowie, płatności, powiadomienia, integracje.</div></div><span class="roll__file">/Dokumentacja</span></a></li>
       </ul>
     </section>
 
