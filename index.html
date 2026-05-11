@@ -1807,10 +1807,8 @@
       min-height: 52px;
       margin-top: 14px;
     }
-    .pricing__widget.is-enterprise .pricing__use-case-slot {
-      min-height: 13px;
-      margin-top: 4px;
-    }
+    .pricing__use-case--enterprise { white-space: nowrap; }
+    .pricing__use-case--enterprise > span { white-space: nowrap; }
     .pricing__use-case {
       position: absolute;
       top: 8px;
@@ -2762,6 +2760,12 @@
                   </svg>
                   <span>Zobacz, jak to działa u&nbsp;szkoły z&nbsp;<span id="pricing-use-case-tier">100</span>&nbsp;uczniami&nbsp;<span class="pricing__use-case__cta">→</span></span>
                 </a>
+                <a class="pricing__use-case pricing__use-case--enterprise" id="pricing-use-case-enterprise" href="kontakt.html" aria-hidden="true">
+                  <svg class="pricing__use-case__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                  </svg>
+                  <span>Dopasowane do&nbsp;Ciebie, ze&nbsp;wsparciem na&nbsp;bieżąco&nbsp;<span class="pricing__use-case__cta">→</span></span>
+                </a>
               </div>
             </div>
 
@@ -2875,6 +2879,7 @@
         const $cycleBtns = pricing.querySelectorAll('.pricing__toggle-opt');
         const $pillBtns = pricing.querySelectorAll('.pricing__pill');
         const $useCase = document.getElementById('pricing-use-case');
+        const $useCaseEnt = document.getElementById('pricing-use-case-enterprise');
         const $useCaseTier = document.getElementById('pricing-use-case-tier');
         const USE_CASES = { 100: 'do-100-uczniow', 300: 'do-300-uczniow' };
         const parsePill = (v) => isNaN(Number(v)) ? v : Number(v);
@@ -2907,24 +2912,33 @@
             b.classList.toggle('is-active', active);
             b.setAttribute('aria-pressed', active ? 'true' : 'false');
           });
-          if (!isEnterprise && USE_CASES[state.students]) {
+          if (isEnterprise) {
+            $useCase.setAttribute('aria-hidden', 'true');
+            $useCaseEnt.setAttribute('aria-hidden', 'false');
+          } else if (USE_CASES[state.students]) {
             $useCaseTier.textContent = state.students;
             $useCase.href = `case-study.html#${USE_CASES[state.students]}`;
             $useCase.setAttribute('aria-hidden', 'false');
+            $useCaseEnt.setAttribute('aria-hidden', 'true');
           } else {
             $useCase.setAttribute('aria-hidden', 'true');
+            $useCaseEnt.setAttribute('aria-hidden', 'true');
           }
           positionUseCase();
         };
 
         const positionUseCase = () => {
           const activePill = pricing.querySelector('.pricing__pill.is-active');
-          if (!activePill || state.students === 'enterprise' || !USE_CASES[state.students]) return;
+          if (!activePill) return;
+          const activeBubble = state.students === 'enterprise'
+            ? $useCaseEnt
+            : (USE_CASES[state.students] ? $useCase : null);
+          if (!activeBubble) return;
           requestAnimationFrame(() => {
-            const slot = $useCase.parentElement;
+            const slot = activeBubble.parentElement;
             const slotRect = slot.getBoundingClientRect();
             const pillRect = activePill.getBoundingClientRect();
-            const useCaseRect = $useCase.getBoundingClientRect();
+            const useCaseRect = activeBubble.getBoundingClientRect();
             const pillCenter = (pillRect.left - slotRect.left) + (pillRect.width / 2);
             const idealLeft = pillCenter - (useCaseRect.width / 2);
             const maxLeft = Math.max(0, slotRect.width - useCaseRect.width);
