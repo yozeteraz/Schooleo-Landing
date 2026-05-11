@@ -798,6 +798,9 @@
       transition: opacity var(--transition-base), left var(--transition-base), transform var(--transition-fast), box-shadow var(--transition-fast);
     }
     .hero__calc__use-case[aria-hidden="true"] { opacity: 0; pointer-events: none; }
+    /* Enterprise dymek — wymuszone na jedną linię, żeby nie pchał kontenera w pionie */
+    .hero__calc__use-case--enterprise { white-space: nowrap; }
+    .hero__calc__use-case--enterprise > span { white-space: nowrap; }
     .hero__calc__use-case:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--color-ink-900); }
     .hero__calc__use-case:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--color-ink-900); }
     .hero__calc__use-case::before,
@@ -2424,11 +2427,11 @@
                 </svg>
                 <span>Zobacz, jak to&nbsp;działa u&nbsp;szkoły z&nbsp;<span id="hero-calc-use-case-tier">100</span>&nbsp;uczniami&nbsp;<span class="hero__calc__use-case__cta">→</span></span>
               </a>
-              <a class="hero__calc__use-case" id="hero-calc-use-case-enterprise" href="kontakt.html" aria-hidden="true">
+              <a class="hero__calc__use-case hero__calc__use-case--enterprise" id="hero-calc-use-case-enterprise" href="kontakt.html" aria-hidden="true">
                 <svg class="hero__calc__use-case__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                 </svg>
-                <span>Zadzwoń — odezwie się konkretna osoba. Ofertę dopasujemy w&nbsp;1 dzień&nbsp;<span class="hero__calc__use-case__cta">→</span></span>
+                <span>Zadzwoń — oferta w&nbsp;1 dzień, bez handlowca&nbsp;<span class="hero__calc__use-case__cta">→</span></span>
               </a>
             </div>
 
