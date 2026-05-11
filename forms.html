@@ -49,6 +49,25 @@
       background: var(--color-paper);
       border-bottom: 1px solid var(--border);
     }
+
+    /* Terminal nav — ścieżka taksonomii w stylu mono */
+    .brand__terminal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      font: 700 24px/1 ui-monospace, 'SF Mono', Menlo, monospace;
+      letter-spacing: -0.015em;
+      pointer-events: auto;
+    }
+    .term-seg { display: inline-flex; transition: opacity var(--transition-fast); }
+    a.term-seg:hover { opacity: 0.65; }
+    .term-a { color: #e74c3c; }
+    .term-b { color: var(--text); }
+    .term-sep {
+      color: var(--text-subtle);
+      margin: 0 8px;
+      font-weight: 400;
+    }
     .brand__wordmark { display: inline-flex; align-items: center; height: 24px; pointer-events: auto; }
     .brand__wordmark__svg { height: 100%; width: auto; display: block; }
 .brand__caption {
