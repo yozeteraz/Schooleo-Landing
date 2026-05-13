@@ -1,3 +1,9 @@
 .DS_Store
 *.log
 landing-capture-tmp.html
+
+# Logo: commitujemy tylko spakowaną paczkę dla webdeva, nie rozpakowane źródła
+Logo/*
+!Logo/eksport/
+Logo/eksport/*
+!Logo/eksport/Archive.zip
