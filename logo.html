@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@400;700&family=Lato:wght@800&display=swap">
   <link rel="stylesheet" href="tokens.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -158,9 +159,125 @@
       color: var(--text-muted);
     }
 
+    /* Favicon — sekcja */
+    .favicon-hero {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 32px;
+      padding: 28px;
+      background: var(--color-cream-50);
+      border-radius: 8px;
+      margin-bottom: 28px;
+      align-items: center;
+    }
+    .favicon-hero__sizes { display: flex; gap: 24px; align-items: flex-end; }
+    .favicon-hero__size { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .favicon-hero__size span {
+      font: 500 11px/1 ui-monospace, 'SF Mono', Menlo, monospace;
+      color: var(--text-subtle);
+      letter-spacing: 0.04em;
+    }
+    .favicon-hero__size svg { display: block; }
+    .favicon-hero__badge {
+      display: inline-block;
+      font: 700 10px/1 var(--font-sans);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--color-orange-500);
+      color: #fff;
+      padding: 5px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .favicon-hero__title {
+      font: 700 16px/1.3 var(--font-sans);
+      letter-spacing: -0.005em;
+      margin: 0 0 6px;
+    }
+    .favicon-hero__desc {
+      font: 400 13px/1.5 var(--font-sans);
+      color: var(--text-muted);
+      margin: 0 0 14px;
+    }
+    .favicon-hero__code {
+      background: var(--color-ink-900);
+      color: #f0e6d8;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font: 500 12px/1.4 ui-monospace, 'SF Mono', Menlo, monospace;
+      overflow-x: auto;
+      display: block;
+    }
+    .favicon-others-head {
+      font: 700 11px/1 var(--font-sans);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      margin: 0 0 12px;
+    }
+    .favicon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .favicon-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--color-white);
+    }
+    .favicon-card__head {
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .favicon-card__num {
+      font: 700 10px/1 ui-monospace, 'SF Mono', Menlo, monospace;
+      color: var(--text-subtle);
+      letter-spacing: 0.08em;
+    }
+    .favicon-card__title {
+      font: 700 13px/1.2 var(--font-sans);
+      letter-spacing: -0.005em;
+      color: var(--text);
+    }
+    .favicon-card__display {
+      display: flex; align-items: center; gap: 12px;
+      padding: 18px 16px;
+      background: var(--color-cream-50);
+      border-radius: 6px;
+    }
+    .favicon-card__display svg { display: block; flex-shrink: 0; }
+    .favicon-card__display .s48 { width: 48px; height: 48px; }
+    .favicon-card__display .s24 { width: 24px; height: 24px; }
+    .favicon-card__display .s16 { width: 16px; height: 16px; }
+    .favicon-card__meta {
+      font: 400 12px/1.45 var(--font-sans);
+      color: var(--text-muted);
+    }
+    .favicon-link {
+      color: var(--color-orange-500);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
   </style>
 </head>
 <body>
+
+  <!-- Wspólne symbole SVG dla faviconów (cap + dot z logo) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="fav-cap" viewBox="0 0 72 72">
+        <path d="M34.6484 7.77045C35.3052 7.50001 36.049 7.51883 36.6934 7.82806L68.1143 22.9111C68.9856 23.3294 69.5399 24.2101 69.54 25.1767C69.54 26.1433 68.9856 27.0249 68.1143 27.4433L65.7695 28.5683V50.3134C65.7695 51.7017 64.6441 52.827 63.2559 52.8271C61.8676 52.8271 60.7422 51.7017 60.7422 50.3134V30.9804L56.9717 32.791V46.5429C56.9717 50.7842 53.7199 53.957 49.9668 55.9189C46.0903 57.9452 40.9636 59.1112 35.6055 59.1113C30.2473 59.1113 25.1207 57.9452 21.2441 55.9189C17.491 53.957 14.2393 50.7843 14.2393 46.5429V32.791L3.09668 27.4433C2.22515 27.025 1.6709 26.1434 1.6709 25.1767C1.671 24.2102 2.22539 23.3294 3.09668 22.9111L34.5176 7.82806L34.6484 7.77045ZM36.6934 42.5253C36.0058 42.8553 35.2051 42.8553 34.5176 42.5253L19.2666 35.204V46.5429C19.2666 47.9573 20.4138 49.8123 23.5732 51.4638C26.6093 53.0508 30.9091 54.0839 35.6055 54.0839C40.3017 54.0839 44.6017 53.0507 47.6377 51.4638C50.7968 49.8123 51.9443 47.9572 51.9443 46.5429V35.204L36.6934 42.5253ZM9.99316 25.1767L35.6055 37.4706L61.0303 25.2656C61.0554 25.2178 61.0833 25.1718 61.1113 25.1259L35.6055 12.8828L9.99316 25.1767Z"/>
+      </symbol>
+      <symbol id="fav-dot" viewBox="0 0 72 72">
+        <path d="M63.354 57.3158C64.7929 57.3158 65.9593 56.1494 65.9593 54.7105C65.9593 53.2717 64.7929 52.1053 63.354 52.1053C61.9152 52.1053 60.7488 53.2717 60.7488 54.7105C60.7488 56.1494 61.9152 57.3158 63.354 57.3158Z"/>
+        <path d="M63.4461 54.7107C63.4461 54.6602 63.4047 54.619 63.3543 54.6189C63.3037 54.6189 63.2625 54.6601 63.2625 54.7107C63.2626 54.7612 63.3037 54.8025 63.3543 54.8025C63.4047 54.8024 63.4459 54.7611 63.4461 54.7107ZM68.4734 54.7107C68.4733 57.5377 66.1812 59.8298 63.3543 59.8299C60.5272 59.8299 58.2352 57.5377 58.2351 54.7107C58.2351 51.8836 60.5271 49.5916 63.3543 49.5916C66.1813 49.5917 68.4734 51.8837 68.4734 54.7107Z"/>
+      </symbol>
+    </defs>
+  </svg>
 
   <header class="brand">
     <nav class="brand__terminal" aria-label="Ścieżka"><a href="hub.html" class="term-seg"><span class="term-a">schooleo</span><span class="term-b">pracownia</span></a><span class="term-sep">/</span><a href="hub.html" class="term-seg"><span class="term-b">designsystem</span></a><span class="term-sep">/</span><span class="term-seg term-seg--current"><span class="term-b">logo</span></span></nav>
@@ -365,6 +482,101 @@
               <path d="M63.4461 54.7107C63.4461 54.6602 63.4047 54.619 63.3543 54.6189C63.3037 54.6189 63.2625 54.6601 63.2625 54.7107C63.2626 54.7612 63.3037 54.8025 63.3543 54.8025C63.4047 54.8024 63.4459 54.7611 63.4461 54.7107ZM68.4734 54.7107C68.4733 57.5377 66.1812 59.8298 63.3543 59.8299C60.5272 59.8299 58.2352 57.5377 58.2351 54.7107C58.2351 51.8836 60.5271 49.5916 63.3543 49.5916C66.1813 49.5917 68.4734 51.8837 68.4734 54.7107Z" fill="#164037"/>
             </svg>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__head"><h2>Favicon</h2><span class="section__head__count">favicon.svg · wariant C</span></div>
+      <div class="logo-block">
+        <p class="logo-block__lead">Favicon Schooleo na bazie graduation cap. ViewBox <code style="font:500 12px ui-monospace;">0 0 88 88</code> (cap 72 + padding 8). Wybrany wariant: <strong>C — Paper + pomarańczowa czapka + zielona kropka</strong> (1:1 z logo na landingu). Pełen preview ze wszystkimi rozmiarami i mockupami: <a class="favicon-link" href="favicon-preview.html">favicon-preview.html</a>.</p>
+
+        <!-- Wybrany wariant — hero -->
+        <div class="favicon-hero">
+          <div class="favicon-hero__sizes">
+            <div class="favicon-hero__size">
+              <svg width="120" height="120" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#F7F4EE"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#E84B20"/><use href="#fav-dot" fill="#164037"/></svg></svg>
+              <span>180 px</span>
+            </div>
+            <div class="favicon-hero__size">
+              <svg width="64" height="64" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#F7F4EE"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#E84B20"/><use href="#fav-dot" fill="#164037"/></svg></svg>
+              <span>64 px</span>
+            </div>
+            <div class="favicon-hero__size">
+              <svg width="32" height="32" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#F7F4EE"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#E84B20"/><use href="#fav-dot" fill="#164037"/></svg></svg>
+              <span>32 px</span>
+            </div>
+            <div class="favicon-hero__size">
+              <svg width="16" height="16" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#F7F4EE"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#E84B20"/><use href="#fav-dot" fill="#164037"/></svg></svg>
+              <span>16 px</span>
+            </div>
+          </div>
+          <div>
+            <span class="favicon-hero__badge">✓ Wybrany</span>
+            <h3 class="favicon-hero__title">Wariant C — Paper · pomarańczowa czapka · zielona kropka</h3>
+            <p class="favicon-hero__desc">Tło paper (#F7F4EE) z radiusem 18%, pomarańczowa czapka (#E84B20) + zielona kropka (#164037, forest) — dokładnie te same kolory co logo na landingu. Plik: <code style="font:500 12px ui-monospace;">favicon.svg</code> w roocie repo. Podpięty w <code style="font:500 12px ui-monospace;">&lt;head&gt;</code>:</p>
+            <code class="favicon-hero__code">&lt;link rel="icon" type="image/svg+xml" href="favicon.svg"&gt;</code>
+          </div>
+        </div>
+
+        <h4 class="favicon-others-head">Pozostałe rozważane warianty</h4>
+        <div class="favicon-grid">
+
+          <!-- A — Brand solid -->
+          <div class="favicon-card">
+            <div class="favicon-card__head"><span class="favicon-card__num">A</span><span class="favicon-card__title">Solid orange · biała czapka</span></div>
+            <div class="favicon-card__display">
+              <svg class="s48" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#E84B20"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#fff"/></svg></svg>
+              <svg class="s24" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#E84B20"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#fff"/></svg></svg>
+              <svg class="s16" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#E84B20"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#fff"/></svg></svg>
+            </div>
+            <p class="favicon-card__meta">Pomarańczowy kwadrat + biała czapka. Mocny w karcie, ale bez kropki — mniej "schooleo".</p>
+          </div>
+
+          <!-- B — Brand solid + dot -->
+          <div class="favicon-card">
+            <div class="favicon-card__head"><span class="favicon-card__num">B</span><span class="favicon-card__title">Solid orange · biała czapka · biała kropka</span></div>
+            <div class="favicon-card__display">
+              <svg class="s48" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#E84B20"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#fff"/><use href="#fav-dot" fill="#fff"/></svg></svg>
+              <svg class="s24" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#E84B20"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#fff"/><use href="#fav-dot" fill="#fff"/></svg></svg>
+              <svg class="s16" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#E84B20"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#fff"/><use href="#fav-dot" fill="#fff"/></svg></svg>
+            </div>
+            <p class="favicon-card__meta">Jak A, ale z kropką. Mocny brand orange, ale odejście od kolorów logo.</p>
+          </div>
+
+          <!-- D — White solid -->
+          <div class="favicon-card">
+            <div class="favicon-card__head"><span class="favicon-card__num">D</span><span class="favicon-card__title">Białe · pomarańczowa czapka</span></div>
+            <div class="favicon-card__display">
+              <svg class="s48" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#FFFFFF" stroke="#E8E4DA"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#E84B20"/></svg></svg>
+              <svg class="s24" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#FFFFFF" stroke="#E8E4DA"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#E84B20"/></svg></svg>
+              <svg class="s16" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#FFFFFF" stroke="#E8E4DA"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#E84B20"/></svg></svg>
+            </div>
+            <p class="favicon-card__meta">Czyste białe tło + sam orange cap, bez kropki. Minimalistyczny.</p>
+          </div>
+
+          <!-- E — Forest dark -->
+          <div class="favicon-card">
+            <div class="favicon-card__head"><span class="favicon-card__num">E</span><span class="favicon-card__title">Forest dark · pomarańczowa czapka · biała kropka</span></div>
+            <div class="favicon-card__display">
+              <svg class="s48" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#164037"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#E84B20"/><use href="#fav-dot" fill="#fff"/></svg></svg>
+              <svg class="s24" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#164037"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#E84B20"/><use href="#fav-dot" fill="#fff"/></svg></svg>
+              <svg class="s16" viewBox="0 0 88 88"><rect width="88" height="88" rx="16" fill="#164037"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#E84B20"/><use href="#fav-dot" fill="#fff"/></svg></svg>
+            </div>
+            <p class="favicon-card__meta">Premium, ciemny forest #164037 + brand orange. Świetny kontrast w obu motywach karty.</p>
+          </div>
+
+          <!-- F — Square solid -->
+          <div class="favicon-card">
+            <div class="favicon-card__head"><span class="favicon-card__num">F</span><span class="favicon-card__title">Orange ostry kwadrat · biała czapka</span></div>
+            <div class="favicon-card__display">
+              <svg class="s48" viewBox="0 0 88 88"><rect width="88" height="88" fill="#E84B20"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#fff"/></svg></svg>
+              <svg class="s24" viewBox="0 0 88 88"><rect width="88" height="88" fill="#E84B20"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#fff"/></svg></svg>
+              <svg class="s16" viewBox="0 0 88 88"><rect width="88" height="88" fill="#E84B20"/><svg x="8" y="8" width="72" height="72"><use href="#fav-cap" fill="#fff"/></svg></svg>
+            </div>
+            <p class="favicon-card__meta">Bez radiusa — bardziej "industrial", mniej softwarowo-konsumencki.</p>
+          </div>
+
         </div>
       </div>
     </section>
